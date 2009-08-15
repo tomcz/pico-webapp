@@ -22,8 +22,12 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
-        ServletContext context = servletConfig.getServletContext();
-        factory = new WebTemplateFactory(context, "/decorators");
+        try {
+            ServletContext context = servletConfig.getServletContext();
+            factory = new WebTemplateFactory(context, "/decorators");
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
 
     @Override

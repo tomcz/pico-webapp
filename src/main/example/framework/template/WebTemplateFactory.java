@@ -3,18 +3,20 @@ package example.framework.template;
 import org.apache.commons.lang.Validate;
 
 import javax.servlet.ServletContext;
+import java.net.URL;
 
 public class WebTemplateFactory implements TemplateFactory {
 
     private final String templateRoot;
 
-    public WebTemplateFactory(ServletContext context) {
+    public WebTemplateFactory(ServletContext context) throws Exception {
         this(context, "/templates");
     }
 
-    public WebTemplateFactory(ServletContext context, String rootDir) {
-        templateRoot = context.getRealPath(rootDir);
-        Validate.notEmpty(templateRoot, "Cannot find real path to " + rootDir);
+    public WebTemplateFactory(ServletContext context, String rootDir) throws Exception {
+        URL url = context.getResource(rootDir);
+        Validate.notNull(url, "Cannot find " + rootDir);
+        templateRoot = url.toExternalForm();
     }
 
     public Template create(String templateName) {
