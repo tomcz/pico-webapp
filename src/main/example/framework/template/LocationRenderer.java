@@ -17,7 +17,7 @@ public class LocationRenderer implements Renderer {
     }
 
     public String toString(Object obj) {
-        return createURL((Location) obj);
+        return WebFormat.HTML.format(createURL((Location) obj));
     }
 
     public String toString(Object obj, String formatName) {
