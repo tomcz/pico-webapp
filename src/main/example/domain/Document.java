@@ -16,15 +16,20 @@ public class Document {
     private Identity identity;
     private LocalDateTime created;
     private Map<Field, Property> properties;
+    private String version;
 
     public Document() {
         this(new Identity());
     }
 
     public Document(Identity identity) {
+        this(identity, new LocalDateTime());
+    }
+
+    public Document(Identity identity, LocalDateTime created) {
+        this.created = created;
         this.identity = identity;
         this.properties = Maps.create();
-        this.created = new LocalDateTime();
     }
 
     public Identity getIdentity() {
@@ -55,5 +60,13 @@ public class Document {
             }
         }
         return true;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

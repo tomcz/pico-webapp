@@ -250,7 +250,11 @@
   <component name="ProjectDetails">
     <option name="projectName" value="webapp-pico" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
+  <component name="ProjectFileVersion" converted="true">
+    <converter id="javaee-modules" />
+    <converter id="ror-modules" />
+    <converter id="SelenaRunConfToDiana" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/webapp-pico.iml" filepath="$PROJECT_DIR$/webapp-pico.iml" />
@@ -288,10 +292,10 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/src/commons-lang-2.4-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/spring-web-2.5.6-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/joda-time-1.5.2-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/sitemesh-2.4.1-src.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/stringtemplate-3.2-src.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/src/json-src.jar!/" />
       </SOURCES>
       <jarDirectory url="file://$PROJECT_DIR$/lib/runtime" recursive="false" />
     </library>
@@ -300,9 +304,7 @@
         <root url="file://$PROJECT_DIR$/lib/buildtime" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/src/junit-4.5-src.jar!/" />
-      </SOURCES>
+      <SOURCES />
       <jarDirectory url="file://$PROJECT_DIR$/lib/buildtime" recursive="false" />
     </library>
   </component>
