@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CouchdbJson {
 
-    private final DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss:SSS");
+    private final DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     public List<Identity> parseIdentities(String response) {
         try {

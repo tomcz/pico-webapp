@@ -15,7 +15,14 @@ public class CouchdbHttp {
 
     private final Logger logger = Logger.getLogger(getClass());
 
-    public String get(String url) {
+    private final String serverURL;
+
+    public CouchdbHttp(String serverURL) {
+        this.serverURL = serverURL;
+    }
+
+    public String get(String path) {
+        String url = createURL(path);
         InputStream in = null;
         try {
             in = new URL(url).openStream();
@@ -33,12 +40,12 @@ public class CouchdbHttp {
         }
     }
 
-    public String put(String url, String request) {
+    public String put(String path, String request) {
+        String url = createURL(path);
         OutputStream out = null;
         InputStream in = null;
         try {
-            URL host = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) host.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 
             conn.setDoInput(true);
             conn.setDoOutput(true);
@@ -60,6 +67,10 @@ public class CouchdbHttp {
             IOUtils.closeQuietly(out);
             IOUtils.closeQuietly(in);
         }
+    }
+
+    private String createURL(String path) {
+        return serverURL + "/" + path;
     }
 
     private void write(OutputStream out, String request) throws IOException {

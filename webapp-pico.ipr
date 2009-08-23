@@ -296,6 +296,7 @@
         <root url="jar://$PROJECT_DIR$/lib/src/sitemesh-2.4.1-src.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/stringtemplate-3.2-src.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/json-src.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/src/picocontainer-2.8.3-sources.jar!/" />
       </SOURCES>
       <jarDirectory url="file://$PROJECT_DIR$/lib/runtime" recursive="false" />
     </library>

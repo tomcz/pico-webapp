@@ -12,7 +12,9 @@ import example.web.form.FormComponent;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 public class ApplicationStartupListener implements ServletContextListener {
 
@@ -30,6 +32,8 @@ public class ApplicationStartupListener implements ServletContextListener {
     }
 
     private Application createApplication(ServletContext context) {
+        Properties configuration = parseContextParameters(context);
+
         List<Component> components = Lists.create();
 
         components.add(new TemplateComponent());
@@ -37,6 +41,16 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new WebComponent());
         components.add(new FormComponent());
 
-        return new WebApplication(components, context);
+        return new WebApplication(components, context, configuration);
+    }
+
+    private Properties parseContextParameters(ServletContext context) {
+        Properties props = new Properties();
+        Enumeration names = context.getInitParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            props.setProperty(name, context.getInitParameter(name));
+        }
+        return props;
     }
 }
