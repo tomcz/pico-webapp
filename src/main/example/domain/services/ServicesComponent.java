@@ -6,8 +6,8 @@ import example.framework.Container;
 public class ServicesComponent extends ComponentAdaptor {
 
     public void registerApplicationScope(Container applicationScope) {
-        //applicationScope.register(HashMapDocumentRepository.class);
-        applicationScope.register(CouchdbDocumentRepository.class);
+        applicationScope.register(HashMapDocumentRepository.class);
+        //applicationScope.register(CouchdbDocumentRepository.class);
     }
 
     public void registerRequestScope(Container requestScope) {
