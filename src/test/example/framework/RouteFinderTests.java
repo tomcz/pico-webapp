@@ -5,7 +5,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import javax.servlet.http.HttpServletResponse;
 
 public class RouteFinderTests {
 
@@ -78,10 +81,33 @@ public class RouteFinderTests {
     }
 
     @Test
-    public void shouldNotFindRouteForTraceMethod() {
+    public void shouldNotAllowTraceMethod() throws Exception {
         RouteFinder finder = new RouteFinder();
         Route route = finder.findRoute(RequestMethod.TRACE, "/test", null);
         assertEquals(MethodNotAllowedResponse.class, route.getHandlerType());
+
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        Response response = route.process(null);
+        response.render(null, mockResponse);
+
+        verify(mockResponse).setHeader("Allow", "GET,POST");
+        verify(mockResponse).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+    }
+
+    @Test
+    public void shouldNotAllowPostMethodForGetMapping() throws Exception {
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestPresenter.class);
+
+        Route route = finder.findRoute(RequestMethod.POST, "/test", null);
+        assertEquals(MethodNotAllowedResponse.class, route.getHandlerType());
+
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        Response response = route.process(null);
+        response.render(null, mockResponse);
+
+        verify(mockResponse).setHeader("Allow", "GET");
+        verify(mockResponse).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
     @Test

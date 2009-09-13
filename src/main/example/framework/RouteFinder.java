@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class RouteFinder implements RouteRegistry {
@@ -16,6 +17,12 @@ public class RouteFinder implements RouteRegistry {
 
     private final Map<URITemplate, Set<Class>> handlers = Maps.create();
     private final Map<Class, List<Class<? extends AccessFilter>>> filters = Maps.create();
+    private final Map<RequestMethod, RouteFactory> routeFactories = Maps.createLinked();
+
+    public RouteFinder() {
+        routeFactories.put(RequestMethod.GET, new PresenterRouteFactory());
+        routeFactories.put(RequestMethod.POST, new CommandRouteFactory());
+    }
 
     public void registerRoute(Class handlerType, Class<? extends AccessFilter>... accessFilters) {
         URITemplate template = URITemplateFactory.createFrom(handlerType);
@@ -30,10 +37,10 @@ public class RouteFinder implements RouteRegistry {
     }
 
     public Route findRoute(RequestMethod method, String lookupPath, Container container) {
-        RouteFactory routeFactory = findRouteFactory(method);
+        RouteFactory routeFactory = routeFactories.get(method);
         if (routeFactory == null) {
-            logger.info("Cannot create routes for HTTP " + method + " methods");
-            return new ResponseWrappingRoute(new MethodNotAllowedResponse());
+            logger.info("Cannot create routes for HTTP " + method + " method");
+            return new ResponseWrappingRoute(new MethodNotAllowedResponse(routeFactories.keySet()));
         }
         URITemplate template = findTemplate(lookupPath);
         if (template == null) {
@@ -43,20 +50,9 @@ public class RouteFinder implements RouteRegistry {
         Route route = createRoute(routeFactory, template, container);
         if (route == null) {
             logger.info(String.format("%s %s not allowed for %s", method, lookupPath, template));
-            route = new ResponseWrappingRoute(new MethodNotAllowedResponse());
+            route = new ResponseWrappingRoute(new MethodNotAllowedResponse(allowedMethods(template)));
         }
         return route;
-    }
-
-    private RouteFactory findRouteFactory(RequestMethod method) {
-        switch (method) {
-            case GET:
-                return new PresenterRouteFactory();
-            case POST:
-                return new CommandRouteFactory();
-            default:
-                return null;
-        }
     }
 
     private URITemplate findTemplate(String lookupPath) {
@@ -87,5 +83,17 @@ public class RouteFinder implements RouteRegistry {
             return new AccessFilterRoute(route, accessFilters);
         }
         return route;
+    }
+
+    private Set<RequestMethod> allowedMethods(URITemplate template) {
+        Set<RequestMethod> allowed = Sets.createLinked();
+        for (Entry<RequestMethod, RouteFactory> entry : routeFactories.entrySet()) {
+            for (Class handler : handlers.get(template)) {
+                if (entry.getValue().canCreateRouteFor(handler)) {
+                    allowed.add(entry.getKey());
+                }
+            }
+        }
+        return allowed;
     }
 }
