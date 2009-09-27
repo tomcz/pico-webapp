@@ -1,4 +1,4 @@
-package example.web.common;
+package example.framework;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

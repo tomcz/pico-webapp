@@ -1,4 +1,4 @@
-package example.web.common;
+package example.framework.identity;
 
 import example.framework.Identity;
 import example.framework.IdentityFactory;

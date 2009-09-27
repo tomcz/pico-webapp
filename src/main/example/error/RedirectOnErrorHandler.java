@@ -1,4 +1,4 @@
-package example.web.common;
+package example.error;
 
 import example.framework.ErrorHandler;
 import example.framework.Redirect;

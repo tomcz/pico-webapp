@@ -1,4 +1,4 @@
-package example.web.form;
+package example.domain.web;
 
 import example.domain.Document;
 import example.domain.DocumentRepository;
@@ -8,7 +8,7 @@ import example.framework.Identity;
 import example.framework.Redirect;
 import example.framework.Request;
 import example.framework.RouteMapping;
-import static example.web.DocumentUtils.setProperties;
+import static example.domain.web.DocumentUtils.setProperties;
 
 @RouteMapping("/form/{documentId}")
 public class FormCommand implements Command {

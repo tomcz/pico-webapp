@@ -1,13 +1,14 @@
 package example;
 
 import example.domain.services.ServicesComponent;
+import example.domain.web.WebComponent;
+import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.WebApplication;
+import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
 import example.utils.Lists;
-import example.web.common.WebComponent;
-import example.web.form.FormComponent;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -36,10 +37,11 @@ public class ApplicationStartupListener implements ServletContextListener {
 
         List<Component> components = Lists.create();
 
+        components.add(new IdentityFactoryComponent());
         components.add(new TemplateComponent());
         components.add(new ServicesComponent());
+        components.add(new ErrorComponent());
         components.add(new WebComponent());
-        components.add(new FormComponent());
 
         return new WebApplication(components, context, configuration);
     }

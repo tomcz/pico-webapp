@@ -1,4 +1,4 @@
-package example.web.form;
+package example.domain.web;
 
 import example.domain.DocumentRepository;
 import example.framework.Identity;
