@@ -1,7 +1,9 @@
 package example.domain;
 
 import example.framework.Identity;
+import example.utils.Lists;
 import example.utils.Maps;
+import example.utils.Matcher;
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
@@ -54,20 +56,21 @@ public class Document {
         return Arrays.asList(Field.values());
     }
 
-    public boolean isValid() {
-        for (Property property : properties.values()) {
-            if (!property.isValid()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public String getVersion() {
         return version;
     }
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public boolean isValid() {
+        return Lists.count(properties.values(), new InvalidPropertyMatcher()) == 0;
+    }
+
+    public static class InvalidPropertyMatcher implements Matcher<Property> {
+        public boolean matches(Property item) {
+            return !item.isValid();
+        }
     }
 }
