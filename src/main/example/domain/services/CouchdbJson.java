@@ -2,8 +2,8 @@ package example.domain.services;
 
 import example.domain.Document;
 import example.domain.Document.Field;
-import example.domain.Identity;
 import example.domain.Property;
+import example.framework.Identity;
 import example.utils.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;

@@ -1,5 +1,6 @@
 package example.domain;
 
+import example.framework.Identity;
 import example.utils.Maps;
 import org.joda.time.LocalDateTime;
 

@@ -2,7 +2,7 @@ package example.domain.services;
 
 import example.domain.Document;
 import example.domain.DocumentRepository;
-import example.domain.Identity;
+import example.framework.Identity;
 import org.apache.commons.lang.Validate;
 
 import java.util.List;

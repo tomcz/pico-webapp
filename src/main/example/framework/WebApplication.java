@@ -29,7 +29,8 @@ public class WebApplication implements Application {
         try {
             Route route = routeFinder.findRoute(method, lookupPath, requestScope);
             Map<String, String> pathVariables = route.getTemplate().parse(lookupPath);
-            return route.process(new WebRequest(servletRequest, pathVariables));
+            IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);
+            return route.process(new WebRequest(servletRequest, identityFactory, pathVariables));
 
         } catch (Exception e) {
             ErrorHandler handler = requestScope.get(ErrorHandler.class);

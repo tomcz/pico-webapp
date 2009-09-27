@@ -1,4 +1,4 @@
-package example.domain;
+package example.framework;
 
 import example.utils.Strings;
 import org.apache.commons.lang.StringUtils;

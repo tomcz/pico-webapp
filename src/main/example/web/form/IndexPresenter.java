@@ -1,7 +1,7 @@
 package example.web.form;
 
 import example.domain.DocumentRepository;
-import example.domain.Identity;
+import example.framework.Identity;
 import example.framework.Location;
 import example.framework.Presenter;
 import example.framework.Request;

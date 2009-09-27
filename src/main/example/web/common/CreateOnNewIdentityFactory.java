@@ -1,7 +1,7 @@
 package example.web.common;
 
-import example.domain.Identity;
-import example.web.IdentityFactory;
+import example.framework.Identity;
+import example.framework.IdentityFactory;
 
 public class CreateOnNewIdentityFactory implements IdentityFactory {
     public Identity createFrom(String value) {

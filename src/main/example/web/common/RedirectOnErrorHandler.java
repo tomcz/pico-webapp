@@ -1,10 +1,10 @@
 package example.web.common;
 
 import example.framework.ErrorHandler;
+import example.framework.Redirect;
 import example.framework.RedirectResponse;
 import example.framework.RequestMethod;
 import example.framework.Response;
-import example.framework.Redirect;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 
