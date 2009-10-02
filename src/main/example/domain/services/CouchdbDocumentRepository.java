@@ -6,15 +6,14 @@ import example.framework.Identity;
 import org.apache.commons.lang.Validate;
 
 import java.util.List;
-import java.util.Properties;
 
 public class CouchdbDocumentRepository implements DocumentRepository {
 
     private final CouchdbHttp client;
     private final CouchdbJson json;
 
-    public CouchdbDocumentRepository(Properties configuration) {
-        client = new CouchdbHttp(configuration.getProperty("couchdb.url"));
+    public CouchdbDocumentRepository(String serverURL) {
+        client = new CouchdbHttp(serverURL);
         json = new CouchdbJson();
     }
 

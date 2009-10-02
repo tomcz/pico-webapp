@@ -25,7 +25,7 @@ public class WebApplication implements Application {
 
     public Response process(HttpServletRequest servletRequest, RequestMethod method) {
         String lookupPath = pathHelper.getLookupPathForRequest(servletRequest);
-        Container requestScope = createRequestScope(method);
+        PicoContainer requestScope = createRequestScope(method);
         try {
             Route route = routeFinder.findRoute(method, lookupPath, requestScope);
             Map<String, String> pathVariables = route.getTemplate().parse(lookupPath);
@@ -41,8 +41,8 @@ public class WebApplication implements Application {
         }
     }
 
-    private Container createRequestScope(Object... instances) {
-        Container requestScope = new PicoContainer(applicationScope);
+    private PicoContainer createRequestScope(Object... instances) {
+        PicoContainer requestScope = new PicoContainer(applicationScope);
         for (Object instance : instances) {
             requestScope.registerInstance(instance);
         }

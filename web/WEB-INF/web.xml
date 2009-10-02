@@ -6,6 +6,11 @@
         version="2.5">
 
     <context-param>
+        <param-name>use.couchdb</param-name>
+        <param-value>no</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>couchdb.url</param-name>
         <param-value>http://localhost:5984/pico</param-value>
     </context-param>
