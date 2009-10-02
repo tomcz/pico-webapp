@@ -3,6 +3,7 @@ package example.framework;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -31,6 +32,7 @@ public class RouteFinderTests {
         assertThat(route, instanceOf(PresenterRoute.class));
         assertEquals(TestPresenter.class, route.getHandlerType());
         assertEquals(new URITemplate("/test"), route.getTemplate());
+        assertRouteInvokes(route, TestPresenter.class);
     }
 
     @Test
@@ -46,6 +48,7 @@ public class RouteFinderTests {
         assertThat(route, instanceOf(CommandRoute.class));
         assertEquals(TestCommand.class, route.getHandlerType());
         assertEquals(new URITemplate("/test"), route.getTemplate());
+        assertRouteInvokes(route, TestCommand.class);
     }
 
     @Test
@@ -117,17 +120,49 @@ public class RouteFinderTests {
         assertEquals(NotFoundResponse.class, route.getHandlerType());
     }
 
+    @Test
+    public void shouldCreateRouteWithAccessFilter() {
+        Container scope = mock(Container.class);
+        when(scope.get(TestPresenter.class)).thenReturn(new TestPresenter());
+        when(scope.get(TestAccessFilter.class)).thenReturn(new TestAccessFilter());
+
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestPresenter.class, TestAccessFilter.class);
+
+        Route route = finder.findRoute(RequestMethod.GET, "/test", scope);
+
+        assertThat(route, instanceOf(AccessFilterRoute.class));
+        assertEquals(TestPresenter.class, route.getHandlerType());
+        assertEquals(new URITemplate("/test"), route.getTemplate());
+        assertRouteInvokes(route, TestAccessFilter.class);
+    }
+
+    private void assertRouteInvokes(Route route, Class handlerType) {
+        try {
+            route.process(mock(Request.class));
+            fail("Should have thrown exception from the test handler");
+        } catch (UnsupportedOperationException e) {
+            assertEquals(handlerType.getName(), e.getMessage());
+        }
+    }
+
     @RouteMapping("/test")
     private class TestPresenter implements Presenter {
         public Response display(Request request) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(getClass().getName());
         }
     }
 
     @RouteMapping("/test")
     private class TestCommand implements Command {
         public Redirect execute(Request request) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(getClass().getName());
+        }
+    }
+
+    private class TestAccessFilter implements AccessFilter {
+        public Response check(Request request) {
+            throw new UnsupportedOperationException(getClass().getName());
         }
     }
 }
