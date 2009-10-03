@@ -5,17 +5,20 @@ import example.domain.web.WebComponent;
 import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
+import example.framework.Configuration;
+import example.framework.DefaultConfiguration;
 import example.framework.WebApplication;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
 import example.utils.Lists;
+import example.utils.Maps;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 public class ApplicationStartupListener implements ServletContextListener {
 
@@ -33,7 +36,7 @@ public class ApplicationStartupListener implements ServletContextListener {
     }
 
     private Application createApplication(ServletContext context) {
-        Properties configuration = parseContextParameters(context);
+        Configuration configuration = parseContextParameters(context);
 
         List<Component> components = Lists.create();
 
@@ -46,13 +49,13 @@ public class ApplicationStartupListener implements ServletContextListener {
         return new WebApplication(components, context, configuration);
     }
 
-    private Properties parseContextParameters(ServletContext context) {
-        Properties props = new Properties();
+    private Configuration parseContextParameters(ServletContext context) {
+        Map<String, String> props = Maps.create();
         Enumeration names = context.getInitParameterNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();
-            props.setProperty(name, context.getInitParameter(name));
+            props.put(name, context.getInitParameter(name));
         }
-        return props;
+        return new DefaultConfiguration(props);
     }
 }

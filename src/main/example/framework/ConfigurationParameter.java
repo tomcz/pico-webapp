@@ -1,6 +1,5 @@
 package example.framework;
 
-import org.apache.commons.lang.Validate;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.NameBinding;
 import org.picocontainer.PicoContainer;
@@ -10,7 +9,6 @@ import org.picocontainer.parameters.ConstantParameter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Properties;
 
 public class ConfigurationParameter extends AbstractParameter {
 
@@ -50,10 +48,17 @@ public class ConfigurationParameter extends AbstractParameter {
     }
 
     private String getConfiguredProperty(PicoContainer container) {
-        Properties properties = container.getComponent(Properties.class);
-        Validate.notNull(properties, "Cannot find configuration properties in container");
-        String value = properties.getProperty(key, defaultValue);
-        Validate.isTrue(value != null, "Cannot find configuration property for: ", key);
+        Configuration configuration = container.getComponent(Configuration.class);
+        if (configuration == null) {
+            throw new IllegalStateException("Cannot find Configuration instance in container");
+        }
+        String value = configuration.get(key);
+        if (value == null) {
+            value = defaultValue;
+        }
+        if (value == null) {
+            throw new IllegalStateException("Cannot find configured value for key [" + key + "]");
+        }
         return value;
     }
 }
