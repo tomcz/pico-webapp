@@ -61,7 +61,8 @@
         <mkdir dir="${dist.dir}"/>
         <war warfile="${dist.dir}/${ant.project.name}.war" webxml="web/WEB-INF/web.xml">
             <fileset dir="web" excludes="**/web.xml"/>
-            <lib dir="${compile.dir}" excludes="*-test.jar"/>
+            <classes dir="${src.dir}" includes="*.properties" />
+            <lib dir="${compile.dir}" excludes="*test.jar"/>
             <lib dir="lib/runtime"/>
         </war>
     </target>
