@@ -33,7 +33,7 @@ public class CouchdbHttp {
             return null;
 
         } catch (IOException e) {
-            throw new UnhandledException(e);
+            throw new UnhandledException(url, e);
 
         } finally {
             IOUtils.closeQuietly(in);
@@ -61,7 +61,7 @@ public class CouchdbHttp {
             return read(in);
 
         } catch (IOException e) {
-            throw new UnhandledException(e);
+            throw new UnhandledException(url, e);
 
         } finally {
             IOUtils.closeQuietly(out);
