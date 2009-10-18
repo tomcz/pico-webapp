@@ -142,10 +142,10 @@ public class RouteFinderTests {
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenterWithPathVars.class);
 
-        Pair<Route, Map<String, String>> result = finder.findRoute(RequestMethod.GET, "/test/foo", scope);
+        Pair<Route, Map<String, String>> mapping = finder.findRoute(RequestMethod.GET, "/test/foo", scope);
 
-        assertRouteInvokes(result.getKey(), TestPresenterWithPathVars.class);
-        assertThat(result.getValue(), is(Maps.create("documentId", "foo")));
+        assertRouteInvokes(mapping.getKey(), TestPresenterWithPathVars.class);
+        assertThat(mapping.getValue(), is(Maps.create("documentId", "foo")));
     }
 
     private void assertRouteInvokes(Route route, Class handlerType) {

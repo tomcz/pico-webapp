@@ -29,9 +29,9 @@ public class WebApplication implements Application {
         String lookupPath = pathHelper.getLookupPathForRequest(servletRequest);
         PicoContainer requestScope = createRequestScope(method);
         try {
-            Pair<Route, Map<String, String>> pair = routeFinder.findRoute(method, lookupPath, requestScope);
-            Map<String, String> pathVars = pair.getValue();
-            Route route = pair.getKey();
+            Pair<Route, Map<String, String>> mapping = routeFinder.findRoute(method, lookupPath, requestScope);
+            Map<String, String> pathVars = mapping.getValue();
+            Route route = mapping.getKey();
 
             IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);
             return route.process(new WebRequest(servletRequest, identityFactory, pathVars));
