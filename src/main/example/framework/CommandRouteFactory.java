@@ -7,7 +7,7 @@ public class CommandRouteFactory implements RouteFactory {
     }
 
     @SuppressWarnings({"unchecked"})
-    public Route createRoute(Container container, Class handlerType, URITemplate template) {
-        return new CommandRoute((Command) container.get(handlerType), template);
+    public Route createRoute(Container container, Class handlerType) {
+        return new CommandRoute((Command) container.get(handlerType));
     }
 }

@@ -12,14 +12,6 @@ public class AccessFilterRoute implements Route {
         this.filters = filters;
     }
 
-    public Class getHandlerType() {
-        return delegate.getHandlerType();
-    }
-
-    public URITemplate getTemplate() {
-        return delegate.getTemplate();
-    }
-
     public Response process(Request request) {
         for (AccessFilter filter : filters) {
             Response response = filter.check(request);

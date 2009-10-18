@@ -8,14 +8,6 @@ public class ResponseWrappingRoute implements Route {
         this.response = response;
     }
 
-    public Class getHandlerType() {
-        return response.getClass();
-    }
-
-    public URITemplate getTemplate() {
-        return URITemplateFactory.createFrom("/");
-    }
-
     public Response process(Request request) {
         return response;
     }

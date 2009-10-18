@@ -1,5 +1,7 @@
 package example.framework;
 
+import example.utils.Pair;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +29,12 @@ public class WebApplication implements Application {
         String lookupPath = pathHelper.getLookupPathForRequest(servletRequest);
         PicoContainer requestScope = createRequestScope(method);
         try {
-            Route route = routeFinder.findRoute(method, lookupPath, requestScope);
-            Map<String, String> pathVariables = route.getTemplate().parse(lookupPath);
+            Pair<Route, Map<String, String>> pair = routeFinder.findRoute(method, lookupPath, requestScope);
+            Map<String, String> pathVars = pair.getValue();
+            Route route = pair.getKey();
+
             IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);
-            return route.process(new WebRequest(servletRequest, identityFactory, pathVariables));
+            return route.process(new WebRequest(servletRequest, identityFactory, pathVars));
 
         } catch (Exception e) {
             ErrorHandler handler = requestScope.get(ErrorHandler.class);

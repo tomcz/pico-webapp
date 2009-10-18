@@ -2,10 +2,12 @@ package example.framework;
 
 import example.utils.Lists;
 import example.utils.Maps;
+import example.utils.Pair;
 import example.utils.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,23 +38,29 @@ public class RouteFinder implements RouteRegistry {
         }
     }
 
-    public Route findRoute(RequestMethod method, String lookupPath, Container container) {
+    public Pair<Route, Map<String, String>> findRoute(RequestMethod method, String lookupPath, Container container) {
         RouteFactory routeFactory = routeFactories.get(method);
         if (routeFactory == null) {
             logger.info("Cannot create routes for HTTP " + method + " method");
-            return new ResponseWrappingRoute(new MethodNotAllowedResponse(routeFactories.keySet()));
+            return routeFor(new MethodNotAllowedResponse(routeFactories.keySet()));
         }
         URITemplate template = findTemplate(lookupPath);
         if (template == null) {
             logger.info("Cannot find template for " + lookupPath);
-            return new ResponseWrappingRoute(new NotFoundResponse());
+            return routeFor(new NotFoundResponse());
         }
         Route route = createRoute(routeFactory, template, container);
         if (route == null) {
             logger.info(String.format("%s %s not allowed for %s", method, lookupPath, template));
-            route = new ResponseWrappingRoute(new MethodNotAllowedResponse(allowedMethods(template)));
+            return routeFor(new MethodNotAllowedResponse(allowedMethods(template)));
         }
-        return route;
+        return Pair.create(route, template.parse(lookupPath));
+    }
+
+    private Pair<Route, Map<String, String>> routeFor(Response response) {
+        Route route = new ResponseWrappingRoute(response);
+        Map<String, String> pathVars = Collections.emptyMap();
+        return Pair.create(route, pathVars);
     }
 
     private URITemplate findTemplate(String lookupPath) {
@@ -67,7 +75,7 @@ public class RouteFinder implements RouteRegistry {
     private Route createRoute(RouteFactory factory, URITemplate template, Container container) {
         for (Class handlerType : handlers.get(template)) {
             if (factory.canCreateRouteFor(handlerType)) {
-                Route route = factory.createRoute(container, handlerType, template);
+                Route route = factory.createRoute(container, handlerType);
                 return applyAccessFilters(route, handlerType, container);
             }
         }

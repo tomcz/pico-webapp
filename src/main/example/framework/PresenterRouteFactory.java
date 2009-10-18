@@ -7,7 +7,7 @@ public class PresenterRouteFactory implements RouteFactory {
     }
 
     @SuppressWarnings({"unchecked"})
-    public Route createRoute(Container container, Class handlerType, URITemplate template) {
-        return new PresenterRoute((Presenter) container.get(handlerType), template);
+    public Route createRoute(Container container, Class handlerType) {
+        return new PresenterRoute((Presenter) container.get(handlerType));
     }
 }
