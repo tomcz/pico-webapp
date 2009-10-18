@@ -1,12 +1,11 @@
 package example.framework;
 
-import example.utils.Maps;
-
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class URITemplateFactory {
 
-    static final Map<String, URITemplate> CACHE = Maps.create();
+    private static final Map<String, URITemplate> CACHE = new ConcurrentHashMap<String, URITemplate>();
 
     public static URITemplate createFrom(String path) {
         URITemplate template = CACHE.get(path);
