@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -24,8 +23,8 @@ public class RouteFinderTests {
 
     @Test
     public void shouldCreatePresenterRouteForGetRequest() throws Exception {
-        Container scope = mock(Container.class);
-        when(scope.get(TestPresenter.class)).thenReturn(new TestPresenter());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestPresenter());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenter.class);
@@ -38,8 +37,8 @@ public class RouteFinderTests {
 
     @Test
     public void shouldCreateCommandRouteForPostRequest() throws Exception {
-        Container scope = mock(Container.class);
-        when(scope.get(TestCommand.class)).thenReturn(new TestCommand());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestCommand());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestCommand.class);
@@ -52,8 +51,8 @@ public class RouteFinderTests {
 
     @Test
     public void shouldCreatePresenterRouteForGetRequestWhenHaveCommandAndPresenerMappedToSamePath() throws Exception {
-        Container scope = mock(Container.class);
-        when(scope.get(TestPresenter.class)).thenReturn(new TestPresenter());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestPresenter());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenter.class);
@@ -67,8 +66,8 @@ public class RouteFinderTests {
 
     @Test
     public void shouldCreateCommandRouteForPostRequestWhenHaveCommandAndPresenerMappedToSamePath() throws Exception {
-        Container scope = mock(Container.class);
-        when(scope.get(TestCommand.class)).thenReturn(new TestCommand());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestCommand());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenter.class);
@@ -122,9 +121,9 @@ public class RouteFinderTests {
 
     @Test
     public void shouldCreateRouteWithAccessFilter() {
-        Container scope = mock(Container.class);
-        when(scope.get(TestPresenter.class)).thenReturn(new TestPresenter());
-        when(scope.get(TestAccessFilter.class)).thenReturn(new TestAccessFilter());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestPresenter());
+        scope.registerInstance(new TestAccessFilter());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenter.class, TestAccessFilter.class);
@@ -137,8 +136,8 @@ public class RouteFinderTests {
 
     @Test
     public void shouldParsePathVariablesFromLookupPath() throws Exception {
-        Container scope = mock(Container.class);
-        when(scope.get(TestPresenterWithPathVars.class)).thenReturn(new TestPresenterWithPathVars());
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestPresenterWithPathVars());
 
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenterWithPathVars.class);
