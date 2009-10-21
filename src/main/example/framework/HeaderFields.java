@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class Headers {
+public class HeaderFields {
 
     private final Map<String, List<String>> headers = Maps.create();
 
-    public void addHeader(String name, String value) {
+    public void add(String name, String value) {
         if (headers.containsKey(name)) {
             headers.get(name).add(value);
         } else {
-            setHeader(name, value);
+            set(name, value);
         }
     }
 
-    public void setHeader(String name, String value) {
+    public void set(String name, String value) {
         headers.put(name, Lists.create(value));
     }
 

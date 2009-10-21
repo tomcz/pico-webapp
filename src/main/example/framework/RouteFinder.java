@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class RouteFinder implements RouteRegistry {
@@ -18,26 +19,11 @@ public class RouteFinder implements RouteRegistry {
 
     private final Map<URITemplate, Set<Class>> handlers = Maps.create();
     private final Map<Class, List<Class<? extends AccessFilter>>> filters = Maps.create();
-    private final Map<RequestMethod, List<RouteFactory>> routeFactories = Maps.create();
+    private final Map<RequestMethod, RouteFactory> routeFactories = Maps.create();
 
     public RouteFinder() {
-        addRouteFactory(RequestMethod.GET, new PresenterRouteFactory());
-
-        addRouteFactory(RequestMethod.POST, new CommandRouteFactory());
-        addRouteFactory(RequestMethod.POST, new HandlerRouteFactory());
-
-        addRouteFactory(RequestMethod.PUT, new HandlerRouteFactory());
-        addRouteFactory(RequestMethod.HEAD, new HandlerRouteFactory());
-        addRouteFactory(RequestMethod.DELETE, new HandlerRouteFactory());
-    }
-
-    private void addRouteFactory(RequestMethod method, RouteFactory factory) {
-        List<RouteFactory> factories = routeFactories.get(method);
-        if (factories == null) {
-            factories = Lists.create();
-            routeFactories.put(method, factories);
-        }
-        factories.add(factory);
+        routeFactories.put(RequestMethod.GET, new PresenterRouteFactory());
+        routeFactories.put(RequestMethod.POST, new CommandRouteFactory());
     }
 
     public void registerRoute(Class handlerType, Class<? extends AccessFilter>... accessFilters) {
@@ -53,8 +39,8 @@ public class RouteFinder implements RouteRegistry {
     }
 
     public Pair<Route, Map<String, String>> findRoute(RequestMethod method, String lookupPath, Container container) {
-        List<RouteFactory> factories = routeFactories.get(method);
-        if (factories == null) {
+        RouteFactory routeFactory = routeFactories.get(method);
+        if (routeFactory == null) {
             logger.info("Cannot create routes for HTTP " + method + " method");
             return routeFor(new MethodNotAllowedResponse(routeFactories.keySet()));
         }
@@ -63,7 +49,7 @@ public class RouteFinder implements RouteRegistry {
             logger.info("Cannot find template for " + lookupPath);
             return routeFor(new NotFoundResponse());
         }
-        Route route = createRoute(factories, template, container);
+        Route route = createRoute(routeFactory, template, container);
         if (route == null) {
             logger.info(String.format("%s %s not allowed for %s", method, lookupPath, template));
             return routeFor(new MethodNotAllowedResponse(allowedMethods(template)));
@@ -86,14 +72,11 @@ public class RouteFinder implements RouteRegistry {
         return null;
     }
 
-    private Route createRoute(List<RouteFactory> factories, URITemplate template, Container container) {
-        Set<Class> handlerTypes = handlers.get(template);
-        for (RouteFactory factory : factories) {
-            for (Class handlerType : handlerTypes) {
-                if (factory.canCreateRouteFor(handlerType)) {
-                    Route route = factory.createRoute(container, handlerType);
-                    return applyAccessFilters(route, handlerType, container);
-                }
+    private Route createRoute(RouteFactory factory, URITemplate template, Container container) {
+        for (Class handlerType : handlers.get(template)) {
+            if (factory.canCreateRouteFor(handlerType)) {
+                Route route = factory.createRoute(container, handlerType);
+                return applyAccessFilters(route, handlerType, container);
             }
         }
         return null;
@@ -111,14 +94,12 @@ public class RouteFinder implements RouteRegistry {
     }
 
     private Set<RequestMethod> allowedMethods(URITemplate template) {
-        Set<RequestMethod> allowed = Sets.createLinked();
+        Set<RequestMethod> allowed = Sets.create();
         Set<Class> handlerTypes = handlers.get(template);
-        for (RequestMethod method : routeFactories.keySet()) {
-            for (RouteFactory factory : routeFactories.get(method)) {
-                for (Class handlerType : handlerTypes) {
-                    if (factory.canCreateRouteFor(handlerType)) {
-                        allowed.add(method);
-                    }
+        for (Entry<RequestMethod, RouteFactory> entry : routeFactories.entrySet()) {
+            for (Class handler : handlerTypes) {
+                if (entry.getValue().canCreateRouteFor(handler)) {
+                    allowed.add(entry.getKey());
                 }
             }
         }

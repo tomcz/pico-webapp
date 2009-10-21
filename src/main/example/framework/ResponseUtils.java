@@ -4,13 +4,18 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ResponseUtils {
 
-    public static void addHeadersToResponse(HttpServletResponse response, Headers headers) {
-        if (headers != null) {
-            headers.addTo(response);
+    public static void addHeaderToResponse(HttpServletResponse response, Header header) {
+        addFields(response, header.getFields());
+        addCookies(response, header.getCookies());
+    }
+
+    private static void addFields(HttpServletResponse response, HeaderFields fields) {
+        if (fields != null) {
+            fields.addTo(response);
         }
     }
 
-    public static void addCookiesToResponse(HttpServletResponse response, Cookies cookies) {
+    private static void addCookies(HttpServletResponse response, Cookies cookies) {
         if (cookies != null) {
             cookies.addTo(response);
         }

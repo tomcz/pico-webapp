@@ -42,11 +42,11 @@ public class StatusCodeResponseTests {
         HttpServletRequest servletRequest = mock(HttpServletRequest.class);
         HttpServletResponse servletResponse = mock(HttpServletResponse.class);
 
-        Headers headers = new Headers();
-        headers.setHeader("foo", "bar");
+        HeaderFields headers = new HeaderFields();
+        headers.set("foo", "bar");
 
         StatusCode status = new StatusCode(200);
-        status.setHeaders(headers);
+        status.setFields(headers);
 
         StatusCodeResponse response = new StatusCodeResponse(status);
         response.render(servletRequest, servletResponse);

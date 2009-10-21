@@ -1,5 +1,5 @@
 package example.framework;
 
 public interface Command {
-    Redirect execute(Request request);
+    Header execute(Request request);
 }

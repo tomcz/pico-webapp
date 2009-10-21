@@ -1,7 +1,6 @@
 package example.framework;
 
-import static example.framework.ResponseUtils.addCookiesToResponse;
-import static example.framework.ResponseUtils.addHeadersToResponse;
+import static example.framework.ResponseUtils.addHeaderToResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +16,7 @@ public class StatusCodeResponse implements Response {
 
     public void render(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (statusCode != null) {
-            addHeadersToResponse(response, statusCode.getHeaders());
-            addCookiesToResponse(response, statusCode.getCookies());
+            addHeaderToResponse(response, statusCode);
             sendError(response);
         }
     }

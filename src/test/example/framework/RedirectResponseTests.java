@@ -31,11 +31,11 @@ public class RedirectResponseTests {
         HttpServletRequest servletRequest = mock(HttpServletRequest.class);
         HttpServletResponse servletResponse = mock(HttpServletResponse.class);
 
-        Headers headers = new Headers();
-        headers.setHeader("foo", "bar");
+        HeaderFields headers = new HeaderFields();
+        headers.set("foo", "bar");
 
         Redirect redirect = new Redirect("/foo");
-        redirect.setHeaders(headers);
+        redirect.setFields(headers);
 
         RedirectResponse response = new RedirectResponse(redirect);
         response.render(servletRequest, servletResponse);

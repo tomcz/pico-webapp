@@ -6,13 +6,13 @@ import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class HeadersTests {
+public class HeaderFieldsTests {
 
     @Test
     public void shouldSetSingleHeaderValues() {
-        Headers headers = new Headers();
-        headers.addHeader("one", "value1");
-        headers.addHeader("two", "value2");
+        HeaderFields headers = new HeaderFields();
+        headers.add("one", "value1");
+        headers.add("two", "value2");
 
         HttpServletResponse response = mock(HttpServletResponse.class);
         headers.addTo(response);
@@ -23,9 +23,9 @@ public class HeadersTests {
 
     @Test
     public void shouldAddHeaderValueForSameKey() {
-        Headers headers = new Headers();
-        headers.addHeader("one", "value1");
-        headers.addHeader("one", "value2");
+        HeaderFields headers = new HeaderFields();
+        headers.add("one", "value1");
+        headers.add("one", "value2");
 
         HttpServletResponse response = mock(HttpServletResponse.class);
         headers.addTo(response);

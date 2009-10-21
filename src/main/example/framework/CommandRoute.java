@@ -9,7 +9,13 @@ public class CommandRoute implements Route {
     }
 
     public Response process(Request request) {
-        Redirect redirect = command.execute(request);
-        return new RedirectResponse(redirect);
+        Header header = command.execute(request);
+        if (header instanceof Redirect) {
+            return new RedirectResponse((Redirect) header);
+        }
+        if (header instanceof StatusCode) {
+            return new StatusCodeResponse((StatusCode) header);
+        }
+        return new HeaderResponse(header);
     }
 }

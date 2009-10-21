@@ -1,7 +1,6 @@
 package example.framework;
 
-import static example.framework.ResponseUtils.addCookiesToResponse;
-import static example.framework.ResponseUtils.addHeadersToResponse;
+import static example.framework.ResponseUtils.addHeaderToResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +16,7 @@ public class RedirectResponse implements Response {
 
     public void render(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (redirect != null) {
-            addHeadersToResponse(response, redirect.getHeaders());
-            addCookiesToResponse(response, redirect.getCookies());
+            addHeaderToResponse(response, redirect);
             String url = createRedirectURL(request);
             response.sendRedirect(url);
         }

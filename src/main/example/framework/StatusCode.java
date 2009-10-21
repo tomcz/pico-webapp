@@ -1,12 +1,9 @@
 package example.framework;
 
-public class StatusCode {
+public class StatusCode extends Header {
 
     private final int code;
     private final String message;
-
-    private Cookies cookies;
-    private Headers headers;
 
     public StatusCode(int code) {
         this(code, null);
@@ -23,21 +20,5 @@ public class StatusCode {
 
     public String getMessage() {
         return message;
-    }
-
-    public Cookies getCookies() {
-        return cookies;
-    }
-
-    public void setCookies(Cookies cookies) {
-        this.cookies = cookies;
-    }
-
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(Headers headers) {
-        this.headers = headers;
     }
 }
