@@ -50,6 +50,62 @@ public class RouteFinderTests {
     }
 
     @Test
+    public void shouldCreateHandlerRouteForPostRequest() throws Exception {
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestHandler());
+
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestHandler.class);
+
+        Route route = finder.findRoute(RequestMethod.POST, "/test", scope).getKey();
+
+        assertThat(route, instanceOf(HandlerRoute.class));
+        assertRouteInvokes(route, TestHandler.class);
+    }
+
+    @Test
+    public void shouldCreateHandlerRouteForPutRequest() throws Exception {
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestHandler());
+
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestHandler.class);
+
+        Route route = finder.findRoute(RequestMethod.PUT, "/test", scope).getKey();
+
+        assertThat(route, instanceOf(HandlerRoute.class));
+        assertRouteInvokes(route, TestHandler.class);
+    }
+
+    @Test
+    public void shouldCreateHandlerRouteForDeleteRequest() throws Exception {
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestHandler());
+
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestHandler.class);
+
+        Route route = finder.findRoute(RequestMethod.DELETE, "/test", scope).getKey();
+
+        assertThat(route, instanceOf(HandlerRoute.class));
+        assertRouteInvokes(route, TestHandler.class);
+    }
+
+    @Test
+    public void shouldCreateHandlerRouteForHeadRequest() throws Exception {
+        Container scope = new PicoContainer();
+        scope.registerInstance(new TestHandler());
+
+        RouteFinder finder = new RouteFinder();
+        finder.registerRoute(TestHandler.class);
+
+        Route route = finder.findRoute(RequestMethod.HEAD, "/test", scope).getKey();
+
+        assertThat(route, instanceOf(HandlerRoute.class));
+        assertRouteInvokes(route, TestHandler.class);
+    }
+
+    @Test
     public void shouldCreatePresenterRouteForGetRequestWhenHaveCommandAndPresenerMappedToSamePath() throws Exception {
         Container scope = new PicoContainer();
         scope.registerInstance(new TestPresenter());
@@ -88,7 +144,7 @@ public class RouteFinderTests {
         Response response = route.process(null);
         response.render(null, mockResponse);
 
-        verify(mockResponse).setHeader("Allow", "GET,POST");
+        verify(mockResponse).setHeader("Allow", "DELETE,GET,HEAD,POST,PUT");
         verify(mockResponse).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
@@ -174,6 +230,13 @@ public class RouteFinderTests {
     @RouteMapping("/test/{documentId}")
     private class TestPresenterWithPathVars implements Presenter {
         public Response display(Request request) {
+            throw new UnsupportedOperationException(getClass().getName());
+        }
+    }
+
+    @RouteMapping("/test")
+    private class TestHandler implements Handler {
+        public StatusCode handle(Request request) {
             throw new UnsupportedOperationException(getClass().getName());
         }
     }
