@@ -1,32 +1,32 @@
 package example.framework;
 
-import example.utils.Lists;
-
-import javax.servlet.http.Cookie;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class Redirect {
 
+    private Cookies cookies;
+    private Headers headers;
+
     private final Location location;
 
-    private List<Cookie> cookies = null;
+    public Redirect(Location location) {
+        this.location = location;
+    }
 
     public Redirect(String url) {
-        location = new Location(url);
+        this(new Location(url));
     }
 
     public Redirect(Class handlerType) {
-        location = new Location(handlerType);
+        this(new Location(handlerType));
     }
 
     public Redirect(Class handlerType, String paramName, Object paramValue) {
-        location = new Location(handlerType, paramName, paramValue);
+        this(new Location(handlerType, paramName, paramValue));
     }
 
     public Redirect(Class handlerType, Map<String, String> pathVariables) {
-        location = new Location(handlerType, pathVariables);
+        this(new Location(handlerType, pathVariables));
     }
 
     public String getUrl() {
@@ -37,35 +37,23 @@ public class Redirect {
         return location.isContextRelative();
     }
 
-    public void setContextRelative(boolean contextRelative) {
-        location.setContextRelative(contextRelative);
-    }
-
     public boolean isServletRelative() {
         return location.isServletRelative();
     }
 
-    public void setServletRelative(boolean servletRelative) {
-        location.setServletRelative(servletRelative);
+    public Cookies getCookies() {
+        return cookies;
     }
 
-    public void addCookie(String name, String value) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        addCookie(cookie);
+    public void setCookies(Cookies cookies) {
+        this.cookies = cookies;
     }
 
-    public void addCookie(Cookie cookie) {
-        if (cookies == null) {
-            cookies = Lists.create();
-        }
-        cookies.add(cookie);
+    public Headers getHeaders() {
+        return headers;
     }
 
-    public List<Cookie> getCookies() {
-        if (cookies == null) {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(cookies);
+    public void setHeaders(Headers headers) {
+        this.headers = headers;
     }
 }
