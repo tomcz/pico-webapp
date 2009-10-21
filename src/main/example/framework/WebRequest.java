@@ -2,6 +2,7 @@ package example.framework;
 
 import org.apache.commons.lang.StringUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,7 +15,10 @@ public class WebRequest implements Request {
     private final IdentityFactory identityFactory;
     private final Map<String, String> pathVariables;
 
-    public WebRequest(HttpServletRequest request, IdentityFactory identityFactory, Map<String, String> pathVariables) {
+    public WebRequest(HttpServletRequest request,
+                      IdentityFactory identityFactory,
+                      Map<String, String> pathVariables) {
+
         this.request = request;
         this.pathVariables = pathVariables;
         this.identityFactory = identityFactory;
@@ -35,5 +39,20 @@ public class WebRequest implements Request {
 
     public Identity getIdentity(String name) {
         return identityFactory.createFrom(getPathVariable(name));
+    }
+
+    public Cookie getCookie(String name) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    public String getCookieValue(String name) {
+        Cookie cookie = getCookie(name);
+        return (cookie != null) ? cookie.getValue() : "";
     }
 }
