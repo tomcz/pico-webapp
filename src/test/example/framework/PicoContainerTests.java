@@ -37,8 +37,8 @@ public class PicoContainerTests {
         PicoContainer container = new PicoContainer();
         container.register("testList", ArrayList.class);
 
-        List list1 = container.getForKey("testList");
-        List list2 = container.getForKey("testList");
+        List list1 = (List) container.getForKey("testList");
+        List list2 = (List) container.getForKey("testList");
 
         assertThat(list2, sameInstance(list1));
     }
@@ -48,7 +48,7 @@ public class PicoContainerTests {
         PicoContainer container = new PicoContainer();
         container.registerInstance("testItem", "foo");
 
-        String instance = container.getForKey("testItem");
+        String instance = (String) container.getForKey("testItem");
 
         assertThat(instance, is("foo"));
     }

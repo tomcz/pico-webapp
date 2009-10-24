@@ -10,7 +10,7 @@ public interface Container {
 
     void registerInstance(Object instance);
 
-    <T> T getForKey(Object key);
+    Object getForKey(Object key);
 
     <T> T get(Class<T> type);
 }

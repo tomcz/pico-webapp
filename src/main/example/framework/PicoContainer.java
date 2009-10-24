@@ -57,9 +57,8 @@ public class PicoContainer implements Container {
         container.addComponent(instance);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T getForKey(Object key) {
-        T instance = (T) container.getComponent(key);
+    public Object getForKey(Object key) {
+        Object instance = container.getComponent(key);
         Validate.isTrue(instance != null, "Cannot find instance for ", key);
         return instance;
     }
