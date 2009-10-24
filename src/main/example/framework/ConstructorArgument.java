@@ -16,6 +16,10 @@ public class ConstructorArgument {
         return new ConstructorArgument(new ComponentParameter());
     }
 
+    public static ConstructorArgument autowired(Object key) {
+        return new ConstructorArgument(new ComponentParameter(key));
+    }
+
     public static ConstructorArgument constant(Object value) {
         return new ConstructorArgument(new ConstantParameter(value));
     }

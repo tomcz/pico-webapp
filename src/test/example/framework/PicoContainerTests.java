@@ -4,7 +4,7 @@ import static example.framework.ConstructorArgument.autowired;
 import static example.framework.ConstructorArgument.configuredProperty;
 import static example.framework.ConstructorArgument.constant;
 import example.utils.Maps;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -33,6 +33,27 @@ public class PicoContainerTests {
     }
 
     @Test
+    public void shouldRetrieveObjectRegisteredByKeyAndType() {
+        PicoContainer container = new PicoContainer();
+        container.register("testList", ArrayList.class);
+
+        List list1 = container.getForKey("testList");
+        List list2 = container.getForKey("testList");
+
+        assertThat(list2, sameInstance(list1));
+    }
+
+    @Test
+    public void shouldRetrieveObjectRegisteredByKeyAndInstance() {
+        PicoContainer container = new PicoContainer();
+        container.registerInstance("testItem", "foo");
+
+        String instance = container.getForKey("testItem");
+
+        assertThat(instance, is("foo"));
+    }
+
+    @Test
     public void shouldCreateObjectUsingSelectedSingleValueConstructor() {
         PicoContainer container = new PicoContainer();
 
@@ -40,8 +61,8 @@ public class PicoContainerTests {
 
         TestObject instance = container.get(TestObject.class);
 
-        assertThat(instance.getValue(), equalTo("test"));
-        assertThat(instance.getList(), equalTo(Arrays.asList("default")));
+        assertThat(instance.getValue(), is("test"));
+        assertThat(instance.getList(), is(Arrays.asList("default")));
     }
 
     @Test
@@ -52,8 +73,8 @@ public class PicoContainerTests {
 
         TestObject instance = container.get(TestObject.class);
 
-        assertThat(instance.getValue(), equalTo("default"));
-        assertThat(instance.getList(), equalTo(Arrays.asList("test")));
+        assertThat(instance.getValue(), is("default"));
+        assertThat(instance.getList(), is(Arrays.asList("test")));
     }
 
     @Test
@@ -65,8 +86,8 @@ public class PicoContainerTests {
 
         TestObject instance = container.get(TestObject.class);
 
-        assertThat(instance.getValue(), equalTo("test1"));
-        assertThat(instance.getList(), equalTo(Arrays.asList("test2")));
+        assertThat(instance.getValue(), is("test1"));
+        assertThat(instance.getList(), is(Arrays.asList("test2")));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -97,7 +118,7 @@ public class PicoContainerTests {
 
         TestObject instance = container.get(TestObject.class);
 
-        assertThat(instance.getValue(), equalTo("test"));
+        assertThat(instance.getValue(), is("test"));
     }
 
     @Test
@@ -109,7 +130,19 @@ public class PicoContainerTests {
 
         TestObject instance = container.get(TestObject.class);
 
-        assertThat(instance.getValue(), equalTo("test"));
+        assertThat(instance.getValue(), is("test"));
+    }
+
+    @Test
+    public void shouldCreateObjectUsingAutowiredParameterKey() {
+        PicoContainer container = new PicoContainer();
+
+        container.registerInstance("testKey", "test");
+        container.register(TestObject.class, autowired("testKey"));
+
+        TestObject instance = container.get(TestObject.class);
+
+        assertThat(instance.getValue(), is("test"));
     }
 
     public static class TestObject {
