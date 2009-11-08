@@ -2,6 +2,7 @@ package example.utils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Maps {
@@ -51,5 +52,13 @@ public class Maps {
         for (Pair<K, V> pair : pairs) {
             map.put(pair.getKey(), pair.getValue());
         }
+    }
+
+    public static <K, V> List<Pair<K, V>> asList(Map<K, V> map) {
+        List<Pair<K, V>> list = Lists.create(map.size());
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            list.add(Pair.create(entry.getKey(), entry.getValue()));
+        }
+        return list;
     }
 }
