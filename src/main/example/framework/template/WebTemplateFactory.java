@@ -9,10 +9,6 @@ public class WebTemplateFactory implements TemplateFactory {
 
     private final String templateRoot;
 
-    public WebTemplateFactory(ServletContext context) throws Exception {
-        this(context, "/templates");
-    }
-
     public WebTemplateFactory(ServletContext context, String rootDir) throws Exception {
         URL url = context.getResource(rootDir);
         Validate.notNull(url, "Cannot find " + rootDir);
