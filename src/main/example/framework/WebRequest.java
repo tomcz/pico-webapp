@@ -7,21 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class WebRequest implements Request {
 
     private final HttpServletRequest request;
+    private final PathVariables pathVariables;
     private final IdentityFactory identityFactory;
-    private final Map<String, String> pathVariables;
 
-    public WebRequest(HttpServletRequest request,
-                      IdentityFactory identityFactory,
-                      Map<String, String> pathVariables) {
-
-        this.request = request;
-        this.pathVariables = pathVariables;
+    public WebRequest(HttpServletRequest request, IdentityFactory identityFactory, PathVariables pathVariables) {
         this.identityFactory = identityFactory;
+        this.pathVariables = pathVariables;
+        this.request = request;
     }
 
     public String getParameter(String name) {

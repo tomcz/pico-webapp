@@ -1,6 +1,5 @@
 package example.framework;
 
-import example.utils.Maps;
 import example.utils.Pair;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,7 +10,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 public class RouteFinderTests {
 
@@ -142,10 +140,13 @@ public class RouteFinderTests {
         RouteFinder finder = new RouteFinder();
         finder.registerRoute(TestPresenterWithPathVars.class);
 
-        Pair<Route, Map<String, String>> mapping = finder.findRoute(RequestMethod.GET, "/test/foo", scope);
+        Pair<Route, PathVariables> mapping = finder.findRoute(RequestMethod.GET, "/test/foo", scope);
 
         assertRouteInvokes(mapping.getKey(), TestPresenterWithPathVars.class);
-        assertThat(mapping.getValue(), is(Maps.create("documentId", "foo")));
+
+        PathVariables vars = mapping.getValue();
+        assertThat(vars.size(), is(1));
+        assertThat(vars.get("documentId"), is("foo"));
     }
 
     private void assertRouteInvokes(Route route, Class handlerType) {

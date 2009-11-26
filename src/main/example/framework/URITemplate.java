@@ -1,14 +1,11 @@
 package example.framework;
 
 import example.utils.Lists;
-import example.utils.Maps;
 import example.utils.Pair;
 import example.utils.Strings;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,20 +40,20 @@ public class URITemplate {
         return pattern.matcher(uri).matches();
     }
 
-    public Map<String, String> parse(String uri) {
-        Map<String, String> parameters = Maps.create();
+    public PathVariables parse(String uri) {
+        PathVariables vars = new PathVariables();
         Matcher matcher = pattern.matcher(uri);
         if (matcher.matches()) {
             int index = 1;
             for (Pair<String, String> pair : names) {
                 String value = matcher.group(index++);
-                parameters.put(pair.getKey(), Strings.decodeURL(value));
+                vars.set(pair.getKey(), Strings.decodeURL(value));
             }
         }
-        return Collections.unmodifiableMap(parameters);
+        return vars;
     }
 
-    public String expand(Map<String, String> parameters) {
+    public String expand(PathVariables parameters) {
         String result = getPath();
         for (Pair<String, String> pair : names) {
             String value = parameters.get(pair.getKey());

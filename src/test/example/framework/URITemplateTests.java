@@ -1,11 +1,8 @@
 package example.framework;
 
-import example.utils.Maps;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class URITemplateTests {
 
@@ -18,7 +15,7 @@ public class URITemplateTests {
     @Test
     public void shouldParseTemplateWithToken() throws Exception {
         URITemplate template = new URITemplate("/servlet/{type}/view.do");
-        Map<String, String> parsed = template.parse("/servlet/images/view.do");
+        PathVariables parsed = template.parse("/servlet/images/view.do");
         assertThat(parsed.size(), equalTo(1));
         assertThat(parsed.get("type"), equalTo("images"));
     }
@@ -56,7 +53,7 @@ public class URITemplateTests {
     @Test
     public void shouldParseTemplateWithMultipleTokens() throws Exception {
         URITemplate template = new URITemplate("/servlet/{type}/{reference}/view.do");
-        Map<String, String> parsed = template.parse("/servlet/images/33kk98vjoessgf3/view.do");
+        PathVariables parsed = template.parse("/servlet/images/33kk98vjoessgf3/view.do");
         assertThat(parsed.size(), equalTo(2));
         assertThat(parsed.get("type"), equalTo("images"));
         assertThat(parsed.get("reference"), equalTo("33kk98vjoessgf3"));
@@ -65,7 +62,7 @@ public class URITemplateTests {
     @Test
     public void shouldExpandTemplateWithToken() throws Exception {
         URITemplate template = new URITemplate("/servlet/{type}/view.do");
-        Map<String, String> parameters = Maps.create("type", "images");
+        PathVariables parameters = new PathVariables().set("type", "images");
         assertThat(template.expand(parameters), equalTo("/servlet/images/view.do"));
     }
 
@@ -73,9 +70,9 @@ public class URITemplateTests {
     public void shouldExpandTemplateWithMutlipleTokens() throws Exception {
         URITemplate template = new URITemplate("/servlet/{type}/{reference}/view.do");
 
-        Map<String, String> parameters = Maps.create();
-        parameters.put("type", "images");
-        parameters.put("reference", "33kk98vjoessgf3");
+        PathVariables parameters = new PathVariables();
+        parameters.set("type", "images");
+        parameters.set("reference", "33kk98vjoessgf3");
 
         assertThat(template.expand(parameters), equalTo("/servlet/images/33kk98vjoessgf3/view.do"));
     }
@@ -83,13 +80,13 @@ public class URITemplateTests {
     @Test
     public void shouldExpandTemplateWithoutTokens() throws Exception {
         URITemplate template = new URITemplate("/servlet/images/view.do");
-        assertThat(template.expand(Maps.<String, String>create()), equalTo("/servlet/images/view.do"));
+        assertThat(template.expand(new PathVariables()), equalTo("/servlet/images/view.do"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotExpandWhenParameterIsMissing() throws Exception {
         URITemplate template = new URITemplate("/servlet/{type}/{reference}/view.do");
-        Map<String, String> parameters = Maps.create("type", "images");
+        PathVariables parameters = new PathVariables().set("type", "images");
         template.expand(parameters);
     }
 }

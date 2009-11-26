@@ -7,7 +7,6 @@ import example.utils.Sets;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,7 +37,7 @@ public class RouteFinder implements RouteRegistry {
         }
     }
 
-    public Pair<Route, Map<String, String>> findRoute(RequestMethod method, String lookupPath, Container container) {
+    public Pair<Route, PathVariables> findRoute(RequestMethod method, String lookupPath, Container container) {
         RouteFactory routeFactory = routeFactories.get(method);
         if (routeFactory == null) {
             logger.info("Cannot create routes for HTTP " + method + " method");
@@ -57,10 +56,9 @@ public class RouteFinder implements RouteRegistry {
         return Pair.create(route, template.parse(lookupPath));
     }
 
-    private Pair<Route, Map<String, String>> routeFor(Response response) {
+    private Pair<Route, PathVariables> routeFor(Response response) {
         Route route = new ResponseWrappingRoute(response);
-        Map<String, String> pathVars = Collections.emptyMap();
-        return Pair.create(route, pathVars);
+        return Pair.create(route, new PathVariables());
     }
 
     private URITemplate findTemplate(String lookupPath) {

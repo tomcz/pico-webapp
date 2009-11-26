@@ -4,7 +4,6 @@ import example.utils.Pair;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 public class WebApplication implements Application {
 
@@ -29,8 +28,8 @@ public class WebApplication implements Application {
         String lookupPath = pathHelper.getLookupPathForRequest(servletRequest);
         PicoContainer requestScope = createRequestScope(method);
         try {
-            Pair<Route, Map<String, String>> mapping = routeFinder.findRoute(method, lookupPath, requestScope);
-            Map<String, String> pathVars = mapping.getValue();
+            Pair<Route, PathVariables> mapping = routeFinder.findRoute(method, lookupPath, requestScope);
+            PathVariables pathVars = mapping.getValue();
             Route route = mapping.getKey();
 
             IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);

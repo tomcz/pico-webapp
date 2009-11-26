@@ -1,7 +1,5 @@
 package example.framework;
 
-import java.util.Map;
-
 public class Redirect extends Header {
 
     private final Location location;
@@ -22,7 +20,7 @@ public class Redirect extends Header {
         this(new Location(handlerType, paramName, paramValue));
     }
 
-    public Redirect(Class handlerType, Map<String, String> pathVariables) {
+    public Redirect(Class handlerType, PathVariables pathVariables) {
         this(new Location(handlerType, pathVariables));
     }
 

@@ -25,10 +25,10 @@ public class ConfigurationParameter extends AbstractParameter {
     }
 
     public Resolver resolve(PicoContainer container, ComponentAdapter<?> forAdapter, ComponentAdapter<?> injecteeAdapter,
-                            Type expectedType, NameBinding expectedNameBinding, boolean useNames, Annotation binding) {
+                            Type expectedType, NameBinding nameBinding, boolean useNames, Annotation binding) {
 
         ConstantParameter parameter = createConfiguredParameter(container);
-        return parameter.resolve(container, forAdapter, injecteeAdapter, expectedType, expectedNameBinding, useNames, binding);
+        return parameter.resolve(container, forAdapter, injecteeAdapter, expectedType, nameBinding, useNames, binding);
     }
 
     public void verify(PicoContainer container, ComponentAdapter<?> adapter, Type expectedType,

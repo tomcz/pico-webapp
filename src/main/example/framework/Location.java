@@ -1,10 +1,5 @@
 package example.framework;
 
-import example.utils.Maps;
-
-import java.util.Collections;
-import java.util.Map;
-
 public class Location {
 
     private final String url;
@@ -17,14 +12,14 @@ public class Location {
     }
 
     public Location(Class handlerType) {
-        this(handlerType, Collections.<String, String>emptyMap());
+        this(handlerType, new PathVariables());
     }
 
     public Location(Class handlerType, String paramName, Object paramValue) {
-        this(handlerType, Maps.create(paramName, paramValue.toString()));
+        this(handlerType, new PathVariables().set(paramName, paramValue.toString()));
     }
 
-    public Location(Class handlerType, Map<String, String> pathVariables) {
+    public Location(Class handlerType, PathVariables pathVariables) {
         this(URITemplateFactory.createFrom(handlerType).expand(pathVariables));
     }
 
