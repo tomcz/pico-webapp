@@ -1,9 +1,5 @@
 package example.framework;
 
-import static example.framework.ResponseUtils.addHeaderToResponse;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class HeaderResponse implements Response {
@@ -14,9 +10,9 @@ public class HeaderResponse implements Response {
         this.header = header;
     }
 
-    public void render(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void render(ResponseContext response) throws IOException {
         if (header != null) {
-            addHeaderToResponse(response, header);
+            response.setHeader(header);
             response.sendError(200);
         }
     }

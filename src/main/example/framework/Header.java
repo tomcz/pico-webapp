@@ -1,37 +1,44 @@
 package example.framework;
 
+import example.utils.Lists;
+import example.utils.Maps;
+
+import javax.servlet.http.Cookie;
+import java.util.List;
+import java.util.Map;
+
 public class Header {
 
-    private Cookies cookies;
-    private HeaderFields fields;
+    private List<Cookie> cookies = Lists.create();
+    private Map<String, List<String>> fields = Maps.create();
 
-    public Cookies getCookies() {
+    public void addCookie(String name, String value) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        addCookie(cookie);
+    }
+
+    public void addCookie(Cookie cookie) {
+        cookies.add(cookie);
+    }
+
+    public List<Cookie> getCookies() {
         return cookies;
     }
 
-    public void setCookies(Cookies cookies) {
-        this.cookies = cookies;
-    }
-
-    public void addCookie(String name, String value) {
-        if (cookies == null) {
-            cookies = new Cookies();
+    public void addField(String name, String value) {
+        if (fields.containsKey(name)) {
+            fields.get(name).add(value);
+        } else {
+            setField(name, value);
         }
-        cookies.addCookie(name, value);
     }
 
-    public HeaderFields getFields() {
+    public void setField(String name, String value) {
+        fields.put(name, Lists.create(value));
+    }
+
+    public Map<String, List<String>> getFields() {
         return fields;
-    }
-
-    public void setFields(HeaderFields fields) {
-        this.fields = fields;
-    }
-
-    public void addHeaderField(String name, String value) {
-        if (fields == null) {
-            fields = new HeaderFields();
-        }
-        fields.add(name, value);
     }
 }

@@ -1,18 +1,13 @@
 package example.framework.template;
 
-import org.apache.commons.lang.Validate;
-
-import javax.servlet.ServletContext;
-import java.net.URL;
+import example.framework.WebRoot;
 
 public class WebTemplateFactory implements TemplateFactory {
 
     private final String templateRoot;
 
-    public WebTemplateFactory(ServletContext context, String rootDir) throws Exception {
-        URL url = context.getResource(rootDir);
-        Validate.notNull(url, "Cannot find " + rootDir);
-        templateRoot = url.toExternalForm();
+    public WebTemplateFactory(WebRoot root, String templateDir) {
+        templateRoot = root.getUrlTo(templateDir);
     }
 
     public Template create(String templateName) {

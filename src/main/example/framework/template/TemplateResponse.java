@@ -1,13 +1,9 @@
 package example.framework.template;
 
 import example.framework.Response;
-import example.utils.Maps;
+import example.framework.ResponseContext;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Map;
 
 public class TemplateResponse implements Response {
 
@@ -25,24 +21,14 @@ public class TemplateResponse implements Response {
         this.charset = charset;
     }
 
-    public void render(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.setContentType(contentType + ";charset=" + charset);
+    public void render(ResponseContext response) throws IOException {
+        response.setContentType(contentType);
         response.setCharacterEncoding(charset);
 
-        template.set("base", request.getContextPath());
-        template.set("request", createMapOfRequestAttributes(request));
-        template.registerRenderer(new LocationRenderer(request));
+        template.set("base", response.getContextPath());
+        template.set("request", response.getAttributes());
+        template.registerRenderer(new LocationRenderer(response));
 
         template.write(response.getWriter());
-    }
-
-    private Map<String, Object> createMapOfRequestAttributes(HttpServletRequest request) {
-        Map<String, Object> attributes = Maps.create();
-        for (Enumeration names = request.getAttributeNames(); names.hasMoreElements();) {
-            String name = (String) names.nextElement();
-            attributes.put(name, request.getAttribute(name));
-        }
-        return attributes;
     }
 }

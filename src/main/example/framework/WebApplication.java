@@ -2,14 +2,12 @@ package example.framework;
 
 import example.utils.Pair;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class WebApplication implements Application {
 
     private final PicoContainer applicationScope = new PicoContainer();
     private final RouteFinder routeFinder = new RouteFinder();
-    private final PathHelper pathHelper = new PathHelper();
 
     private List<Component> components;
 
@@ -24,8 +22,9 @@ public class WebApplication implements Application {
         }
     }
 
-    public Response process(HttpServletRequest servletRequest, RequestMethod method) {
-        String lookupPath = pathHelper.getLookupPathForRequest(servletRequest);
+    public Response process(RequestContext request) {
+        RequestMethod method = request.getMethod();
+        String lookupPath = request.getLookupPath();
         PicoContainer requestScope = createRequestScope(method);
         try {
             Pair<Route, PathVariables> mapping = routeFinder.findRoute(method, lookupPath, requestScope);
@@ -33,7 +32,7 @@ public class WebApplication implements Application {
             Route route = mapping.getKey();
 
             IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);
-            return route.process(new WebRequest(servletRequest, identityFactory, pathVars));
+            return route.process(new WebRequest(request, identityFactory, pathVars));
 
         } catch (Exception e) {
             ErrorHandler handler = requestScope.get(ErrorHandler.class);

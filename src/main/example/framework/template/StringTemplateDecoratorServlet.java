@@ -3,6 +3,8 @@ package example.framework.template;
 import com.opensymphony.module.sitemesh.HTMLPage;
 import com.opensymphony.module.sitemesh.RequestConstants;
 import example.framework.PathHelper;
+import example.framework.ServletResponseContext;
+import example.framework.ServletWebRoot;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.servlet.ServletConfig;
@@ -22,12 +24,9 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
-        try {
-            ServletContext context = servletConfig.getServletContext();
-            factory = new WebTemplateFactory(context, "/decorators");
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
+
+        ServletContext context = servletConfig.getServletContext();
+        factory = new WebTemplateFactory(new ServletWebRoot(context), "/decorators");
     }
 
     @Override
@@ -52,6 +51,6 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
         }
 
         TemplateResponse view = new TemplateResponse(template);
-        view.render(request, response);
+        view.render(new ServletResponseContext(request, response));
     }
 }

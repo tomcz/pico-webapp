@@ -3,18 +3,17 @@ package example.framework;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class WebRequest implements Request {
 
-    private final HttpServletRequest request;
+    private final RequestContext request;
     private final PathVariables pathVariables;
     private final IdentityFactory identityFactory;
 
-    public WebRequest(HttpServletRequest request, IdentityFactory identityFactory, PathVariables pathVariables) {
+    public WebRequest(RequestContext request, IdentityFactory identityFactory, PathVariables pathVariables) {
         this.identityFactory = identityFactory;
         this.pathVariables = pathVariables;
         this.request = request;

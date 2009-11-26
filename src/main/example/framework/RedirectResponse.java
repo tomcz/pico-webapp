@@ -1,9 +1,5 @@
 package example.framework;
 
-import static example.framework.ResponseUtils.addHeaderToResponse;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RedirectResponse implements Response {
@@ -14,21 +10,21 @@ public class RedirectResponse implements Response {
         this.redirect = redirect;
     }
 
-    public void render(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void render(ResponseContext response) throws IOException {
         if (redirect != null) {
-            addHeaderToResponse(response, redirect);
-            String url = createRedirectURL(request);
+            response.setHeader(redirect);
+            String url = createRedirectURL(response);
             response.sendRedirect(url);
         }
     }
 
-    private String createRedirectURL(HttpServletRequest request) {
+    private String createRedirectURL(ResponseContext response) {
         String prefix = "";
         if (redirect.isContextRelative()) {
-            prefix += request.getContextPath();
+            prefix += response.getContextPath();
         }
         if (redirect.isServletRelative()) {
-            prefix += request.getServletPath();
+            prefix += response.getServletPath();
         }
         return prefix + redirect.getUrl();
     }

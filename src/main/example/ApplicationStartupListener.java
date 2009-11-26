@@ -7,7 +7,9 @@ import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
 import example.framework.DefaultConfiguration;
+import example.framework.ServletWebRoot;
 import example.framework.WebApplication;
+import example.framework.WebRoot;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
 import example.utils.Lists;
@@ -37,6 +39,7 @@ public class ApplicationStartupListener implements ServletContextListener {
 
     private Application createApplication(ServletContext context) {
         Configuration configuration = parseContextParameters(context);
+        WebRoot webRoot = new ServletWebRoot(context);
 
         List<Component> components = Lists.create();
 
@@ -46,7 +49,7 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new ErrorComponent());
         components.add(new WebComponent());
 
-        return new WebApplication(components, context, configuration);
+        return new WebApplication(components, configuration, webRoot);
     }
 
     private Configuration parseContextParameters(ServletContext context) {

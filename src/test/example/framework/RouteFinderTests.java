@@ -1,11 +1,14 @@
 package example.framework;
 
+import example.utils.Lists;
+import example.utils.Maps;
 import example.utils.Pair;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -82,12 +85,17 @@ public class RouteFinderTests {
         RouteFinder finder = new RouteFinder();
         Route route = finder.findRoute(RequestMethod.TRACE, "/test", null).getKey();
 
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        ResponseContext context = mock(ResponseContext.class);
         Response response = route.process(null);
-        response.render(null, mockResponse);
+        response.render(context);
 
-        verify(mockResponse).setHeader("Allow", "GET,POST");
-        verify(mockResponse).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        verify(context).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+
+        ArgumentCaptor<Header> captor = ArgumentCaptor.forClass(Header.class);
+        verify(context).setHeader(captor.capture());
+
+        Header header = captor.getValue();
+        assertThat(header.getFields(), is(Maps.create("Allow", Lists.create("GET,POST"))));
     }
 
     @Test
@@ -97,12 +105,17 @@ public class RouteFinderTests {
 
         Route route = finder.findRoute(RequestMethod.POST, "/test", null).getKey();
 
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        ResponseContext context = mock(ResponseContext.class);
         Response response = route.process(null);
-        response.render(null, mockResponse);
+        response.render(context);
 
-        verify(mockResponse).setHeader("Allow", "GET");
-        verify(mockResponse).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        verify(context).sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+
+        ArgumentCaptor<Header> captor = ArgumentCaptor.forClass(Header.class);
+        verify(context).setHeader(captor.capture());
+
+        Header header = captor.getValue();
+        assertThat(header.getFields(), is(Maps.create("Allow", Lists.create("GET"))));
     }
 
     @Test
@@ -110,11 +123,11 @@ public class RouteFinderTests {
         RouteFinder finder = new RouteFinder();
         Route route = finder.findRoute(RequestMethod.GET, "/foo", null).getKey();
 
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        ResponseContext context = mock(ResponseContext.class);
         Response response = route.process(null);
-        response.render(null, mockResponse);
+        response.render(context);
 
-        verify(mockResponse).sendError(HttpServletResponse.SC_NOT_FOUND);
+        verify(context).sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 
     @Test

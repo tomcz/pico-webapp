@@ -1,15 +1,14 @@
 package example.framework.template;
 
 import example.framework.Location;
-
-import javax.servlet.http.HttpServletRequest;
+import example.framework.ResponseContext;
 
 public class LocationRenderer implements Renderer {
 
-    private final HttpServletRequest request;
+    private final ResponseContext context;
 
-    public LocationRenderer(HttpServletRequest request) {
-        this.request = request;
+    public LocationRenderer(ResponseContext context) {
+        this.context = context;
     }
 
     public Class getTypeToRender() {
@@ -27,10 +26,10 @@ public class LocationRenderer implements Renderer {
     private String createURL(Location location) {
         String url = "";
         if (location.isContextRelative()) {
-            url += request.getContextPath();
+            url += context.getContextPath();
         }
         if (location.isServletRelative()) {
-            url += request.getServletPath();
+            url += context.getServletPath();
         }
         return url + location.getUrl();
     }

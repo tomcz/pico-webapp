@@ -1,10 +1,8 @@
 package example.framework;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface Application {
 
-    Response process(HttpServletRequest servletRequest, RequestMethod method);
+    Response process(RequestContext request);
 
     void dispose();
 }
