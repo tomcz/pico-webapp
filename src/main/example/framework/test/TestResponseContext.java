@@ -122,10 +122,12 @@ public class TestResponseContext implements ResponseContext {
     }
 
     public String getResponseBodyText() {
+        Validate.notNull(writer, "No response body text");
         return writer.toString();
     }
 
     public byte[] getResponseBodyBytes() {
+        Validate.notNull(stream, "No response body bytes");
         return stream.toByteArray();
     }
 }
