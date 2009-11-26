@@ -15,11 +15,11 @@ public class ServletWebRoot implements WebRoot {
         this.context = context;
     }
 
-    public String getUrlTo(String directory) {
+    public String getUrlTo(String resource) {
         try {
-            URL resource = context.getResource(directory);
-            Validate.notNull(resource, "Cannot find path to " + directory);
-            return resource.toExternalForm();
+            URL url = context.getResource(resource);
+            Validate.notNull(url, "Cannot find path to " + resource);
+            return url.toExternalForm();
 
         } catch (MalformedURLException e) {
             throw new UnhandledException(e);

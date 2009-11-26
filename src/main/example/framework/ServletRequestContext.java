@@ -1,7 +1,12 @@
 package example.framework;
 
+import org.apache.commons.lang.StringUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ServletRequestContext implements RequestContext {
 
@@ -22,14 +27,22 @@ public class ServletRequestContext implements RequestContext {
     }
 
     public String getParameter(String name) {
-        return request.getParameter(name);
+        return StringUtils.defaultString(request.getParameter(name));
     }
 
-    public String[] getParameterValues(String name) {
-        return request.getParameterValues(name);
+    public List<String> getParameterValues(String name) {
+        String[] values = request.getParameterValues(name);
+        if (values != null) {
+            return Arrays.asList(values);
+        }
+        return Collections.emptyList();
     }
 
-    public Cookie[] getCookies() {
-        return request.getCookies();
+    public List<Cookie> getCookies() {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            return Arrays.asList(cookies);
+        }
+        return Collections.emptyList();
     }
 }

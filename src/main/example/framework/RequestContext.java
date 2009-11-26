@@ -1,6 +1,7 @@
 package example.framework;
 
 import javax.servlet.http.Cookie;
+import java.util.List;
 
 public interface RequestContext {
 
@@ -10,7 +11,7 @@ public interface RequestContext {
 
     String getParameter(String name);
 
-    String[] getParameterValues(String name);
+    List<String> getParameterValues(String name);
 
-    Cookie[] getCookies();
+    List<Cookie> getCookies();
 }

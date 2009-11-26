@@ -3,8 +3,6 @@ package example.framework;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class WebRequest implements Request {
@@ -20,12 +18,11 @@ public class WebRequest implements Request {
     }
 
     public String getParameter(String name) {
-        return StringUtils.defaultString(request.getParameter(name));
+        return request.getParameter(name);
     }
 
     public List<String> getParameters(String name) {
-        String[] values = request.getParameterValues(name);
-        return (values != null) ? Arrays.asList(values) : Collections.<String>emptyList();
+        return request.getParameterValues(name);
     }
 
     public String getPathVariable(String name) {
@@ -37,8 +34,7 @@ public class WebRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
+        for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(name)) {
                 return cookie;
             }
