@@ -56,6 +56,7 @@ public class ServletRequestContext implements RequestContext {
         try {
             String encoding = StringUtils.defaultIfEmpty(request.getCharacterEncoding(), "UTF-8");
             input = request.getInputStream();
+
             return IOUtils.toString(input, encoding);
 
         } catch (IOException e) {
