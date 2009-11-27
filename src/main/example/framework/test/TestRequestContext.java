@@ -7,6 +7,7 @@ import example.utils.Lists;
 import example.utils.Maps;
 
 import javax.servlet.http.Cookie;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,9 @@ public class TestRequestContext implements RequestContext {
 
     private final Map<String, List<String>> parameters = Maps.create();
     private final List<Cookie> cookies = Lists.create();
+
+    private String requestBodyText;
+    private InputStream requestBodyStream;
 
     public TestRequestContext(RequestMethod method, Location location) {
         this.lookupPath = location.getUrl();
@@ -54,5 +58,21 @@ public class TestRequestContext implements RequestContext {
 
     public List<Cookie> getCookies() {
         return cookies;
+    }
+
+    public void setRequestBodyText(String requestBodyText) {
+        this.requestBodyText = requestBodyText;
+    }
+
+    public String getRequestBodyText() {
+        return requestBodyText;
+    }
+
+    public void setRequestBodyStream(InputStream requestBodyStream) {
+        this.requestBodyStream = requestBodyStream;
+    }
+
+    public InputStream getRequestBodyStream() {
+        return requestBodyStream;
     }
 }

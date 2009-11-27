@@ -32,16 +32,16 @@ public class TestResponseContext implements ResponseContext {
     private StringWriter writer;
     private ByteArrayOutputStream stream;
 
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
     public String getContextPath() {
         return contextPath;
     }
 
     public String getServletPath() {
         return servletPath;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return Collections.unmodifiableMap(attributes);
     }
 
     public void setHeader(Header header) {

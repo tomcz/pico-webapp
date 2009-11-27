@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class ServletResponseContext implements ResponseContext {
             String name = (String) names.nextElement();
             attributes.put(name, request.getAttribute(name));
         }
-        return attributes;
+        return Collections.unmodifiableMap(attributes);
     }
 
     public void setHeader(Header header) {
@@ -69,8 +70,8 @@ public class ServletResponseContext implements ResponseContext {
         response.sendError(errorCode);
     }
 
-    public void sendError(int code, String message) throws IOException {
-        response.sendError(code, message);
+    public void sendError(int errorCode, String message) throws IOException {
+        response.sendError(errorCode, message);
     }
 
     public void sendRedirect(String url) throws IOException {

@@ -41,22 +41,22 @@ public class URITemplate {
     }
 
     public PathVariables parse(String uri) {
-        PathVariables vars = new PathVariables();
+        PathVariables pathVariables = new PathVariables();
         Matcher matcher = pattern.matcher(uri);
         if (matcher.matches()) {
             int index = 1;
             for (Pair<String, String> pair : names) {
                 String value = matcher.group(index++);
-                vars.set(pair.getKey(), Strings.decodeURL(value));
+                pathVariables.set(pair.getKey(), Strings.decodeURL(value));
             }
         }
-        return vars;
+        return pathVariables;
     }
 
-    public String expand(PathVariables parameters) {
+    public String expand(PathVariables pathVariables) {
         String result = getPath();
         for (Pair<String, String> pair : names) {
-            String value = parameters.get(pair.getKey());
+            String value = pathVariables.get(pair.getKey());
             if (StringUtils.isEmpty(value)) {
                 throw new IllegalArgumentException("Missing value for '" + pair.getValue() + "'");
             }

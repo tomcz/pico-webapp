@@ -1,9 +1,14 @@
 package example.framework;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.UnhandledException;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -44,5 +49,28 @@ public class ServletRequestContext implements RequestContext {
             return Arrays.asList(cookies);
         }
         return Collections.emptyList();
+    }
+
+    public String getRequestBodyText() {
+        ServletInputStream input = null;
+        try {
+            String encoding = StringUtils.defaultIfEmpty(request.getCharacterEncoding(), "UTF-8");
+            input = request.getInputStream();
+            return IOUtils.toString(input, encoding);
+
+        } catch (IOException e) {
+            throw new UnhandledException(e);
+
+        } finally {
+            IOUtils.closeQuietly(input);
+        }
+    }
+
+    public InputStream getRequestBodyStream() {
+        try {
+            return request.getInputStream();
+        } catch (IOException e) {
+            throw new UnhandledException(e);
+        }
     }
 }

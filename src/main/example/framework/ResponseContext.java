@@ -7,17 +7,17 @@ import java.util.Map;
 
 public interface ResponseContext {
 
-    Map<String, Object> getAttributes();
-
     String getContextPath();
 
     String getServletPath();
+
+    Map<String, Object> getAttributes();
 
     void setHeader(Header header);
 
     void sendError(int errorCode) throws IOException;
 
-    void sendError(int code, String message) throws IOException;
+    void sendError(int errorCode, String message) throws IOException;
 
     void sendRedirect(String url) throws IOException;
 
