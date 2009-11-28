@@ -1,8 +1,10 @@
 package example.framework;
 
+import example.utils.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;
+import java.io.InputStream;
 import java.util.List;
 
 public class WebRequest implements Request {
@@ -34,16 +36,19 @@ public class WebRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals(name)) {
-                return cookie;
-            }
-        }
-        return null;
+        return Lists.find(request.getCookies(), new CookieMatcher(name));
     }
 
     public String getCookieValue(String name) {
         Cookie cookie = getCookie(name);
         return (cookie != null) ? cookie.getValue() : "";
+    }
+
+    public String getRequestBodyText() {
+        return request.getRequestBodyText();
+    }
+
+    public InputStream getRequestBodyStream() {
+        return request.getRequestBodyStream();
     }
 }

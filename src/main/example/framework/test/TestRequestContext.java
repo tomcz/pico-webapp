@@ -57,7 +57,7 @@ public class TestRequestContext implements RequestContext {
     }
 
     public List<Cookie> getCookies() {
-        return cookies;
+        return Collections.unmodifiableList(cookies);
     }
 
     public void setRequestBodyText(String requestBodyText) {

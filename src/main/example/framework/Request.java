@@ -1,6 +1,7 @@
 package example.framework;
 
 import javax.servlet.http.Cookie;
+import java.io.InputStream;
 import java.util.List;
 
 public interface Request {
@@ -16,4 +17,8 @@ public interface Request {
     Cookie getCookie(String name);
 
     String getCookieValue(String name);
+
+    String getRequestBodyText();
+
+    InputStream getRequestBodyStream();
 }
