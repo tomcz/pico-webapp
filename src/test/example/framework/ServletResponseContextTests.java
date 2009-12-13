@@ -29,8 +29,8 @@ public class ServletResponseContextTests {
     @Test
     public void shouldSetSingleHeaderValues() {
         Header header = new Header();
-        header.addField("one", "value1");
-        header.addField("two", "value2");
+        header.setField("one", "value1");
+        header.setField("two", "value2");
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -45,8 +45,7 @@ public class ServletResponseContextTests {
     @Test
     public void shouldAddHeaderValueForSameKey() {
         Header header = new Header();
-        header.addField("one", "value1");
-        header.addField("one", "value2");
+        header.setField("one", "value1", "value2");
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);

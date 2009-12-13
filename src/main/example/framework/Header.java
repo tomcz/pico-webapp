@@ -4,6 +4,7 @@ import example.utils.Lists;
 import example.utils.Maps;
 
 import javax.servlet.http.Cookie;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,16 +27,8 @@ public class Header {
         return cookies;
     }
 
-    public void addField(String name, String value) {
-        if (fields.containsKey(name)) {
-            fields.get(name).add(value);
-        } else {
-            setField(name, value);
-        }
-    }
-
-    public void setField(String name, String value) {
-        fields.put(name, Lists.create(value));
+    public void setField(String name, String... values) {
+        fields.put(name, Arrays.asList(values));
     }
 
     public Map<String, List<String>> getFields() {

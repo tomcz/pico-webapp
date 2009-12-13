@@ -23,7 +23,7 @@ public class MethodNotAllowedResponse implements Response {
         Collections.sort(methods);
 
         Header header = new Header();
-        header.addField("Allow", StringUtils.join(methods, ","));
+        header.setField("Allow", StringUtils.join(methods, ","));
         response.setHeader(header);
 
         response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
