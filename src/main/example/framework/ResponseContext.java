@@ -21,6 +21,8 @@ public interface ResponseContext {
 
     void sendRedirect(String url) throws IOException;
 
+    void setStatusCode(int code);
+
     void setContentType(String contentType);
 
     void setCharacterEncoding(String charset);

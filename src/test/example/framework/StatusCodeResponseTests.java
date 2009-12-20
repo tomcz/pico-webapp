@@ -9,7 +9,7 @@ import java.io.IOException;
 public class StatusCodeResponseTests {
 
     @Test
-    public void shouldSendErrorWithExpectedCode() throws IOException {
+    public void shouldSetStatusCodeWithExpectedCode() throws IOException {
         ResponseContext context = mock(ResponseContext.class);
 
         StatusCode status = new StatusCode(200);
@@ -17,19 +17,7 @@ public class StatusCodeResponseTests {
         StatusCodeResponse response = new StatusCodeResponse(status);
         response.render(context);
 
-        verify(context).sendError(200);
-    }
-
-    @Test
-    public void shouldSendErrorWithExpectedCodeAndMessage() throws IOException {
-        ResponseContext context = mock(ResponseContext.class);
-
-        StatusCode status = new StatusCode(404, "oops");
-
-        StatusCodeResponse response = new StatusCodeResponse(status);
-        response.render(context);
-
-        verify(context).sendError(404, "oops");
+        verify(context).setStatusCode(200);
     }
 
     @Test

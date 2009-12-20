@@ -13,7 +13,6 @@ public class HeaderResponse implements Response {
     public void render(ResponseContext response) throws IOException {
         if (header != null) {
             response.setHeader(header);
-            response.sendError(200);
         }
     }
 }

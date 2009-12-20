@@ -22,10 +22,11 @@ public class TestResponseContext implements ResponseContext {
     private Header header;
 
     private int errorCode;
-    private String message;
+    private String errorMessage;
 
     private String redirectURL;
 
+    private int statusCode;
     private String contentType;
     private String charset;
 
@@ -54,11 +55,15 @@ public class TestResponseContext implements ResponseContext {
 
     public void sendError(int errorCode, String message) throws IOException {
         this.errorCode = errorCode;
-        this.message = message;
+        this.errorMessage = message;
     }
 
     public void sendRedirect(String redirectURL) throws IOException {
         this.redirectURL = redirectURL;
+    }
+
+    public void setStatusCode(int code) {
+        this.statusCode = code;
     }
 
     public void setContentType(String contentType) {
@@ -105,12 +110,16 @@ public class TestResponseContext implements ResponseContext {
         return errorCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getRedirectURL() {
         return redirectURL;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 
     public String getContentType() {

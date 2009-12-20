@@ -78,6 +78,10 @@ public class ServletResponseContext implements ResponseContext {
         response.sendRedirect(url);
     }
 
+    public void setStatusCode(int code) {
+        response.setStatus(code);
+    }
+
     public void setContentType(String contentType) {
         response.setContentType(contentType);
     }

@@ -12,17 +12,8 @@ public class StatusCodeResponse implements Response {
 
     public void render(ResponseContext response) throws IOException {
         if (statusCode != null) {
+            response.setStatusCode(statusCode.getCode());
             response.setHeader(statusCode);
-            sendError(response);
-        }
-    }
-
-    private void sendError(ResponseContext response) throws IOException {
-        String message = statusCode.getMessage();
-        if (message != null) {
-            response.sendError(statusCode.getCode(), message);
-        } else {
-            response.sendError(statusCode.getCode());
         }
     }
 }
