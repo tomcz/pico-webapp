@@ -5,6 +5,9 @@ import example.utils.Maps;
 import example.utils.Pair;
 import example.utils.Sets;
 import org.apache.log4j.Logger;
+import org.weborganic.furi.URIPattern;
+import org.weborganic.furi.URIResolveResult;
+import org.weborganic.furi.URIResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +19,11 @@ public class RouteFinder implements RouteRegistry {
 
     private final Logger logger = Logger.getLogger(getClass());
 
-    private final Map<URITemplate, Set<Class>> handlers = Maps.create();
-    private final Map<Class, List<Class<? extends AccessFilter>>> filters = Maps.create();
     private final Map<RequestMethod, RouteFactory> routeFactories = Maps.create();
+
+    private final List<URIPattern> templates = Lists.create();
+    private final Map<URIPattern, Set<Class>> handlers = Maps.create();
+    private final Map<Class, List<Class<? extends AccessFilter>>> filters = Maps.create();
 
     public RouteFinder() {
         routeFactories.put(RequestMethod.GET, new PresenterRouteFactory());
@@ -26,11 +31,12 @@ public class RouteFinder implements RouteRegistry {
     }
 
     public void registerRoute(Class handlerType, Class<? extends AccessFilter>... accessFilters) {
-        URITemplate template = URITemplateFactory.createFrom(handlerType);
+        URIPattern template = URIPatternFactory.create(handlerType);
         if (handlers.containsKey(template)) {
             handlers.get(template).add(handlerType);
         } else {
             handlers.put(template, Sets.create(handlerType));
+            templates.add(template);
         }
         if (accessFilters.length > 0) {
             filters.put(handlerType, Arrays.asList(accessFilters));
@@ -43,17 +49,17 @@ public class RouteFinder implements RouteRegistry {
             logger.info("Cannot create routes for HTTP " + method + " method");
             return routeFor(new MethodNotAllowedResponse(routeFactories.keySet()));
         }
-        URITemplate template = findTemplate(lookupPath);
-        if (template == null) {
+        URIResolveResult result = findTemplate(lookupPath);
+        if (result == null) {
             logger.info("Cannot find template for " + lookupPath);
             return routeFor(new NotFoundResponse());
         }
-        Route route = createRoute(routeFactory, template, container);
+        Route route = createRoute(routeFactory, result.getURIPattern(), container);
         if (route == null) {
-            logger.info(String.format("%s %s not allowed for %s", method, lookupPath, template));
-            return routeFor(new MethodNotAllowedResponse(allowedMethods(template)));
+            logger.info(String.format("%s %s not allowed for %s", method, lookupPath, result));
+            return routeFor(new MethodNotAllowedResponse(allowedMethods(result.getURIPattern())));
         }
-        return Pair.create(route, template.parse(lookupPath));
+        return Pair.create(route, resolvePathVariables(result));
     }
 
     private Pair<Route, PathVariables> routeFor(Response response) {
@@ -61,16 +67,16 @@ public class RouteFinder implements RouteRegistry {
         return Pair.create(route, new PathVariables());
     }
 
-    private URITemplate findTemplate(String lookupPath) {
-        for (URITemplate template : handlers.keySet()) {
-            if (template.matches(lookupPath)) {
-                return template;
-            }
+    private URIResolveResult findTemplate(String lookupPath) {
+        URIResolver resolver = new URIResolver(lookupPath);
+        URIPattern template = resolver.find(templates);
+        if (template == null) {
+            return null;
         }
-        return null;
+        return resolver.resolve(template);
     }
 
-    private Route createRoute(RouteFactory factory, URITemplate template, Container container) {
+    private Route createRoute(RouteFactory factory, URIPattern template, Container container) {
         for (Class handlerType : handlers.get(template)) {
             if (factory.canCreateRouteFor(handlerType)) {
                 Route route = factory.createRoute(container, handlerType);
@@ -91,7 +97,7 @@ public class RouteFinder implements RouteRegistry {
         return route;
     }
 
-    private Set<RequestMethod> allowedMethods(URITemplate template) {
+    private Set<RequestMethod> allowedMethods(URIPattern template) {
         Set<RequestMethod> allowed = Sets.create();
         Set<Class> handlerTypes = handlers.get(template);
         for (Entry<RequestMethod, RouteFactory> entry : routeFactories.entrySet()) {
@@ -102,5 +108,13 @@ public class RouteFinder implements RouteRegistry {
             }
         }
         return allowed;
+    }
+
+    private PathVariables resolvePathVariables(URIResolveResult result) {
+        PathVariables pathVars = new PathVariables();
+        for (String name : result.names()) {
+            pathVars.set(name, result.get(name).toString());
+        }
+        return pathVars;
     }
 }

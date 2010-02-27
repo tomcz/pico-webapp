@@ -1,23 +1,22 @@
 package example.framework;
 
-import example.utils.Maps;
-
-import java.util.Map;
+import org.weborganic.furi.Parameters;
+import org.weborganic.furi.URIParameters;
 
 public class PathVariables {
 
-    private final Map<String, String> vars = Maps.create();
+    private final URIParameters params = new URIParameters();
 
     public PathVariables set(String key, String value) {
-        vars.put(key, value);
+        params.set(key, value);
         return this;
     }
 
     public String get(String key) {
-        return vars.get(key);
+        return params.getValue(key);
     }
 
-    public int size() {
-        return vars.size();
+    public Parameters getParameters() {
+        return params;
     }
 }

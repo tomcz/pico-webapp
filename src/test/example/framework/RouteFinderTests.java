@@ -3,16 +3,17 @@ package example.framework;
 import example.utils.Lists;
 import example.utils.Maps;
 import example.utils.Pair;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
+import javax.servlet.http.HttpServletResponse;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServletResponse;
 
 public class RouteFinderTests {
 
@@ -158,7 +159,6 @@ public class RouteFinderTests {
         assertRouteInvokes(mapping.getKey(), TestPresenterWithPathVars.class);
 
         PathVariables vars = mapping.getValue();
-        assertThat(vars.size(), is(1));
         assertThat(vars.get("documentId"), is("foo"));
     }
 

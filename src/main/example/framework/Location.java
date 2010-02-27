@@ -20,7 +20,7 @@ public class Location {
     }
 
     public Location(Class handlerType, PathVariables pathVariables) {
-        this(URITemplateFactory.createFrom(handlerType).expand(pathVariables));
+        this(URIPatternFactory.expand(handlerType, pathVariables));
     }
 
     public String getUrl() {
