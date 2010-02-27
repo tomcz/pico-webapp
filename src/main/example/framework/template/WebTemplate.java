@@ -1,7 +1,5 @@
 package example.framework.template;
 
-import org.antlr.stringtemplate.NoIndentWriter;
-
 import java.io.IOException;
 import java.io.Writer;
 
@@ -30,6 +28,6 @@ public class WebTemplate implements Template {
     }
 
     public void write(Writer writer) throws IOException {
-        template.write(new NoIndentWriter(writer));
+        template.write(writer);
     }
 }
