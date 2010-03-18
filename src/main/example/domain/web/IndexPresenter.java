@@ -9,7 +9,6 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
-import example.framework.template.TemplateResponse;
 import example.utils.Function;
 import example.utils.Lists;
 import example.utils.Pair;
@@ -34,7 +33,7 @@ public class IndexPresenter implements Presenter {
         template.set("mappings", Lists.map(identities, new IdentityMapper()));
         template.set("newForm", new Location(FormPresenter.class, "documentId", Identity.NEW));
 
-        return new TemplateResponse(template);
+        return template;
     }
 
     private static class IdentityMapper implements Function<Identity, Pair<Identity, Location>> {

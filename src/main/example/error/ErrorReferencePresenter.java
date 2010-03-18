@@ -6,7 +6,6 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
-import example.framework.template.TemplateResponse;
 
 @RouteMapping("/error/{errorRef}")
 public class ErrorReferencePresenter implements Presenter {
@@ -20,6 +19,6 @@ public class ErrorReferencePresenter implements Presenter {
     public Response display(Request request) {
         Template template = templateFactory.create("error", "error");
         template.set("errorRef", request.getPathVariable("errorRef"));
-        return new TemplateResponse(template);
+        return template;
     }
 }

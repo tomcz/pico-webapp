@@ -50,7 +50,6 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
             template.set("body", htmlPage.getBody());
         }
 
-        TemplateResponse view = new TemplateResponse(template);
-        view.render(new ServletResponseContext(request, response));
+        template.render(new ServletResponseContext(request, response));
     }
 }

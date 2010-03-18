@@ -9,7 +9,6 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
-import example.framework.template.TemplateResponse;
 
 import static example.domain.web.DocumentUtils.createDocumentModel;
 
@@ -32,6 +31,6 @@ public class FormPresenter implements Presenter {
         template.set("document", createDocumentModel(repository.get(documentId)));
         template.set("indexLink", new Location(IndexPresenter.class));
 
-        return new TemplateResponse(template);
+        return template;
     }
 }
