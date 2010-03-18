@@ -1,10 +1,13 @@
-package example.framework.template;
+package example.framework.template.sitemesh;
 
 import com.opensymphony.module.sitemesh.HTMLPage;
 import com.opensymphony.module.sitemesh.RequestConstants;
 import example.framework.PathHelper;
 import example.framework.servlet.ServletResponseContext;
 import example.framework.servlet.ServletWebRoot;
+import example.framework.template.Template;
+import example.framework.template.TemplateFactory;
+import example.framework.template.WebTemplateFactory;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.servlet.ServletConfig;

@@ -51,7 +51,7 @@
 
     <servlet>
         <servlet-name>sitemesh</servlet-name>
-        <servlet-class>example.framework.template.StringTemplateDecoratorServlet</servlet-class>
+        <servlet-class>example.framework.template.sitemesh.StringTemplateDecoratorServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
 
