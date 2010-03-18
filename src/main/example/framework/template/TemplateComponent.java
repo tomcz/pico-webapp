@@ -1,13 +1,11 @@
 package example.framework.template;
 
 import example.framework.ComponentAdaptor;
-import static example.framework.ConstructorArgument.autowired;
-import static example.framework.ConstructorArgument.constant;
 import example.framework.Container;
 
 public class TemplateComponent extends ComponentAdaptor {
 
-    public void registerApplicationScope(Container applicationScope) {
-        applicationScope.register(WebTemplateFactory.class, autowired(), constant("/templates"));
+    public void registerApplicationScope(Container scope) {
+        scope.register(WebTemplateFactory.class, scope.newArgs().autowired().constant("/templates"));
     }
 }

@@ -10,6 +10,7 @@ import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
 import example.framework.template.TemplateResponse;
+
 import static example.domain.web.DocumentUtils.createDocumentModel;
 
 @RouteMapping("/form/{documentId}")

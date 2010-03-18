@@ -17,7 +17,7 @@
 
     <filter>
         <filter-name>index</filter-name>
-        <filter-class>example.framework.RedirectFilter</filter-class>
+        <filter-class>example.framework.servlet.RedirectServletFilter</filter-class>
         <init-param>
             <param-name>redirectPath</param-name>
             <param-value>/page/index</param-value>
@@ -45,7 +45,7 @@
 
     <servlet>
         <servlet-name>application</servlet-name>
-        <servlet-class>example.framework.ApplicationServlet</servlet-class>
+        <servlet-class>example.framework.servlet.ApplicationServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

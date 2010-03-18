@@ -1,8 +1,8 @@
 package example.framework.test;
 
-import example.framework.CookieMatcher;
 import example.framework.Identity;
 import example.framework.Request;
+import example.framework.application.CookieMatcher;
 import example.utils.Lists;
 import example.utils.Maps;
 

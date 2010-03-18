@@ -6,11 +6,13 @@ import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
-import example.framework.DefaultConfiguration;
-import example.framework.ServletWebRoot;
-import example.framework.WebApplication;
 import example.framework.WebRoot;
+import example.framework.application.WebApplication;
+import example.framework.application.route.Routes;
+import example.framework.container.DefaultConfiguration;
+import example.framework.container.PicoContainer;
 import example.framework.identity.IdentityFactoryComponent;
+import example.framework.servlet.ServletWebRoot;
 import example.framework.template.TemplateComponent;
 import example.utils.Lists;
 import example.utils.Maps;
@@ -49,7 +51,11 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new ErrorComponent());
         components.add(new WebComponent());
 
-        return new WebApplication(components, configuration, webRoot);
+        PicoContainer container = new PicoContainer();
+        container.registerInstance(configuration);
+        container.registerInstance(webRoot);
+
+        return new WebApplication(container, new Routes(), components);
     }
 
     private Configuration parseContextParameters(ServletContext context) {

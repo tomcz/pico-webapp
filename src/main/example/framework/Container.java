@@ -2,15 +2,25 @@ package example.framework;
 
 public interface Container {
 
-    void register(Object key, Class type, ConstructorArgument... arguments);
+    void register(Class type);
 
-    void register(Class type, ConstructorArgument... arguments);
+    void register(Object key, Class type);
+
+    void register(Class type, ContainerArguments args);
+
+    void register(Object key, Class type, ContainerArguments args);
 
     void registerInstance(Object key, Object instance);
 
     void registerInstance(Object instance);
 
-    Object getForKey(Object key);
+    Object get(Object key);
 
     <T> T get(Class<T> type);
+
+    ContainerArguments newArgs();
+
+    Container newChild();
+
+    void dispose();
 }

@@ -3,8 +3,8 @@ package example.framework.template;
 import com.opensymphony.module.sitemesh.HTMLPage;
 import com.opensymphony.module.sitemesh.RequestConstants;
 import example.framework.PathHelper;
-import example.framework.ServletResponseContext;
-import example.framework.ServletWebRoot;
+import example.framework.servlet.ServletResponseContext;
+import example.framework.servlet.ServletWebRoot;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.servlet.ServletConfig;
