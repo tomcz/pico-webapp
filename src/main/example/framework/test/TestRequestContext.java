@@ -6,20 +6,21 @@ import example.framework.RequestMethod;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static example.utils.GenericCollections.newArrayList;
+import static example.utils.GenericCollections.newHashMap;
 
 public class TestRequestContext implements RequestContext {
 
     private final RequestMethod method;
     private final String lookupPath;
 
-    private final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
-    private final List<Cookie> cookies = new ArrayList<Cookie>();
+    private final Map<String, List<String>> parameters = newHashMap();
+    private final List<Cookie> cookies = newArrayList();
 
     private String requestBodyText;
     private InputStream requestBodyStream;

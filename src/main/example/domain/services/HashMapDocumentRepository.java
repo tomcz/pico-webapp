@@ -5,13 +5,14 @@ import example.domain.DocumentRepository;
 import example.framework.Identity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static example.utils.GenericCollections.newHashMap;
+
 public class HashMapDocumentRepository implements DocumentRepository {
 
-    private final Map<Identity, Document> repository = new HashMap<Identity, Document>();
+    private final Map<Identity, Document> repository = newHashMap();
 
     public List<Identity> getCurrentDocumentIDs() {
         return new ArrayList<Identity>(repository.keySet());

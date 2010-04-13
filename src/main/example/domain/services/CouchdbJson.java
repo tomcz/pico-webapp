@@ -14,8 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static example.utils.GenericCollections.newArrayList;
 
 public class CouchdbJson {
 
@@ -26,7 +27,7 @@ public class CouchdbJson {
             JSONObject root = new JSONObject(response);
             JSONArray rows = root.getJSONArray("rows");
 
-            List<Identity> result = new ArrayList<Identity>();
+            List<Identity> result = newArrayList();
             for (int i = 0; i < rows.length(); i++) {
                 JSONObject entry = rows.getJSONObject(i);
                 result.add(Identity.fromValue(entry.getString("id")));
@@ -40,7 +41,7 @@ public class CouchdbJson {
 
     public String marshall(Document doc) {
         try {
-            List<JSONObject> properties = new ArrayList<JSONObject>();
+            List<JSONObject> properties = newArrayList();
             for (Field field : doc.getFields()) {
                 Property property = doc.get(field);
                 JSONObject entry = new JSONObject();

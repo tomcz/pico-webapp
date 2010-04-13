@@ -8,17 +8,18 @@ import org.apache.commons.collections.CollectionUtils;
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static example.utils.GenericCollections.newArrayList;
+import static example.utils.GenericCollections.newHashMap;
+
 public class TestRequest implements Request {
 
-    private Map<String, List<String>> parameters = new HashMap<String, List<String>>();
-    private Map<String, String> pathVariables = new HashMap<String, String>();
-    private Map<String, Identity> identities = new HashMap<String, Identity>();
-    private List<Cookie> cookies = new LinkedList<Cookie>();
+    private Map<String, List<String>> parameters = newHashMap();
+    private Map<String, String> pathVariables = newHashMap();
+    private Map<String, Identity> identities = newHashMap();
+    private List<Cookie> cookies = newArrayList();
     private InputStream requestBodyStream;
     private String requestBodyText;
 

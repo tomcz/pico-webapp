@@ -5,10 +5,10 @@ import org.hamcrest.Matcher;
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static example.utils.GenericCollections.newHashMap;
 import static example.utils.PredicateMatcher.with;
 import static org.apache.commons.collections.CollectionUtils.countMatches;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -35,7 +35,7 @@ public class Document {
     }
 
     public Document(Identity identity, LocalDateTime created) {
-        this.properties = new HashMap<Field, Property>();
+        this.properties = newHashMap();
         this.identity = identity;
         this.created = created;
     }

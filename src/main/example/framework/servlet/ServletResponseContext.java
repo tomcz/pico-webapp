@@ -11,9 +11,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static example.utils.GenericCollections.newHashMap;
 
 public class ServletResponseContext implements ResponseContext {
 
@@ -34,7 +35,7 @@ public class ServletResponseContext implements ResponseContext {
     }
 
     public Map<String, Object> getAttributes() {
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, Object> attributes = newHashMap();
         Enumeration names = request.getAttributeNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();

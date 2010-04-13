@@ -15,24 +15,25 @@ import org.weborganic.furi.URIPattern;
 import org.weborganic.furi.URIResolveResult;
 import org.weborganic.furi.URIResolver;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import static example.utils.GenericCollections.newArrayList;
+import static example.utils.GenericCollections.newHashMap;
+import static example.utils.GenericCollections.newHashSet;
+
 public class Routes implements RouteRegistry, RouteFinder {
 
     private final Logger logger = Logger.getLogger(getClass());
 
-    private final Map<RequestMethod, RouteFactory> routeFactories = new HashMap<RequestMethod, RouteFactory>();
+    private final Map<RequestMethod, RouteFactory> routeFactories = newHashMap();
 
-    private final List<URIPattern> templates = new ArrayList<URIPattern>();
-    private final Map<URIPattern, Set<Class>> handlers = new HashMap<URIPattern, Set<Class>>();
-    private final Map<Class, List<Class<? extends AccessFilter>>> filters = new HashMap<Class, List<Class<? extends AccessFilter>>>();
+    private final List<URIPattern> templates = newArrayList();
+    private final Map<URIPattern, Set<Class>> handlers = newHashMap();
+    private final Map<Class, List<Class<? extends AccessFilter>>> filters = newHashMap();
 
     public Routes() {
         routeFactories.put(RequestMethod.GET, new PresenterRouteFactory());
@@ -44,10 +45,8 @@ public class Routes implements RouteRegistry, RouteFinder {
         if (handlers.containsKey(template)) {
             handlers.get(template).add(handlerType);
         } else {
+            handlers.put(template, newHashSet(handlerType));
             templates.add(template);
-            Set<Class> types = new HashSet<Class>();
-            handlers.put(template, types);
-            types.add(handlerType);
         }
         if (accessFilters.length > 0) {
             filters.put(handlerType, Arrays.asList(accessFilters));
@@ -99,7 +98,7 @@ public class Routes implements RouteRegistry, RouteFinder {
 
     private Route applyAccessFilters(Route route, Class handlerType, Container container) {
         if (filters.containsKey(handlerType)) {
-            List<AccessFilter> accessFilters = new ArrayList<AccessFilter>();
+            List<AccessFilter> accessFilters = newArrayList();
             for (Class<? extends AccessFilter> filter : filters.get(handlerType)) {
                 accessFilters.add(container.get(filter));
             }
@@ -109,7 +108,7 @@ public class Routes implements RouteRegistry, RouteFinder {
     }
 
     private Set<RequestMethod> allowedMethods(URIPattern template) {
-        Set<RequestMethod> allowed = new HashSet<RequestMethod>();
+        Set<RequestMethod> allowed = newHashSet();
         Set<Class> handlerTypes = handlers.get(template);
         for (Entry<RequestMethod, RouteFactory> entry : routeFactories.entrySet()) {
             for (Class handler : handlerTypes) {
