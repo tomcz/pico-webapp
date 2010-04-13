@@ -15,14 +15,14 @@ import example.framework.RouteMapping;
 import example.framework.application.Route;
 import example.framework.application.RouteFinder;
 import example.framework.container.PicoContainer;
-import example.utils.Lists;
-import example.utils.Maps;
 import example.utils.Pair;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -111,7 +111,7 @@ public class RoutesTests {
         verify(context).setHeader(captor.capture());
 
         Header header = captor.getValue();
-        assertThat(header.getFields(), is(Maps.create("Allow", Lists.create("GET,POST"))));
+        assertThat(header.getFields(), is(singletonMap("Allow", singletonList("GET,POST"))));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class RoutesTests {
         verify(context).setHeader(captor.capture());
 
         Header header = captor.getValue();
-        assertThat(header.getFields(), is(Maps.create("Allow", Lists.create("GET"))));
+        assertThat(header.getFields(), is(singletonMap("Allow", singletonList("GET"))));
     }
 
     @Test

@@ -4,13 +4,12 @@ import example.framework.Header;
 import example.framework.RequestMethod;
 import example.framework.Response;
 import example.framework.ResponseContext;
-import example.utils.Function;
-import example.utils.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,10 +33,10 @@ public class MethodNotAllowedResponse implements Response {
     }
 
     private List<String> allowedMethods() {
-        return Lists.map(allowed, new Function<RequestMethod, String>() {
-            public String execute(RequestMethod item) {
-                return item.name();
-            }
-        });
+        List<String> names = new LinkedList<String>();
+        for (RequestMethod method : allowed) {
+            names.add(method.name());
+        }
+        return names;
     }
 }

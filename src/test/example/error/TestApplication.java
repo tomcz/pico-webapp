@@ -11,10 +11,10 @@ import example.framework.template.TemplateComponent;
 import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
 import example.framework.test.TestWebRoot;
-import example.utils.Lists;
 import org.apache.commons.lang.SystemUtils;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TestApplication {
@@ -36,7 +36,7 @@ public class TestApplication {
         PicoContainer container = new PicoContainer();
         container.registerInstance(new TestWebRoot(new File(SystemUtils.getUserDir(), "web")));
 
-        List<Component> components = Lists.create();
+        List<Component> components = new LinkedList<Component>();
         components.add(new IdentityFactoryComponent());
         components.add(new TemplateComponent());
         components.add(new ErrorComponent());

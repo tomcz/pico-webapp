@@ -1,10 +1,11 @@
 package example.framework.container;
 
-import example.utils.Maps;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -101,7 +102,7 @@ public class PicoContainerTests {
     public void shouldThrowExceptionWhenCannotResolveConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(Maps.<String, String>create()));
+        container.registerInstance(new DefaultConfiguration(new HashMap<String, String>()));
         container.register(TestObject.class, container.newArgs().configuredProperty("key"));
 
         container.get(TestObject.class);
@@ -111,7 +112,7 @@ public class PicoContainerTests {
     public void shouldCreateObjectUsingDefaultConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(Maps.<String, String>create()));
+        container.registerInstance(new DefaultConfiguration(new HashMap<String, String>()));
         container.register(TestObject.class, container.newArgs().configuredProperty("key", "test"));
 
         TestObject instance = container.get(TestObject.class);
@@ -123,7 +124,7 @@ public class PicoContainerTests {
     public void shouldCreateObjectUsingAvailableConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(Maps.create("key", "test")));
+        container.registerInstance(new DefaultConfiguration(Collections.singletonMap("key", "test")));
         container.register(TestObject.class, container.newArgs().configuredProperty("key"));
 
         TestObject instance = container.get(TestObject.class);

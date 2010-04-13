@@ -2,7 +2,6 @@ package example.framework.servlet;
 
 import example.framework.Header;
 import example.framework.ResponseContext;
-import example.utils.Maps;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class ServletResponseContext implements ResponseContext {
     }
 
     public Map<String, Object> getAttributes() {
-        Map<String, Object> attributes = Maps.create();
+        Map<String, Object> attributes = new HashMap<String, Object>();
         Enumeration names = request.getAttributeNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();

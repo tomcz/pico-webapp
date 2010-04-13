@@ -333,6 +333,7 @@
         <root url="jar://$PROJECT_DIR$/lib/src/json-20090823-src.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/commons-io-1.4-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/src/wo-furi-0.8.4-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/src/commons-collections-3.2.1-sources.jar!/" />
       </SOURCES>
       <jarDirectory url="file://$PROJECT_DIR$/lib/runtime" recursive="false" />
     </library>

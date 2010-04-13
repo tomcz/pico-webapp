@@ -1,16 +1,16 @@
 package example.framework.container;
 
 import example.framework.ContainerArguments;
-import example.utils.Lists;
 import org.picocontainer.Parameter;
 import org.picocontainer.parameters.ComponentParameter;
 import org.picocontainer.parameters.ConstantParameter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class PicoContainerArguments implements ContainerArguments {
 
-    private List<Parameter> params = Lists.create();
+    private List<Parameter> params = new LinkedList<Parameter>();
 
     public ContainerArguments autowired() {
         params.add(new ComponentParameter());

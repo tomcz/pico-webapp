@@ -3,15 +3,15 @@ package example.domain.services;
 import example.domain.Document;
 import example.domain.DocumentRepository;
 import example.framework.Identity;
-import example.utils.Maps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HashMapDocumentRepository implements DocumentRepository {
 
-    private final Map<Identity, Document> repository = Maps.create();
+    private final Map<Identity, Document> repository = new HashMap<Identity, Document>();
 
     public List<Identity> getCurrentDocumentIDs() {
         return new ArrayList<Identity>(repository.keySet());

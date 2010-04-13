@@ -3,25 +3,28 @@ package example.framework.test;
 import example.framework.Identity;
 import example.framework.Request;
 import example.framework.application.CookieMatcher;
-import example.utils.Lists;
-import example.utils.Maps;
+import org.apache.commons.collections.CollectionUtils;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class TestRequest implements Request {
 
-    private Map<String, List<String>> parameters = Maps.create();
-    private Map<String, String> pathVariables = Maps.create();
-    private Map<String, Identity> identities = Maps.create();
-    private List<Cookie> cookies = Lists.create();
+    private Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+    private Map<String, String> pathVariables = new HashMap<String, String>();
+    private Map<String, Identity> identities = new HashMap<String, Identity>();
+    private List<Cookie> cookies = new LinkedList<Cookie>();
     private InputStream requestBodyStream;
     private String requestBodyText;
 
     public String getParameter(String name) {
-        return Lists.first(getParameters(name));
+        List<String> params = getParameters(name);
+        return CollectionUtils.isEmpty(params) ? null : params.get(0);
     }
 
     public List<String> getParameters(String name) {
@@ -37,7 +40,7 @@ public class TestRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        return Lists.find(cookies, new CookieMatcher(name));
+        return (Cookie) CollectionUtils.find(cookies, new CookieMatcher(name));
     }
 
     public String getCookieValue(String name) {
@@ -54,7 +57,7 @@ public class TestRequest implements Request {
     }
 
     public void setParameter(String name, String... values) {
-        parameters.put(name, Lists.create(values));
+        parameters.put(name, Arrays.asList(values));
     }
 
     public void setPathVariable(String name, String value) {

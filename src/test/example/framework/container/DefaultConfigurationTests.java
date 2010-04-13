@@ -1,9 +1,9 @@
 package example.framework.container;
 
-import example.utils.Maps;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -14,7 +14,7 @@ public class DefaultConfigurationTests {
 
     @Test
     public void shouldSubstituteSystemPropertiesAndTokensFromConfiguration() {
-        Map<String, String> properties = Maps.create();
+        Map<String, String> properties = new HashMap<String, String>();
         properties.put("foo.path", "${user.dir}/${foo}");
         properties.put("foo", "bar");
 
@@ -26,7 +26,7 @@ public class DefaultConfigurationTests {
 
     @Test
     public void shouldReturnNullForUnknownKey() {
-        Map<String, String> properties = Maps.create();
+        Map<String, String> properties = new HashMap<String, String>();
 
         DefaultConfiguration configuration = new DefaultConfiguration(properties);
         String value = configuration.get("foo");

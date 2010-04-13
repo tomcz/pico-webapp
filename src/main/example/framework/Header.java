@@ -1,17 +1,16 @@
 package example.framework;
 
-import example.utils.Lists;
-import example.utils.Maps;
-
 import javax.servlet.http.Cookie;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class Header {
 
-    private List<Cookie> cookies = Lists.create();
-    private Map<String, List<String>> fields = Maps.create();
+    private List<Cookie> cookies = new LinkedList<Cookie>();
+    private Map<String, List<String>> fields = new HashMap<String, List<String>>();
 
     public void addCookie(String name, String value) {
         Cookie cookie = new Cookie(name, value);

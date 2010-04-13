@@ -4,8 +4,8 @@ import example.domain.Document;
 import example.domain.Document.Field;
 import example.domain.Property;
 import example.framework.Request;
-import example.utils.Maps;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DocumentUtils {
@@ -18,7 +18,7 @@ public class DocumentUtils {
     }
 
     public static Map<String, PropertyWrapper> createDocumentModel(Document document) {
-        Map<String, PropertyWrapper> model = Maps.create();
+        Map<String, PropertyWrapper> model = new HashMap<String, PropertyWrapper>();
         for (Field field : document.getFields()) {
             model.put(field.name(), new PropertyWrapper(field.name(), document.get(field)));
         }

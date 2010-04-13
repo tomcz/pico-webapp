@@ -9,10 +9,11 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
-import example.utils.Function;
-import example.utils.Lists;
 import example.utils.Pair;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RouteMapping("/index")
@@ -30,15 +31,15 @@ public class IndexPresenter implements Presenter {
         List<Identity> identities = repository.getCurrentDocumentIDs();
 
         Template template = templateFactory.create("example", "index");
-        template.set("mappings", Lists.map(identities, new IdentityMapper()));
+        template.set("mappings", CollectionUtils.collect(identities, new IdentityMapper(), new ArrayList()));
         template.set("newForm", new Location(FormPresenter.class, "documentId", Identity.NEW));
 
         return template;
     }
 
-    private static class IdentityMapper implements Function<Identity, Pair<Identity, Location>> {
-        public Pair<Identity, Location> execute(Identity item) {
-            return Pair.create(item, new Location(FormPresenter.class, "documentId", item));
+    private static class IdentityMapper implements Transformer {
+        public Object transform(Object input) {
+            return Pair.create(input, new Location(FormPresenter.class, "documentId", input));
         }
     }
 }

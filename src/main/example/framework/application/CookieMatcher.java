@@ -1,10 +1,10 @@
 package example.framework.application;
 
-import example.utils.Matcher;
+import org.apache.commons.collections.Predicate;
 
 import javax.servlet.http.Cookie;
 
-public class CookieMatcher implements Matcher<Cookie> {
+public class CookieMatcher implements Predicate {
 
     private final String name;
 
@@ -12,7 +12,7 @@ public class CookieMatcher implements Matcher<Cookie> {
         this.name = name;
     }
 
-    public boolean matches(Cookie item) {
-        return item.getName().equals(name);
+    public boolean evaluate(Object object) {
+        return ((Cookie) object).getName().equals(name);
     }
 }

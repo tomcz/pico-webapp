@@ -1,14 +1,18 @@
 package example.domain;
 
 import example.framework.Identity;
-import example.utils.Lists;
-import example.utils.Maps;
-import example.utils.Matcher;
+import org.hamcrest.Matcher;
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static example.utils.PredicateMatcher.with;
+import static org.apache.commons.collections.CollectionUtils.countMatches;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 
 public class Document {
 
@@ -19,6 +23,7 @@ public class Document {
     private Identity identity;
     private LocalDateTime created;
     private Map<Field, Property> properties;
+
     private String version;
 
     public Document() {
@@ -30,9 +35,9 @@ public class Document {
     }
 
     public Document(Identity identity, LocalDateTime created) {
-        this.created = created;
+        this.properties = new HashMap<Field, Property>();
         this.identity = identity;
-        this.properties = Maps.create();
+        this.created = created;
     }
 
     public Identity getIdentity() {
@@ -65,12 +70,7 @@ public class Document {
     }
 
     public boolean isValid() {
-        return Lists.count(properties.values(), new InvalidPropertyMatcher()) == 0;
-    }
-
-    public static class InvalidPropertyMatcher implements Matcher<Property> {
-        public boolean matches(Property item) {
-            return !item.isValid();
-        }
+        Matcher<Property> validProperty = hasProperty("valid", equalTo(true));
+        return countMatches(properties.values(), with(validProperty)) == properties.size();
     }
 }

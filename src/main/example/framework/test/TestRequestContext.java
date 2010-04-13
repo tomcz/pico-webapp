@@ -3,12 +3,13 @@ package example.framework.test;
 import example.framework.Location;
 import example.framework.RequestContext;
 import example.framework.RequestMethod;
-import example.utils.Lists;
-import example.utils.Maps;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,8 @@ public class TestRequestContext implements RequestContext {
     private final RequestMethod method;
     private final String lookupPath;
 
-    private final Map<String, List<String>> parameters = Maps.create();
-    private final List<Cookie> cookies = Lists.create();
+    private final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+    private final List<Cookie> cookies = new ArrayList<Cookie>();
 
     private String requestBodyText;
     private InputStream requestBodyStream;
@@ -37,19 +38,20 @@ public class TestRequestContext implements RequestContext {
     }
 
     public String getParameter(String name) {
-        return Lists.first(getParameterValues(name), "");
+        List<String> values = getParameterValues(name);
+        return values.isEmpty() ? "" : values.get(0);
     }
 
     public void setParameter(String name, String... values) {
-        parameters.put(name, Lists.create(values));
+        parameters.put(name, Arrays.asList(values));
     }
 
     public List<String> getParameterValues(String name) {
         List<String> values = parameters.get(name);
-        if (values != null) {
-            return Collections.unmodifiableList(values);
+        if (values == null) {
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
+        return values;
     }
 
     public void addCookie(Cookie cookie) {

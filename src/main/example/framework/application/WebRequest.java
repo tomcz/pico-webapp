@@ -5,7 +5,7 @@ import example.framework.IdentityFactory;
 import example.framework.PathVariables;
 import example.framework.Request;
 import example.framework.RequestContext;
-import example.utils.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;
@@ -41,7 +41,7 @@ public class WebRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        return Lists.find(request.getCookies(), new CookieMatcher(name));
+        return (Cookie) CollectionUtils.find(request.getCookies(), new CookieMatcher(name));
     }
 
     public String getCookieValue(String name) {
