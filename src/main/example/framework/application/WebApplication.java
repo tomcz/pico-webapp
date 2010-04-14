@@ -9,6 +9,7 @@ import example.framework.PathVariables;
 import example.framework.RequestContext;
 import example.framework.RequestMethod;
 import example.framework.Response;
+import example.framework.RouteRegistry;
 import example.utils.Pair;
 
 import java.util.List;
@@ -17,27 +18,38 @@ public class WebApplication implements Application {
 
     private final Container applicationScope;
     private final List<Component> components;
-    private final RouteFinder routeFinder;
 
-    public WebApplication(Container container, RouteFinder routeFinder, List<Component> components) {
-        this.applicationScope = container;
-        this.routeFinder = routeFinder;
+    public WebApplication(Container applicationScope, List<Component> components) {
+        registerApplicationScope(applicationScope, components);
+        registerRoutes(applicationScope, components);
+        this.applicationScope = applicationScope;
         this.components = components;
+    }
 
+    private static void registerApplicationScope(Container container, List<Component> components) {
         for (Component component : components) {
-            component.registerApplicationScope(applicationScope);
-            component.registerRoutes(routeFinder);
+            component.registerApplicationScope(container);
+        }
+    }
+
+    private static void registerRoutes(Container container, List<Component> components) {
+        RouteRegistry registry = container.get(RouteRegistry.class);
+        for (Component component : components) {
+            component.registerRoutes(registry);
         }
     }
 
     public Response process(RequestContext request) {
         RequestMethod method = request.getMethod();
         String lookupPath = request.getLookupPath();
+
         Container requestScope = createRequestScope(method);
         try {
-            Pair<Route, PathVariables> mapping = routeFinder.findRoute(method, lookupPath, requestScope);
-            PathVariables pathVars = mapping.getValue();
+            RouteFinder finder = requestScope.get(RouteFinder.class);
+            Pair<Route, PathVariables> mapping = finder.findRoute(method, lookupPath, requestScope);
+
             Route route = mapping.getKey();
+            PathVariables pathVars = mapping.getValue();
 
             IdentityFactory identityFactory = requestScope.get(IdentityFactory.class);
             return route.process(new WebRequest(request, identityFactory, pathVars));

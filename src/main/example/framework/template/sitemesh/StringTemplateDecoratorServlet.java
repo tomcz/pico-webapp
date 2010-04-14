@@ -6,7 +6,6 @@ import example.framework.PathHelper;
 import example.framework.servlet.ServletResponseContext;
 import example.framework.servlet.ServletWebRoot;
 import example.framework.template.Template;
-import example.framework.template.TemplateFactory;
 import example.framework.template.WebTemplateFactory;
 import org.apache.commons.io.FilenameUtils;
 
@@ -22,7 +21,7 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
 
     private final PathHelper pathHelper = new PathHelper();
 
-    private TemplateFactory factory;
+    private WebTemplateFactory factory;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {

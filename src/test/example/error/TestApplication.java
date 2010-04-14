@@ -4,7 +4,7 @@ import example.framework.Application;
 import example.framework.Component;
 import example.framework.Response;
 import example.framework.application.WebApplication;
-import example.framework.application.route.Routes;
+import example.framework.application.route.RoutingComponent;
 import example.framework.container.PicoContainer;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
@@ -39,8 +39,9 @@ public class TestApplication {
         List<Component> components = new LinkedList<Component>();
         components.add(new IdentityFactoryComponent());
         components.add(new TemplateComponent());
+        components.add(new RoutingComponent());
         components.add(new ErrorComponent());
 
-        return new WebApplication(container, new Routes(), components);
+        return new WebApplication(container, components);
     }
 }
