@@ -16,12 +16,19 @@ import static org.hamcrest.Matchers.hasProperty;
 
 public class Document {
 
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
     public enum Field {
-        one, two, date
+        one, two, date;
+
     }
 
     private Identity identity;
-    private LocalDateTime created;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     private Map<Field, Property> properties;
 
     private String version;
@@ -35,17 +42,35 @@ public class Document {
     }
 
     public Document(Identity identity, LocalDateTime created) {
+        LocalDateTime now = new LocalDateTime();
         this.properties = newHashMap();
         this.identity = identity;
-        this.created = created;
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 
     public Identity getIdentity() {
         return identity;
     }
 
+    public String getCreatedAt() {
+        return createdAt.toString(DATE_FORMAT);
+    }
+
     public LocalDateTime getCreated() {
-        return created;
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt.toString(DATE_FORMAT);
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updatedAt = updated;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updatedAt;
     }
 
     public Property get(Field field) {
@@ -55,6 +80,7 @@ public class Document {
 
     public void set(Field field, Property property) {
         properties.put(field, property);
+        updatedAt = new LocalDateTime();
     }
 
     public List<Field> getFields() {

@@ -14,10 +14,6 @@ public class HashMapDocumentRepository implements DocumentRepository {
 
     private final Map<Identity, Document> repository = newHashMap();
 
-    public List<Identity> getCurrentDocumentIDs() {
-        return new ArrayList<Identity>(repository.keySet());
-    }
-
     public Document get(Identity documentId) {
         Document document = repository.get(documentId);
         if (document == null) {
@@ -32,5 +28,9 @@ public class HashMapDocumentRepository implements DocumentRepository {
             throw new IllegalArgumentException("Cannot save document with '" + identity + "' identity");
         }
         repository.put(identity, document);
+    }
+
+    public List<Document> getAll() {
+        return new ArrayList<Document>(repository.values());
     }
 }

@@ -22,23 +22,6 @@ public class CouchdbJson {
 
     private final DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
-    public List<Identity> parseIdentities(String response) {
-        try {
-            JSONObject root = new JSONObject(response);
-            JSONArray rows = root.getJSONArray("rows");
-
-            List<Identity> result = newArrayList();
-            for (int i = 0; i < rows.length(); i++) {
-                JSONObject entry = rows.getJSONObject(i);
-                result.add(Identity.fromValue(entry.getString("id")));
-            }
-            return result;
-
-        } catch (JSONException e) {
-            throw new UnhandledException(e);
-        }
-    }
-
     public String marshall(Document doc) {
         try {
             List<JSONObject> properties = newArrayList();
@@ -53,6 +36,7 @@ public class CouchdbJson {
 
             JSONObject root = new JSONObject();
             root.put("created", format.print(doc.getCreated()));
+            root.put("updated", format.print(doc.getUpdated()));
             root.put("properties", properties);
 
             if (StringUtils.isNotEmpty(doc.getVersion())) {
@@ -70,6 +54,7 @@ public class CouchdbJson {
         try {
             JSONObject root = new JSONObject(response);
             DateTime created = format.parseDateTime(root.getString("created"));
+            DateTime updated = format.parseDateTime(root.getString("updated"));
 
             Document doc = new Document(identity, new LocalDateTime(created));
             doc.setVersion(root.getString("_rev"));
@@ -83,6 +68,7 @@ public class CouchdbJson {
                 doc.set(field, new Property(value, message));
             }
 
+            doc.setUpdated(new LocalDateTime(updated));
             return doc;
 
         } catch (JSONException e) {

@@ -1,5 +1,6 @@
 package example.domain.web;
 
+import example.domain.Document;
 import example.domain.DocumentRepository;
 import example.framework.Identity;
 import example.framework.Location;
@@ -28,18 +29,19 @@ public class IndexPresenter implements Presenter {
     }
 
     public Response display(Request request) {
-        List<Identity> identities = repository.getCurrentDocumentIDs();
+        List<Document> documents = repository.getAll();
 
         Template template = templateFactory.create("example", "index");
-        template.set("mappings", CollectionUtils.collect(identities, new IdentityMapper(), new ArrayList()));
+        template.set("mappings", CollectionUtils.collect(documents, new PathMapper(), new ArrayList()));
         template.set("newForm", new Location(FormPresenter.class, "documentId", Identity.NEW));
 
         return template;
     }
 
-    private static class IdentityMapper implements Transformer {
+    private static class PathMapper implements Transformer {
         public Object transform(Object input) {
-            return Pair.create(input, new Location(FormPresenter.class, "documentId", input));
+            Document document = (Document) input;
+            return Pair.create(input, new Location(FormPresenter.class, "documentId", document.getIdentity()));
         }
     }
 }
