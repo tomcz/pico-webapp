@@ -7,7 +7,7 @@ public class WebServer {
 
     public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
-        server.addHandler(new WebAppContext("web", "/"));
+        server.addHandler(new WebAppContext("web", "/example"));
         server.start();
         server.join();
     }
