@@ -19,8 +19,7 @@ public class Document {
     private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
     public enum Field {
-        one, two, date;
-
+        one, two, date
     }
 
     private Identity identity;
