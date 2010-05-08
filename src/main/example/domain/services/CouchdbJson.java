@@ -5,86 +5,88 @@ import example.domain.Document.Field;
 import example.domain.Property;
 import example.framework.Identity;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.UnhandledException;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.util.List;
+import java.util.Map;
 
 import static example.utils.GenericCollections.newArrayList;
+import static example.utils.GenericCollections.newHashMap;
 
+@SuppressWarnings({"unchecked"})
 public class CouchdbJson {
 
     private final DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     public String marshall(Document doc) {
-        try {
-            List<JSONObject> properties = newArrayList();
-            for (Field field : doc.getFields()) {
-                Property property = doc.get(field);
-                JSONObject entry = new JSONObject();
-                entry.put("field", field.name());
-                entry.put("value", property.getValue());
-                entry.put("message", property.getMessage());
-                properties.add(entry);
-            }
+        List<Map<String, String>> properties = newArrayList();
 
-            JSONObject root = new JSONObject();
-            root.put("created", format.print(doc.getCreated()));
-            root.put("updated", format.print(doc.getUpdated()));
-            root.put("properties", properties);
-
-            if (StringUtils.isNotEmpty(doc.getVersion())) {
-                root.put("_rev", doc.getVersion());
-            }
-
-            return root.toString();
-
-        } catch (JSONException e) {
-            throw new UnhandledException(e);
+        for (Field field : doc.getFields()) {
+            Property property = doc.get(field);
+            Map<String, String> entry = newHashMap();
+            entry.put("field", field.name());
+            entry.put("value", property.getValue());
+            entry.put("message", property.getMessage());
+            properties.add(entry);
         }
+
+        Map<String, Object> root = newHashMap();
+        root.put("created", format.print(doc.getCreated()));
+        root.put("updated", format.print(doc.getUpdated()));
+        root.put("properties", properties);
+
+        if (StringUtils.isNotEmpty(doc.getVersion())) {
+            root.put("_rev", doc.getVersion());
+        }
+
+        return JSONValue.toJSONString(root);
     }
 
     public Document unmarshall(Identity identity, String response) {
-        try {
-            JSONObject root = new JSONObject(response);
-            DateTime created = format.parseDateTime(root.getString("created"));
-            DateTime updated = format.parseDateTime(root.getString("updated"));
-
-            Document doc = new Document(identity, new LocalDateTime(created));
-            doc.setVersion(root.getString("_rev"));
-
-            JSONArray properties = root.getJSONArray("properties");
-            for (int i = 0; i < properties.length(); i++) {
-                JSONObject entry = properties.getJSONObject(i);
-                Field field = Field.valueOf(entry.getString("field"));
-                String value = entry.getString("value");
-                String message = entry.getString("message");
-                doc.set(field, new Property(value, message));
-            }
-
-            doc.setUpdated(new LocalDateTime(updated));
-            return doc;
-
-        } catch (JSONException e) {
-            throw new UnhandledException(e);
-        }
+        Map<String, Object> root = (Map) JSONValue.parse(response);
+        return parseDocument(identity, root);
     }
 
     public void updateVersion(Document doc, String response) {
-        try {
-            JSONObject root = new JSONObject(response);
-            String version = root.optString("_rev");
-            if (StringUtils.isNotEmpty(version)) {
-                doc.setVersion(version);
-            }
-        } catch (JSONException e) {
-            throw new UnhandledException(e);
+        Map<String, String> root = (Map) JSONValue.parse(response);
+        String version = root.get("_rev");
+        if (StringUtils.isNotEmpty(version)) {
+            doc.setVersion(version);
         }
+    }
+
+    public List<Document> unmarshallDocs(String response) {
+        Map<String, Object> root = (Map) JSONValue.parse(response);
+        List<Map<String, Object>> rows = (List) root.get("rows");
+
+        List<Document> result = newArrayList();
+        for (Map<String, Object> row : rows) {
+            Identity identity = Identity.fromValue((String) row.get("id"));
+            Map<String, Object> doc = (Map) row.get("doc");
+            result.add(parseDocument(identity, doc));
+        }
+        return result;
+    }
+
+    private Document parseDocument(Identity identity, Map<String, Object> root) {
+        DateTime created = format.parseDateTime((String) root.get("created"));
+        DateTime updated = format.parseDateTime((String) root.get("updated"));
+
+        Document doc = new Document(identity, new LocalDateTime(created));
+        doc.setUpdated(new LocalDateTime(updated));
+        doc.setVersion((String) root.get("_rev"));
+
+        List<Map<String, String>> properties = (List) root.get("properties");
+        for (Map<String, String> property : properties) {
+            Field field = Field.valueOf(property.get("field"));
+            String value = property.get("value");
+            String message = property.get("message");
+            doc.set(field, new Property(value, message));
+        }
+        return doc;
     }
 }

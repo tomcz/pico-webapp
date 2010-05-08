@@ -38,6 +38,7 @@ public class CouchdbDocumentRepository implements DocumentRepository {
     }
 
     public List<Document> getAll() {
-        throw new UnsupportedOperationException();
+        String response = client.get("_all_docs?include_docs=true");
+        return json.unmarshallDocs(response);
     }
 }
