@@ -28,15 +28,6 @@ public class WebApplication implements Application {
         this.components = components;
     }
 
-    private static void registerApplicationScope(Container container, List<Component> components) {
-        forEach(components, Component.class).registerApplicationScope(container);
-    }
-
-    private static void registerRoutes(Container container, List<Component> components) {
-        RouteRegistry registry = container.get(RouteRegistry.class);
-        forEach(components, Component.class).registerRoutes(registry);
-    }
-
     public Response process(RequestContext request) {
         RequestMethod method = request.getMethod();
         String lookupPath = request.getLookupPath();
@@ -64,11 +55,24 @@ public class WebApplication implements Application {
     private Container createRequestScope(Object... instances) {
         Container requestScope = applicationScope.newChild();
         requestScope.registerInstances(instances);
-        forEach(components, Component.class).registerRequestScope(requestScope);
+        each(components).registerRequestScope(requestScope);
         return requestScope;
     }
 
     public void dispose() {
         applicationScope.dispose();
+    }
+
+    private static void registerApplicationScope(Container container, List<Component> components) {
+        each(components).registerApplicationScope(container);
+    }
+
+    private static void registerRoutes(Container container, List<Component> components) {
+        RouteRegistry registry = container.get(RouteRegistry.class);
+        each(components).registerRoutes(registry);
+    }
+
+    private static Component each(List<Component> components) {
+        return forEach(components, Component.class);
     }
 }
