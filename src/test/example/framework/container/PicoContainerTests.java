@@ -80,7 +80,7 @@ public class PicoContainerTests {
     public void shouldCreateObjectUsingMixedAutowiringAndConstantValue() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(Arrays.asList("test2"));
+        container.registerInstances(Arrays.asList("test2"));
         container.register(TestObject.class, container.newArgs().constant("test1").autowired());
 
         TestObject instance = container.get(TestObject.class);
@@ -102,7 +102,7 @@ public class PicoContainerTests {
     public void shouldThrowExceptionWhenCannotResolveConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(new HashMap<String, String>()));
+        container.registerInstances(new DefaultConfiguration(new HashMap<String, String>()));
         container.register(TestObject.class, container.newArgs().configuredProperty("key"));
 
         container.get(TestObject.class);
@@ -112,7 +112,7 @@ public class PicoContainerTests {
     public void shouldCreateObjectUsingDefaultConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(new HashMap<String, String>()));
+        container.registerInstances(new DefaultConfiguration(new HashMap<String, String>()));
         container.register(TestObject.class, container.newArgs().configuredProperty("key", "test"));
 
         TestObject instance = container.get(TestObject.class);
@@ -124,7 +124,7 @@ public class PicoContainerTests {
     public void shouldCreateObjectUsingAvailableConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 
-        container.registerInstance(new DefaultConfiguration(Collections.singletonMap("key", "test")));
+        container.registerInstances(new DefaultConfiguration(Collections.singletonMap("key", "test")));
         container.register(TestObject.class, container.newArgs().configuredProperty("key"));
 
         TestObject instance = container.get(TestObject.class);

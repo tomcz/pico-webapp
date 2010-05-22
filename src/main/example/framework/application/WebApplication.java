@@ -14,6 +14,8 @@ import example.utils.Pair;
 
 import java.util.List;
 
+import static ch.lambdaj.Lambda.forEach;
+
 public class WebApplication implements Application {
 
     private final Container applicationScope;
@@ -27,16 +29,12 @@ public class WebApplication implements Application {
     }
 
     private static void registerApplicationScope(Container container, List<Component> components) {
-        for (Component component : components) {
-            component.registerApplicationScope(container);
-        }
+        forEach(components, Component.class).registerApplicationScope(container);
     }
 
     private static void registerRoutes(Container container, List<Component> components) {
         RouteRegistry registry = container.get(RouteRegistry.class);
-        for (Component component : components) {
-            component.registerRoutes(registry);
-        }
+        forEach(components, Component.class).registerRoutes(registry);
     }
 
     public Response process(RequestContext request) {
@@ -65,12 +63,8 @@ public class WebApplication implements Application {
 
     private Container createRequestScope(Object... instances) {
         Container requestScope = applicationScope.newChild();
-        for (Object instance : instances) {
-            requestScope.registerInstance(instance);
-        }
-        for (Component component : components) {
-            component.registerRequestScope(requestScope);
-        }
+        requestScope.registerInstances(instances);
+        forEach(components, Component.class).registerRequestScope(requestScope);
         return requestScope;
     }
 

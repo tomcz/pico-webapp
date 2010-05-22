@@ -4,7 +4,7 @@ import org.weborganic.furi.URIPattern;
 
 import java.util.Map;
 
-import static example.utils.GenericCollections.newHashMap;
+import static example.utils.Generics.newHashMap;
 
 public class URIPatternFactory {
 

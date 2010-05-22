@@ -2,8 +2,6 @@ package example.framework.test;
 
 import example.framework.Identity;
 import example.framework.Request;
-import example.framework.application.CookieMatcher;
-import org.apache.commons.collections.CollectionUtils;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
@@ -11,8 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.GenericCollections.newArrayList;
-import static example.utils.GenericCollections.newHashMap;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.selectFirst;
+import static example.utils.Generics.first;
+import static example.utils.Generics.newArrayList;
+import static example.utils.Generics.newHashMap;
+import static org.hamcrest.Matchers.equalTo;
 
 public class TestRequest implements Request {
 
@@ -24,8 +27,7 @@ public class TestRequest implements Request {
     private String requestBodyText;
 
     public String getParameter(String name) {
-        List<String> params = getParameters(name);
-        return CollectionUtils.isEmpty(params) ? null : params.get(0);
+        return first(getParameters(name));
     }
 
     public List<String> getParameters(String name) {
@@ -41,7 +43,7 @@ public class TestRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        return (Cookie) CollectionUtils.find(cookies, new CookieMatcher(name));
+        return selectFirst(cookies, having(on(Cookie.class).getName(), equalTo(name)));
     }
 
     public String getCookieValue(String name) {

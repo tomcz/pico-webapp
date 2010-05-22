@@ -12,7 +12,7 @@ public interface Container {
 
     void registerInstance(Object key, Object instance);
 
-    void registerInstance(Object instance);
+    void registerInstances(Object... instance);
 
     Object get(Object key);
 

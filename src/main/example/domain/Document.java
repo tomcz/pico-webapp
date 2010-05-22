@@ -1,18 +1,17 @@
 package example.domain;
 
 import example.framework.Identity;
-import org.hamcrest.Matcher;
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.GenericCollections.newHashMap;
-import static example.utils.PredicateMatcher.with;
-import static org.apache.commons.collections.CollectionUtils.countMatches;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.select;
+import static example.utils.Generics.newHashMap;
+import static org.hamcrest.Matchers.equalTo;
 
 public class Document {
 
@@ -43,8 +42,8 @@ public class Document {
     public Document(Identity identity, LocalDateTime created) {
         LocalDateTime now = new LocalDateTime();
         this.properties = newHashMap();
+        this.createdAt = created;
         this.identity = identity;
-        this.createdAt = now;
         this.updatedAt = now;
     }
 
@@ -95,7 +94,6 @@ public class Document {
     }
 
     public boolean isValid() {
-        Matcher<Property> validProperty = hasProperty("valid", equalTo(true));
-        return countMatches(properties.values(), with(validProperty)) == properties.size();
+        return select(properties.values(), having(on(Property.class).isValid(), equalTo(false))).isEmpty();
     }
 }

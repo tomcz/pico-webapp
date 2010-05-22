@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static example.utils.GenericCollections.newArrayList;
-import static example.utils.GenericCollections.newHashMap;
-import static example.utils.GenericCollections.newHashSet;
+import static example.utils.Generics.newArrayList;
+import static example.utils.Generics.newHashMap;
+import static example.utils.Generics.newHashSet;
 
 public class Routes implements RouteRegistry, RouteFinder {
 

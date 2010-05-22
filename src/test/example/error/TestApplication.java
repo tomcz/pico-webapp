@@ -34,7 +34,7 @@ public class TestApplication {
 
     private static Application createApplication() {
         PicoContainer container = new PicoContainer();
-        container.registerInstance(new TestWebRoot(new File(SystemUtils.getUserDir(), "web")));
+        container.registerInstances(new TestWebRoot(new File(SystemUtils.getUserDir(), "web")));
 
         List<Component> components = new LinkedList<Component>();
         components.add(new IdentityFactoryComponent());

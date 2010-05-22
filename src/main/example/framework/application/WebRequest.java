@@ -5,12 +5,16 @@ import example.framework.IdentityFactory;
 import example.framework.PathVariables;
 import example.framework.Request;
 import example.framework.RequestContext;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
 import java.util.List;
+
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.selectFirst;
+import static org.apache.commons.lang.StringUtils.defaultString;
+import static org.hamcrest.Matchers.equalTo;
 
 public class WebRequest implements Request {
 
@@ -33,7 +37,7 @@ public class WebRequest implements Request {
     }
 
     public String getPathVariable(String name) {
-        return StringUtils.defaultString(pathVariables.get(name));
+        return defaultString(pathVariables.get(name));
     }
 
     public Identity getIdentity(String name) {
@@ -41,7 +45,7 @@ public class WebRequest implements Request {
     }
 
     public Cookie getCookie(String name) {
-        return (Cookie) CollectionUtils.find(request.getCookies(), new CookieMatcher(name));
+        return selectFirst(request.getCookies(), having(on(Cookie.class).getName(), equalTo(name)));
     }
 
     public String getCookieValue(String name) {

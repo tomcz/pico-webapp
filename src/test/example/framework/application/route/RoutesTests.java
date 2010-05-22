@@ -41,7 +41,7 @@ public class RoutesTests {
     @Test
     public void shouldCreatePresenterRouteForGetRequest() throws Exception {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestPresenter());
+        scope.registerInstances(new TestPresenter());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestPresenter.class);
@@ -55,7 +55,7 @@ public class RoutesTests {
     @Test
     public void shouldCreateCommandRouteForPostRequest() throws Exception {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestCommand());
+        scope.registerInstances(new TestCommand());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestCommand.class);
@@ -69,7 +69,7 @@ public class RoutesTests {
     @Test
     public void shouldCreatePresenterRouteForGetRequestWhenHaveCommandAndPresenerMappedToSamePath() throws Exception {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestPresenter());
+        scope.registerInstances(new TestPresenter());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestPresenter.class);
@@ -84,7 +84,7 @@ public class RoutesTests {
     @Test
     public void shouldCreateCommandRouteForPostRequestWhenHaveCommandAndPresenerMappedToSamePath() throws Exception {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestCommand());
+        scope.registerInstances(new TestCommand());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestPresenter.class);
@@ -149,8 +149,7 @@ public class RoutesTests {
     @Test
     public void shouldCreateRouteWithAccessFilter() {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestPresenter());
-        scope.registerInstance(new TestAccessFilter());
+        scope.registerInstances(new TestPresenter(), new TestAccessFilter());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestPresenter.class, TestAccessFilter.class);
@@ -164,7 +163,7 @@ public class RoutesTests {
     @Test
     public void shouldParsePathVariablesFromLookupPath() throws Exception {
         Container scope = new PicoContainer();
-        scope.registerInstance(new TestPresenterWithPathVars());
+        scope.registerInstances(new TestPresenterWithPathVars());
 
         RouteFinder finder = new Routes();
         finder.registerRoute(TestPresenterWithPathVars.class);

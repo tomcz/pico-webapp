@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.GenericCollections.newArrayList;
-import static example.utils.GenericCollections.newHashMap;
+import static example.utils.Generics.newArrayList;
+import static example.utils.Generics.newHashMap;
 
 public class TestRequestContext implements RequestContext {
 

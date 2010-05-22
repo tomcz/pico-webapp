@@ -57,8 +57,10 @@ public class PicoContainer implements Container {
         container.addComponent(key, instance);
     }
 
-    public void registerInstance(Object instance) {
-        container.addComponent(instance);
+    public void registerInstances(Object... instances) {
+        for (Object instance : instances) {
+            container.addComponent(instance);
+        }
     }
 
     public Object get(Object key) {

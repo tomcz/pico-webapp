@@ -21,8 +21,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.GenericCollections.newArrayList;
-import static example.utils.GenericCollections.newHashMap;
+import static example.utils.Generics.newArrayList;
+import static example.utils.Generics.newHashMap;
 
 public class ApplicationStartupListener implements ServletContextListener {
 
@@ -41,8 +41,8 @@ public class ApplicationStartupListener implements ServletContextListener {
 
     private Application createApplication(ServletContext context) {
         PicoContainer container = new PicoContainer();
-        container.registerInstance(parseContextParameters(context));
-        container.registerInstance(new ServletWebRoot(context));
+
+        container.registerInstances(parseContextParameters(context), new ServletWebRoot(context));
 
         List<Component> components = newArrayList();
         components.add(new IdentityFactoryComponent());

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static example.utils.GenericCollections.newHashMap;
+import static example.utils.Generics.newHashMap;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;

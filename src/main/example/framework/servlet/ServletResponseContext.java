@@ -14,7 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.GenericCollections.newHashMap;
+import static example.utils.Generics.newHashMap;
 
 public class ServletResponseContext implements ResponseContext {
 

@@ -1,6 +1,7 @@
 package example.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,7 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GenericCollections {
+public class Generics {
+
+    public static <T> T first(List<T> list) {
+        return isEmpty(list) ? null : list.get(0);
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return (collection == null) || collection.isEmpty();
+    }
 
     public static <T> Set<T> newHashSet() {
         return new HashSet<T>();
