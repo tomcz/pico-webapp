@@ -1,4 +1,4 @@
-package example.framework.container;
+package example.framework.application;
 
 import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;

@@ -21,10 +21,11 @@ public class WebApplication implements Application {
     private final Container applicationScope;
     private final List<Component> components;
 
-    public WebApplication(Container applicationScope, List<Component> components) {
+    public WebApplication(List<Component> components, Object... instances) {
+        this.applicationScope = new PicoContainer();
+        this.applicationScope.registerInstances(instances);
         each(components).registerApplicationScope(applicationScope);
         each(components).registerRoutes(applicationScope.get(RouteRegistry.class));
-        this.applicationScope = applicationScope;
         this.components = components;
     }
 

@@ -3,9 +3,9 @@ package example.error;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Response;
+import example.framework.WebRoot;
 import example.framework.application.WebApplication;
 import example.framework.application.route.RoutingComponent;
-import example.framework.container.PicoContainer;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
 import example.framework.test.TestRequestContext;
@@ -33,8 +33,7 @@ public class TestApplication {
     }
 
     private static Application createApplication() {
-        PicoContainer container = new PicoContainer();
-        container.registerInstances(new TestWebRoot(new File(SystemUtils.getUserDir(), "web")));
+        WebRoot webRoot = new TestWebRoot(new File(SystemUtils.getUserDir(), "web"));
 
         List<Component> components = new LinkedList<Component>();
         components.add(new IdentityFactoryComponent());
@@ -42,6 +41,6 @@ public class TestApplication {
         components.add(new RoutingComponent());
         components.add(new ErrorComponent());
 
-        return new WebApplication(container, components);
+        return new WebApplication(components, webRoot);
     }
 }

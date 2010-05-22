@@ -6,10 +6,10 @@ import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
+import example.framework.WebRoot;
+import example.framework.application.DefaultConfiguration;
 import example.framework.application.WebApplication;
 import example.framework.application.route.RoutingComponent;
-import example.framework.container.DefaultConfiguration;
-import example.framework.container.PicoContainer;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.servlet.ServletWebRoot;
 import example.framework.template.TemplateComponent;
@@ -40,9 +40,8 @@ public class ApplicationStartupListener implements ServletContextListener {
     }
 
     private Application createApplication(ServletContext context) {
-        PicoContainer container = new PicoContainer();
-
-        container.registerInstances(parseContextParameters(context), new ServletWebRoot(context));
+        Configuration configuration = parseContextParameters(context);
+        WebRoot webRoot = new ServletWebRoot(context);
 
         List<Component> components = newArrayList();
         components.add(new IdentityFactoryComponent());
@@ -52,7 +51,7 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new ErrorComponent());
         components.add(new WebComponent());
 
-        return new WebApplication(container, components);
+        return new WebApplication(components, configuration, webRoot);
     }
 
     private Configuration parseContextParameters(ServletContext context) {

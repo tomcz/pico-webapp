@@ -1,4 +1,4 @@
-package example.framework.container;
+package example.framework.application;
 
 import example.framework.Container;
 import example.framework.ContainerArguments;

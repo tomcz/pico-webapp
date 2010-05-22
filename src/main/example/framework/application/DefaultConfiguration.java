@@ -1,4 +1,4 @@
-package example.framework.container;
+package example.framework.application;
 
 import example.framework.Configuration;
 import org.apache.commons.lang.StringUtils;
