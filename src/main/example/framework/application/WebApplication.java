@@ -22,8 +22,8 @@ public class WebApplication implements Application {
     private final List<Component> components;
 
     public WebApplication(Container applicationScope, List<Component> components) {
-        registerApplicationScope(applicationScope, components);
-        registerRoutes(applicationScope, components);
+        each(components).registerApplicationScope(applicationScope);
+        each(components).registerRoutes(applicationScope.get(RouteRegistry.class));
         this.applicationScope = applicationScope;
         this.components = components;
     }
@@ -61,15 +61,6 @@ public class WebApplication implements Application {
 
     public void dispose() {
         applicationScope.dispose();
-    }
-
-    private static void registerApplicationScope(Container container, List<Component> components) {
-        each(components).registerApplicationScope(container);
-    }
-
-    private static void registerRoutes(Container container, List<Component> components) {
-        RouteRegistry registry = container.get(RouteRegistry.class);
-        each(components).registerRoutes(registry);
     }
 
     private static Component each(List<Component> components) {
