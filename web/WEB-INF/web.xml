@@ -46,6 +46,10 @@
     <servlet>
         <servlet-name>application</servlet-name>
         <servlet-class>example.framework.servlet.ApplicationServlet</servlet-class>
+        <init-param>
+            <param-name>version-tag</param-name>
+            <param-value>per-request</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
