@@ -2,20 +2,19 @@ package example.error;
 
 import example.framework.Application;
 import example.framework.Component;
+import example.framework.InputStreamSource;
 import example.framework.Response;
-import example.framework.WebRoot;
 import example.framework.application.WebApplication;
 import example.framework.application.route.RoutingComponent;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
+import example.framework.test.TestInputStreamSource;
 import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
-import example.framework.test.TestWebRoot;
-import org.apache.commons.lang.SystemUtils;
 
-import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
+
+import static example.utils.Generics.newArrayList;
 
 public class TestApplication {
 
@@ -33,14 +32,14 @@ public class TestApplication {
     }
 
     private static Application createApplication() {
-        WebRoot webRoot = new TestWebRoot(new File(SystemUtils.getUserDir(), "web"));
+        InputStreamSource source = new TestInputStreamSource();
+        List<Component> components = newArrayList();
 
-        List<Component> components = new LinkedList<Component>();
         components.add(new IdentityFactoryComponent());
         components.add(new TemplateComponent());
         components.add(new RoutingComponent());
         components.add(new ErrorComponent());
 
-        return new WebApplication(components, webRoot);
+        return new WebApplication(components, source);
     }
 }

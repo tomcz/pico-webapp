@@ -1,13 +1,12 @@
-package example.framework.template.sitemesh;
+package example.framework.servlet;
 
 import com.opensymphony.module.sitemesh.HTMLPage;
 import com.opensymphony.module.sitemesh.RequestConstants;
 import example.framework.PathHelper;
-import example.framework.servlet.ServletResponseContext;
-import example.framework.servlet.ServletWebRoot;
 import example.framework.template.Template;
+import example.framework.template.TemplateFactory;
 import example.framework.template.WebTemplateFactory;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -21,14 +20,14 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
 
     private final PathHelper pathHelper = new PathHelper();
 
-    private WebTemplateFactory factory;
+    private TemplateFactory factory;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
 
         ServletContext context = servletConfig.getServletContext();
-        factory = new WebTemplateFactory(new ServletWebRoot(context), "/decorators");
+        factory = new WebTemplateFactory(new ServletInputStreamSource(context), "");
     }
 
     @Override
@@ -36,8 +35,7 @@ public class StringTemplateDecoratorServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String lookupPath = pathHelper.getLookupPathForRequest(request);
-        String templateName = FilenameUtils.getBaseName(lookupPath);
-        Template template = factory.create(templateName);
+        Template template = factory.create(StringUtils.substringBeforeLast(lookupPath, ".st"));
 
         HTMLPage htmlPage = (HTMLPage) request.getAttribute(RequestConstants.PAGE);
 

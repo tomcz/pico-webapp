@@ -22,11 +22,13 @@ public class WebApplication implements Application {
     private final List<Component> components;
 
     public WebApplication(List<Component> components, Object... instances) {
+        this.components = components;
+
         this.applicationScope = new PicoContainer();
         this.applicationScope.registerInstances(instances);
+
         each(components).registerApplicationScope(applicationScope);
         each(components).registerRoutes(applicationScope.get(RouteRegistry.class));
-        this.components = components;
     }
 
     public Response process(RequestContext request) {
@@ -55,8 +57,10 @@ public class WebApplication implements Application {
 
     private Container createRequestScope(Object... instances) {
         Container requestScope = applicationScope.newChild();
+
         requestScope.registerInstances(instances);
         each(components).registerRequestScope(requestScope);
+
         return requestScope;
     }
 

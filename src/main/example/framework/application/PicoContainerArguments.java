@@ -5,12 +5,13 @@ import org.picocontainer.Parameter;
 import org.picocontainer.parameters.ComponentParameter;
 import org.picocontainer.parameters.ConstantParameter;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import static example.utils.Generics.newArrayList;
 
 public class PicoContainerArguments implements ContainerArguments {
 
-    private List<Parameter> params = new LinkedList<Parameter>();
+    private List<Parameter> params = newArrayList();
 
     public ContainerArguments autowired() {
         params.add(new ComponentParameter());

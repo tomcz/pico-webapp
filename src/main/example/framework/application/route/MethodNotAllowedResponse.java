@@ -9,9 +9,10 @@ import org.apache.commons.lang.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import static example.utils.Generics.newArrayList;
 
 public class MethodNotAllowedResponse implements Response {
 
@@ -33,7 +34,7 @@ public class MethodNotAllowedResponse implements Response {
     }
 
     private List<String> allowedMethods() {
-        List<String> names = new LinkedList<String>();
+        List<String> names = newArrayList();
         for (RequestMethod method : allowed) {
             names.add(method.name());
         }
