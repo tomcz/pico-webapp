@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Form</title>
-    <script type="text/javascript" src="$base$/static/js/form.js?$request.version$"></script>
+    $javascript(src="static/js/form.js")$
 </head>
 <body class="form">
 <div class="form-container">
@@ -9,7 +9,7 @@
         $input(field=document.one)$
         $input(field=document.two)$
         $input(field=document.date)$
-        <input type="submit" name="submit" class="submit" value="Submit" />
+        <input type="submit" name="submit" class="submit" value="Submit">
     </form>
 </div>
 <p>

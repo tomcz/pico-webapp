@@ -17,7 +17,7 @@ public enum WebFormat {
     }
 
     public String format(Object obj) {
-        String text = ObjectUtils.toString(obj, "");
+        String text = ObjectUtils.toString(obj);
         switch (this) {
             case HTML:
                 return StringEscapeUtils.escapeHtml(text);
@@ -28,7 +28,7 @@ public enum WebFormat {
             case JS:
                 return StringEscapeUtils.escapeJavaScript(text);
             default:
-                return text;
+                return text.trim();
         }
     }
 }
