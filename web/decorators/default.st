@@ -3,11 +3,11 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>$title$</title>
-    $templates/shared/stylesheet(href="static/theme/jquery-ui-1.8.custom.css")$
-    $templates/shared/stylesheet(href="static/css/main.css")$
-    $templates/shared/javascript(src="static/js/jquery-1.4.2.min.js")$
-    $templates/shared/javascript(src="static/js/jquery-ui-1.8.custom.min.js")$
-    $templates/shared/javascript(src="static/js/buttons.js")$
+    $templates/shared/stylesheet(href="/static/theme/jquery-ui-1.8.custom.css")$
+    $templates/shared/stylesheet(href="/static/css/main.css")$
+    $templates/shared/javascript(src="/static/js/jquery-1.4.2.min.js")$
+    $templates/shared/javascript(src="/static/js/jquery-ui-1.8.custom.min.js")$
+    $templates/shared/javascript(src="/static/js/buttons.js")$
     $head;format="none"$
 </head>
 <body class="$decorators/bodyClass()$">
