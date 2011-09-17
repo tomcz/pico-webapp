@@ -1,4 +1,4 @@
-package example.error;
+package example.framework.application.error;
 
 import example.framework.Presenter;
 import example.framework.Request;

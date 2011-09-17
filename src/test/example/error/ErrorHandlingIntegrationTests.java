@@ -1,5 +1,6 @@
 package example.error;
 
+import example.TestApplication;
 import example.framework.Location;
 import example.framework.RequestMethod;
 import example.framework.test.TestRequestContext;

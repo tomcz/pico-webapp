@@ -1,5 +1,6 @@
-package example.error;
+package example.framework.application.error;
 
+import example.error.BadPresener;
 import example.framework.ComponentAdaptor;
 import example.framework.Container;
 import example.framework.RouteRegistry;

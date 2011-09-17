@@ -2,12 +2,12 @@ package example;
 
 import example.domain.services.ServicesComponent;
 import example.domain.web.WebComponent;
-import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
 import example.framework.application.DefaultConfiguration;
 import example.framework.application.WebApplication;
+import example.framework.application.error.ErrorComponent;
 import example.framework.application.route.RoutingComponent;
 import example.framework.identity.IdentityFactoryComponent;
 import example.framework.template.TemplateComponent;
