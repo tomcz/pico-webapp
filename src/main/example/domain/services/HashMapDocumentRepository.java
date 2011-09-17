@@ -1,11 +1,11 @@
 package example.domain.services;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import example.domain.Document;
 import example.domain.DocumentRepository;
 import example.framework.Identity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +30,6 @@ public class HashMapDocumentRepository implements DocumentRepository {
     }
 
     public List<Document> getAll() {
-        return new ArrayList<Document>(repository.values());
+        return Lists.newArrayList(repository.values());
     }
 }
