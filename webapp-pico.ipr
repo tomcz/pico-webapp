@@ -373,6 +373,7 @@
         <root url="jar://$PROJECT_DIR$/lib/test/source/mockito-core-1.8.5.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/test/source/jetty-6.1.26.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/test/source/junit-4.9.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/test/source/jsoup-1.6.1.jar!/" />
       </SOURCES>
       <jarDirectory url="file://$PROJECT_DIR$/lib/test/jar" recursive="false" />
     </library>
