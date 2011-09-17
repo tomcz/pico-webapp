@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static example.utils.Generics.newArrayList;
-import static example.utils.Generics.newHashMap;
-import static example.utils.Generics.newHashSet;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.newHashSet;
 
 public class Routes implements RouteRegistry, RouteFinder {
 

@@ -1,7 +1,7 @@
 package example.framework.template;
 
+import com.google.common.collect.Maps;
 import example.framework.ResponseContext;
-import example.utils.Generics;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -16,7 +16,7 @@ public class FreemarkerTemplate implements Template {
     private final Map<String, Object> model;
 
     public FreemarkerTemplate(freemarker.template.Template template) {
-        this.model = Generics.newHashMap();
+        this.model = Maps.newHashMap();
         this.template = template;
     }
 

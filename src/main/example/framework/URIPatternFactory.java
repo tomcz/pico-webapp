@@ -1,14 +1,13 @@
 package example.framework;
 
+import com.google.common.collect.Maps;
 import org.weborganic.furi.URIPattern;
 
 import java.util.Map;
 
-import static example.utils.Generics.newHashMap;
-
 public class URIPatternFactory {
 
-    private static final Map<String, URIPattern> cache = newHashMap();
+    private static final Map<String, URIPattern> cache = Maps.newConcurrentMap();
 
     public static URIPattern create(Class<?> handler) {
         RouteMapping mapping = handler.getAnnotation(RouteMapping.class);

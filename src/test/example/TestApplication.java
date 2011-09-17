@@ -1,5 +1,6 @@
 package example;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import example.domain.services.ServicesComponent;
 import example.domain.web.WebComponent;
@@ -18,8 +19,6 @@ import example.framework.test.TestResponseContext;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.Generics.newArrayList;
-
 public class TestApplication {
 
     private Application application;
@@ -30,7 +29,7 @@ public class TestApplication {
 
     private static Application createApplication() {
         TemplateFactory templateFactory = new TestFreemarkerTemplateFactory();
-        List<Component> components = newArrayList();
+        List<Component> components = Lists.newArrayList();
 
         components.add(new IdentityFactoryComponent());
         components.add(new RoutingComponent());

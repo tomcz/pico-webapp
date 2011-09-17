@@ -1,5 +1,6 @@
 package example.framework.servlet;
 
+import com.google.common.collect.Maps;
 import example.framework.Header;
 import example.framework.ResponseContext;
 
@@ -13,8 +14,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-
-import static example.utils.Generics.newHashMap;
 
 public class ServletResponseContext implements ResponseContext {
 
@@ -35,7 +34,7 @@ public class ServletResponseContext implements ResponseContext {
     }
 
     public Map<String, Object> getAttributes() {
-        Map<String, Object> attributes = newHashMap();
+        Map<String, Object> attributes = Maps.newHashMap();
         Enumeration names = request.getAttributeNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();

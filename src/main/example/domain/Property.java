@@ -1,5 +1,6 @@
 package example.domain;
 
+import example.utils.Strings;
 import org.apache.commons.lang3.StringUtils;
 
 public class Property {
@@ -34,5 +35,10 @@ public class Property {
 
     public boolean isValid() {
         return StringUtils.isEmpty(message);
+    }
+
+    @Override
+    public String toString() {
+        return Strings.toString(this);
     }
 }

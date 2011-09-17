@@ -1,6 +1,7 @@
 package example.domain;
 
 import example.framework.Identity;
+import example.utils.Strings;
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Map;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.select;
-import static example.utils.Generics.newHashMap;
+import static com.google.common.collect.Maps.newHashMap;
 import static org.hamcrest.Matchers.equalTo;
 
 public class Document {
@@ -43,8 +44,8 @@ public class Document {
         LocalDateTime now = new LocalDateTime();
         this.properties = newHashMap();
         this.createdAt = created;
-        this.id = id;
         this.updatedAt = now;
+        this.id = id;
     }
 
     public Identity getId() {
@@ -95,5 +96,10 @@ public class Document {
 
     public boolean isValid() {
         return select(properties.values(), having(on(Property.class).isValid(), equalTo(false))).isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return Strings.toString(this);
     }
 }

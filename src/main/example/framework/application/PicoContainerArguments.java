@@ -1,5 +1,6 @@
 package example.framework.application;
 
+import com.google.common.collect.Lists;
 import example.framework.ContainerArguments;
 import org.picocontainer.Parameter;
 import org.picocontainer.parameters.ComponentParameter;
@@ -7,11 +8,9 @@ import org.picocontainer.parameters.ConstantParameter;
 
 import java.util.List;
 
-import static example.utils.Generics.newArrayList;
-
 public class PicoContainerArguments implements ContainerArguments {
 
-    private List<Parameter> params = newArrayList();
+    private List<Parameter> params = Lists.newArrayList();
 
     public ContainerArguments autowired() {
         params.add(new ComponentParameter());

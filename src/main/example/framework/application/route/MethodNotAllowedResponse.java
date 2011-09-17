@@ -1,5 +1,6 @@
 package example.framework.application.route;
 
+import com.google.common.collect.Lists;
 import example.framework.Header;
 import example.framework.RequestMethod;
 import example.framework.Response;
@@ -11,8 +12,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import static example.utils.Generics.newArrayList;
 
 public class MethodNotAllowedResponse implements Response {
 
@@ -34,7 +33,7 @@ public class MethodNotAllowedResponse implements Response {
     }
 
     private List<String> allowedMethods() {
-        List<String> names = newArrayList();
+        List<String> names = Lists.newArrayList();
         for (RequestMethod method : allowed) {
             names.add(method.name());
         }

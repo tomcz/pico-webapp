@@ -1,5 +1,6 @@
 package example.domain.services;
 
+import com.google.common.collect.Maps;
 import example.domain.Document;
 import example.domain.DocumentRepository;
 import example.framework.Identity;
@@ -8,11 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static example.utils.Generics.newHashMap;
-
 public class HashMapDocumentRepository implements DocumentRepository {
 
-    private final Map<Identity, Document> repository = newHashMap();
+    private final Map<Identity, Document> repository = Maps.newConcurrentMap();
 
     public Document get(Identity documentId) {
         Document document = repository.get(documentId);
