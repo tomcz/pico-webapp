@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import example.domain.services.ServicesComponent;
 import example.domain.web.WebComponent;
+import example.error.BadComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Response;
@@ -35,6 +36,7 @@ public class TestApplication {
         components.add(new RoutingComponent());
         components.add(new ServicesComponent());
         components.add(new ErrorComponent());
+        components.add(new BadComponent());
         components.add(new WebComponent());
 
         return new WebApplication(components, templateFactory);

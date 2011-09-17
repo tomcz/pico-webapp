@@ -2,6 +2,7 @@ package example;
 
 import example.domain.services.ServicesComponent;
 import example.domain.web.WebComponent;
+import example.error.BadComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
@@ -46,6 +47,7 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new TemplateComponent());
         components.add(new ServicesComponent());
         components.add(new ErrorComponent());
+        components.add(new BadComponent());
         components.add(new WebComponent());
 
         return new WebApplication(components, configuration, context);
