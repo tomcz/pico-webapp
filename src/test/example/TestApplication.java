@@ -1,5 +1,8 @@
 package example;
 
+import com.google.common.collect.Maps;
+import example.domain.services.ServicesComponent;
+import example.domain.web.WebComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Response;
@@ -13,6 +16,7 @@ import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
 
 import java.util.List;
+import java.util.Map;
 
 import static example.utils.Generics.newArrayList;
 
@@ -24,21 +28,50 @@ public class TestApplication {
         application = createApplication();
     }
 
-    public TestResponseContext process(TestRequestContext request) throws Exception {
-        Response response = application.process(request);
-        TestResponseContext context = new TestResponseContext();
-        response.render(context);
-        return context;
-    }
-
     private static Application createApplication() {
         TemplateFactory templateFactory = new TestFreemarkerTemplateFactory();
         List<Component> components = newArrayList();
 
         components.add(new IdentityFactoryComponent());
         components.add(new RoutingComponent());
+        components.add(new ServicesComponent());
         components.add(new ErrorComponent());
+        components.add(new WebComponent());
 
         return new WebApplication(components, templateFactory);
+    }
+
+    public TestResponseContext process(TestRequestContext request) throws Exception {
+        Response response = application.process(request);
+        TestResponseContext context = responseContext();
+        response.render(context);
+        return context;
+    }
+
+    private TestResponseContext responseContext() {
+        Map<String, Object> attributes = Maps.newHashMap();
+        attributes.put("contextPath", "");
+        attributes.put("servletPath", "");
+        attributes.put("version", "");
+
+        TestResponseContext context = new TestResponseContext();
+        context.setAttributes(attributes);
+        return context;
+    }
+
+    public void shutdown() {
+        try {
+            application.dispose();
+        } catch (Exception e) {
+            // ignore
+        }
+    }
+
+    public void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                shutdown();
+            }
+        }));
     }
 }

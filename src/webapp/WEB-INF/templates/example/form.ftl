@@ -8,7 +8,7 @@
 <div class="form-container">
     <form id="documentForm" method="post">
         <@input document.one />
-        <@input document.two />
+        <@select document.two fieldOptions />
         <@input document.date />
         <input type="submit" name="submit" class="submit" value="Submit">
     </form>

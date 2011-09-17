@@ -1,14 +1,15 @@
 package example.framework.servlet;
 
+import com.google.common.io.CharStreams;
+import com.google.common.io.Closeables;
 import example.framework.PathHelper;
 import example.framework.RequestContext;
 import example.framework.RequestMethod;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -54,18 +55,16 @@ public class ServletRequestContext implements RequestContext {
     }
 
     public String getRequestBodyText() {
-        ServletInputStream input = null;
+        BufferedReader input = null;
         try {
-            String encoding = StringUtils.defaultIfEmpty(request.getCharacterEncoding(), "UTF-8");
-            input = request.getInputStream();
-
-            return IOUtils.toString(input, encoding);
+            input = request.getReader();
+            return CharStreams.toString(input);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
 
         } finally {
-            IOUtils.closeQuietly(input);
+            Closeables.closeQuietly(input);
         }
     }
 

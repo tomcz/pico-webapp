@@ -18,9 +18,9 @@
         <dependency org="joda-time" name="joda-time" rev="1.6.2" transitive="false" conf="compile->default,sources" />
 
         <dependency org="org.picocontainer" name="picocontainer" rev="2.13.6" transitive="false" conf="compile->default,sources" />
-        <dependency org="commons-io" name="commons-io" rev="2.0.1" transitive="false" conf="compile->default,sources" />
         <dependency org="org.apache.commons" name="commons-lang3" rev="3.0.1" conf="compile->default,sources" />
         <dependency org="com.googlecode.lambdaj" name="lambdaj" rev="2.3.1" conf="compile->default,sources" />
+        <dependency org="com.google.guava" name="guava" rev="r09" conf="compile->default,sources" />
 
         <dependency org="ch.qos.logback" name="logback-classic" rev="0.9.27" conf="compile->default,sources" />
         <dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" transitive="false" conf="compile->default,sources" />

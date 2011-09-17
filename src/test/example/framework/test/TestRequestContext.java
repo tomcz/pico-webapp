@@ -1,26 +1,24 @@
 package example.framework.test;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import example.framework.Location;
 import example.framework.RequestContext;
 import example.framework.RequestMethod;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
-import static example.utils.Generics.newArrayList;
-import static example.utils.Generics.newHashMap;
 
 public class TestRequestContext implements RequestContext {
 
     private final RequestMethod method;
     private final String lookupPath;
 
-    private final Map<String, List<String>> parameters = newHashMap();
-    private final List<Cookie> cookies = newArrayList();
+    private final ListMultimap<String, String> parameters = ArrayListMultimap.create();
+    private final List<Cookie> cookies = Lists.newArrayList();
 
     private String requestBodyText;
     private InputStream requestBodyStream;
@@ -43,8 +41,8 @@ public class TestRequestContext implements RequestContext {
         return values.isEmpty() ? "" : values.get(0);
     }
 
-    public void setParameter(String name, String... values) {
-        parameters.put(name, Arrays.asList(values));
+    public void addParameter(String name, String val) {
+        parameters.put(name, val);
     }
 
     public List<String> getParameterValues(String name) {

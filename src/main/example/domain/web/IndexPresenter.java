@@ -1,6 +1,5 @@
 package example.domain.web;
 
-import ch.lambdaj.Lambda;
 import ch.lambdaj.function.convert.Converter;
 import example.domain.Document;
 import example.domain.DocumentRepository;
@@ -15,6 +14,8 @@ import example.framework.template.TemplateFactory;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+
+import static ch.lambdaj.Lambda.convert;
 
 @RouteMapping("/index")
 public class IndexPresenter implements Presenter {
@@ -35,7 +36,7 @@ public class IndexPresenter implements Presenter {
     }
 
     private List<Pair<Document, Location>> mappings(List<Document> documents) {
-        return Lambda.convert(documents, new Converter<Document, Pair<Document, Location>>() {
+        return convert(documents, new Converter<Document, Pair<Document, Location>>() {
             public Pair<Document, Location> convert(Document doc) {
                 return Pair.of(doc, new Location(FormPresenter.class, "documentId", doc.getId()));
             }
