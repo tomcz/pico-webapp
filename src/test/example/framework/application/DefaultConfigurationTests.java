@@ -1,6 +1,6 @@
 package example.framework.application;
 
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 
 import java.util.Map;

@@ -6,21 +6,20 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric;
-import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
 
 public class VersionFilter implements Filter {
-
-    private static final String VERSION = "version";
 
     private String name;
     private String version;
 
     public void init(FilterConfig filterConfig) throws ServletException {
         name = getClass().getName() + "." + filterConfig.getFilterName();
-        version = filterConfig.getInitParameter(VERSION);
+        version = defaultIfEmpty(filterConfig.getInitParameter("version"), randomAlphanumeric(7));
     }
 
     public void destroy() {
@@ -29,14 +28,16 @@ public class VersionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
-        addVersionAttribute(servletRequest);
+        addVersionAttribute((HttpServletRequest) servletRequest);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private void addVersionAttribute(ServletRequest servletRequest) {
-        if (servletRequest.getAttribute(name) == null) {
-            servletRequest.setAttribute(name, Boolean.TRUE);
-            servletRequest.setAttribute(VERSION, defaultIfEmpty(version, randomAlphanumeric(7)));
+    private void addVersionAttribute(HttpServletRequest request) {
+        if (request.getAttribute(name) == null) {
+            request.setAttribute("servletPath", request.getContextPath() + request.getServletPath());
+            request.setAttribute("contextPath", request.getContextPath());
+            request.setAttribute("version", version);
+            request.setAttribute(name, Boolean.TRUE);
         }
     }
 }

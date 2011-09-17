@@ -4,6 +4,9 @@ public class Redirect extends Header {
 
     private final Location location;
 
+    private boolean contextRelative = true;
+    private boolean servletRelative = true;
+
     public Redirect(Location location) {
         this.location = location;
     }
@@ -29,10 +32,18 @@ public class Redirect extends Header {
     }
 
     public boolean isContextRelative() {
-        return location.isContextRelative();
+        return contextRelative;
+    }
+
+    public void setContextRelative(boolean contextRelative) {
+        this.contextRelative = contextRelative;
     }
 
     public boolean isServletRelative() {
-        return location.isServletRelative();
+        return servletRelative;
+    }
+
+    public void setServletRelative(boolean servletRelative) {
+        this.servletRelative = servletRelative;
     }
 }

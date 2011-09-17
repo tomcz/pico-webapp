@@ -2,13 +2,12 @@ package example.error;
 
 import example.framework.Application;
 import example.framework.Component;
-import example.framework.InputStreamSource;
 import example.framework.Response;
 import example.framework.application.WebApplication;
 import example.framework.application.route.RoutingComponent;
 import example.framework.identity.IdentityFactoryComponent;
-import example.framework.template.TemplateComponent;
-import example.framework.test.TestInputStreamSource;
+import example.framework.template.TemplateFactory;
+import example.framework.test.TestFreemarkerTemplateFactory;
 import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
 
@@ -32,14 +31,13 @@ public class TestApplication {
     }
 
     private static Application createApplication() {
-        InputStreamSource source = new TestInputStreamSource();
+        TemplateFactory templateFactory = new TestFreemarkerTemplateFactory();
         List<Component> components = newArrayList();
 
         components.add(new IdentityFactoryComponent());
-        components.add(new TemplateComponent());
         components.add(new RoutingComponent());
         components.add(new ErrorComponent());
 
-        return new WebApplication(components, source);
+        return new WebApplication(components, templateFactory);
     }
 }

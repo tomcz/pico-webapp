@@ -13,7 +13,7 @@ import java.util.List;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.selectFirst;
-import static org.apache.commons.lang.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.hamcrest.Matchers.equalTo;
 
 public class WebRequest implements Request {

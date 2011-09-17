@@ -4,9 +4,6 @@ public class Location {
 
     private final String url;
 
-    private boolean contextRelative = true;
-    private boolean servletRelative = true;
-
     public Location(String url) {
         this.url = url;
     }
@@ -27,19 +24,8 @@ public class Location {
         return url;
     }
 
-    public boolean isContextRelative() {
-        return contextRelative;
-    }
-
-    public void setContextRelative(boolean contextRelative) {
-        this.contextRelative = contextRelative;
-    }
-
-    public boolean isServletRelative() {
-        return servletRelative;
-    }
-
-    public void setServletRelative(boolean servletRelative) {
-        this.servletRelative = servletRelative;
+    @Override
+    public String toString() {
+        return getUrl();
     }
 }

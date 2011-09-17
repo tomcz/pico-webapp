@@ -10,7 +10,7 @@ import example.framework.RequestContext;
 import example.framework.RequestMethod;
 import example.framework.Response;
 import example.framework.RouteRegistry;
-import example.utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 

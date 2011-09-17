@@ -2,7 +2,9 @@ package example.framework.application;
 
 import example.framework.Container;
 import example.framework.ContainerArguments;
-import org.apache.commons.lang.Validate;
+import example.framework.ContainerException;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.Validate;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
@@ -64,15 +66,31 @@ public class PicoContainer implements Container {
     }
 
     public Object get(Object key) {
-        Object instance = container.getComponent(key);
+        Object instance = getInstance(key);
         Validate.isTrue(instance != null, "Cannot find instance for key ", key);
         return instance;
     }
 
     public <T> T get(Class<T> type) {
-        T instance = container.getComponent(type);
+        T instance = getInstance(type);
         Validate.isTrue(instance != null, "Cannot find instance of ", type);
         return instance;
+    }
+
+    private Object getInstance(Object key) {
+        try {
+            return container.getComponent(key);
+        } catch (Exception e) {
+            throw new ContainerException(ObjectUtils.toString(key), e);
+        }
+    }
+
+    private <T> T getInstance(Class<T> type) {
+        try {
+            return container.getComponent(type);
+        } catch (Exception e) {
+            throw new ContainerException(type.getName(), e);
+        }
     }
 
     public ContainerArguments newArgs() {

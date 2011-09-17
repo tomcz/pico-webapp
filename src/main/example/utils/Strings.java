@@ -1,8 +1,8 @@
 package example.utils;
 
-import org.apache.commons.lang.builder.StandardToStringStyle;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.StandardToStringStyle;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -44,10 +44,6 @@ public class Strings {
         }
         try {
             return URLDecoder.decode(text, "UTF-8");
-
-        } catch (IllegalArgumentException e) {
-            // We should not die here on bad text
-            return text;
 
         } catch (UnsupportedEncodingException e) {
             // this should never happen since UTF-8 is a supported encoding

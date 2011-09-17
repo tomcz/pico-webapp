@@ -15,7 +15,7 @@ import example.framework.RouteMapping;
 import example.framework.application.PicoContainer;
 import example.framework.application.Route;
 import example.framework.application.RouteFinder;
-import example.utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@SuppressWarnings({"unchecked"})
 public class RoutesTests {
 
     @Test(expected = IllegalArgumentException.class)

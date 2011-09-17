@@ -37,6 +37,7 @@
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="java">
           <option name="INDENT_SIZE" value="4" />
@@ -46,6 +47,7 @@
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="jsp">
           <option name="INDENT_SIZE" value="4" />
@@ -55,6 +57,7 @@
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="xml">
           <option name="INDENT_SIZE" value="4" />
@@ -64,6 +67,7 @@
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
       </value>
     </option>
@@ -99,6 +103,9 @@
     <option name="DEPRECATION" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" defaultCharsetForPropertiesFiles="UTF-8" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="IdProvider" IDEtalkID="EE3F8F7F0C66D30A0841D0510ACBDD83" />
   <component name="InspectionProjectProfileManager">
     <profiles>
@@ -133,20 +140,25 @@
           <option name="IGNORE_DEPRECATED" value="false" />
           <option name="IGNORE_JAVADOC_PERIOD" value="true" />
           <option name="IGNORE_DUPLICATED_THROWS" value="false" />
+          <option name="IGNORE_POINT_TO_ITSELF" value="false" />
           <option name="myAdditionalJavadocTags" value="" />
         </inspection_tool>
         <inspection_tool class="JavadocReference" enabled="false" level="ERROR" enabled_by_default="false" />
+        <inspection_tool class="NullableProblems" enabled="false" level="WARNING" enabled_by_default="false">
+          <option name="REPORT_NULLABLE_METHOD_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_METHOD_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOTNULL_PARAMETER_OVERRIDES_NULLABLE" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_PARAMETER_OVERRIDES_NOTNULL" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_GETTER" value="true" />
+          <option name="REPORT_NOT_ANNOTATED_SETTER_PARAMETER" value="true" />
+          <option name="REPORT_ANNOTATION_NOT_PROPAGATED_TO_OVERRIDERS" value="true" />
+          <option name="REPORT_NULLS_PASSED_TO_NON_ANNOTATED_METHOD" value="true" />
+        </inspection_tool>
       </profile>
     </profiles>
     <option name="PROJECT_PROFILE" value="Project Default" />
     <option name="USE_PROJECT_PROFILE" value="true" />
     <version value="1.0" />
-    <list size="4">
-      <item index="0" class="java.lang.String" itemvalue="SERVER PROBLEM" />
-      <item index="1" class="java.lang.String" itemvalue="INFO" />
-      <item index="2" class="java.lang.String" itemvalue="WARNING" />
-      <item index="3" class="java.lang.String" itemvalue="ERROR" />
-    </list>
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -300,7 +312,10 @@
       <module fileurl="file://$PROJECT_DIR$/webapp-pico.iml" filepath="$PROJECT_DIR$/webapp-pico.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">
@@ -319,31 +334,47 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="runtime">
+    <library name="compile">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib/runtime" />
+        <root url="file://$PROJECT_DIR$/lib/compile/jar" />
+        <root url="file://$PROJECT_DIR$/bootstrap/repo/jar" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/src/commons-lang-2.4-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/joda-time-1.5.2-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/sitemesh-2.4.1-src.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/stringtemplate-3.2-src.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/picocontainer-2.8.3-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/commons-io-1.4-sources.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/wo-furi-0.8.4-src.zip!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/json-simple-1.1-src.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/src/lambdaj-2.2-src.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/commons-lang3-3.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/freemarker-2.3.18.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/logback-classic-0.9.27.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/joda-time-1.6.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/commons-io-2.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/slf4j-api-1.6.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/lambdaj-2.3.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/compile/source/picocontainer-2.13.6.jar!/" />
+        <root url="jar://$PROJECT_DIR$/bootstrap/repo/src/wo-furi-0.8.4-src.zip!/" />
       </SOURCES>
-      <jarDirectory url="file://$PROJECT_DIR$/lib/runtime" recursive="false" />
+      <jarDirectory url="file://$PROJECT_DIR$/bootstrap/repo/jar" recursive="false" />
+      <jarDirectory url="file://$PROJECT_DIR$/lib/compile/jar" recursive="false" />
     </library>
-    <library name="buildtime">
+    <library name="provided">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib/buildtime" />
+        <root url="file://$PROJECT_DIR$/lib/provided/jar" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
-      <jarDirectory url="file://$PROJECT_DIR$/lib/buildtime" recursive="false" />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/provided/source/servlet-api-2.5.jar!/" />
+      </SOURCES>
+      <jarDirectory url="file://$PROJECT_DIR$/lib/provided/jar" recursive="false" />
+    </library>
+    <library name="test">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/lib/test/jar" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/test/source/mockito-core-1.8.5.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/test/source/jetty-6.1.26.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/test/source/junit-4.9.jar!/" />
+      </SOURCES>
+      <jarDirectory url="file://$PROJECT_DIR$/lib/test/jar" recursive="false" />
     </library>
   </component>
 </project>

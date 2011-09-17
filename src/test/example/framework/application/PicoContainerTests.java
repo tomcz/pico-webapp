@@ -1,5 +1,6 @@
 package example.framework.application;
 
+import example.framework.ContainerException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class PicoContainerTests {
         assertThat(instance.getList(), is(Arrays.asList("test2")));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ContainerException.class)
     public void shouldThrowExceptionWhenConfigurationPropertiesDontExist() {
         PicoContainer container = new PicoContainer();
 
@@ -98,7 +99,7 @@ public class PicoContainerTests {
         container.get(TestObject.class);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ContainerException.class)
     public void shouldThrowExceptionWhenCannotResolveConfigurationProperty() {
         PicoContainer container = new PicoContainer();
 

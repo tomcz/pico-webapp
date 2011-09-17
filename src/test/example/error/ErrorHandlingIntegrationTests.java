@@ -4,7 +4,7 @@ import example.framework.Location;
 import example.framework.RequestMethod;
 import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;

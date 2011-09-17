@@ -4,6 +4,7 @@ import example.framework.ComponentAdaptor;
 import example.framework.Container;
 import example.framework.RouteRegistry;
 
+@SuppressWarnings({"unchecked"})
 public class WebComponent extends ComponentAdaptor {
 
     public void registerRequestScope(Container requestScope) {

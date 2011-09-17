@@ -2,7 +2,7 @@ package example.framework.test;
 
 import example.framework.Header;
 import example.framework.ResponseContext;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

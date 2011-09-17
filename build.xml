@@ -1,84 +1,119 @@
 <?xml version="1.0"?>
-<project name="example" default="build" basedir=".">
+<project name="example" default="build" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <property name="src.dir" location="src/main"/>
-    <property name="test.dir" location="src/test"/>
+    <property name="src.dir" location="src/main" />
+    <property name="test.dir" location="src/test" />
 
-    <property name="build.dir" location="build"/>
-    <property name="compile.dir" location="${build.dir}/compile"/>
-    <property name="dist.dir" location="${build.dir}/dist"/>
-
-    <path id="classpath">
-        <fileset dir="${compile.dir}"/>
-        <fileset dir="lib/buildtime"/>
-        <fileset dir="lib/runtime"/>
-    </path>
+    <property name="build.dir" location="build" />
+    <property name="dist.dir" location="${build.dir}/dist" />
+    <property name="report.dir" location="${build.dir}/report" />
+    <property name="compile.dir" location="${build.dir}/compile" />
 
     <macrodef name="compile">
-        <attribute name="srcdir"/>
-        <attribute name="jarfile"/>
+        <attribute name="srcdir" />
+        <attribute name="jarfile" />
+        <attribute name="classpath" />
         <sequential>
-            <mkdir dir="${compile.dir}/classes"/>
-            <javac srcdir="@{srcdir}" destdir="${compile.dir}/classes" classpathref="classpath" debug="yes"/>
+            <mkdir dir="${compile.dir}/classes" />
+            <javac srcdir="@{srcdir}" destdir="${compile.dir}/classes" classpathref="@{classpath}"
+                   includeantruntime="no" source="1.6" target="1.6" debug="yes" />
             <copy todir="${compile.dir}/classes" includeemptydirs="no">
-                <fileset dir="@{srcdir}" excludes="**/*.java"/>
+                <fileset dir="@{srcdir}" excludes="**/*.java" />
             </copy>
-            <jar jarfile="${compile.dir}/@{jarfile}" basedir="${compile.dir}/classes"/>
-            <delete dir="${compile.dir}/classes"/>
+            <jar jarfile="${compile.dir}/@{jarfile}" basedir="${compile.dir}/classes" />
+            <delete dir="${compile.dir}/classes" />
         </sequential>
     </macrodef>
 
-    <target name="build" depends="clean,make-jars,run-tests,make-war" description="Main target to create WAR file."/>
+    <macrodef name="unit-test">
+        <attribute name="testdir" />
+        <sequential>
+            <mkdir dir="${report.dir}" />
+            <junit fork="yes" forkmode="once" printsummary="yes" haltonfailure="no" failureproperty="unit.tests.failed">
+                <classpath refid="test.classpath" />
+                <formatter type="xml" />
+                <batchtest if="testcase" todir="${report.dir}">
+                    <fileset dir="@{testdir}">
+                        <include name="**/${testcase}.java" />
+                    </fileset>
+                </batchtest>
+                <batchtest unless="testcase" todir="${report.dir}">
+                    <fileset dir="@{testdir}">
+                        <include name="**/*Tests.java" />
+                    </fileset>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+
+    <target name="build" depends="clean,make-jars,run-tests,make-war" description="Main target to create WAR file." />
 
     <target name="clean">
-        <delete dir="${build.dir}"/>
+        <delete dir="${build.dir}" />
     </target>
 
-    <target name="make-jars">
-        <compile srcdir="${src.dir}" jarfile="${ant.project.name}.jar"/>
-        <compile srcdir="${test.dir}" jarfile="${ant.project.name}-test.jar"/>
+    <target name="fetch-libs" description="Fetch third-party libraries.">
+        <property name="ivy.checksums" value="" />
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+            <classpath location="bootstrap/ivy-2.2.0.jar" />
+        </taskdef>
+        <ivy:configure />
+        <ivy:resolve file="ivy.xml" conf="compile,test,provided" />
+        <ivy:retrieve pattern="lib/[conf]/[type]/[artifact]-[revision].[ext]" sync="true" />
+        <path id="compile.classpath">
+            <fileset dir="bootstrap/repo/jar" />
+            <fileset dir="lib/provided/jar" />
+            <fileset dir="lib/compile/jar" />
+        </path>
+        <path id="test.classpath">
+            <fileset dir="${compile.dir}" />
+            <fileset dir="lib/test/jar" />
+            <path refid="compile.classpath" />
+        </path>
     </target>
 
-    <target name="run-tests" description="Run all tests. Use -Dtestcase=SomeTestClassName to specify a single test.">
-        <junit fork="yes" forkmode="once" haltonfailure="no" failureproperty="unit.tests.failed">
-            <classpath refid="classpath"/>
-            <formatter type="brief" usefile="no"/>
-            <batchtest if="testcase">
-                <fileset dir="${test.dir}">
-                    <include name="**/${testcase}.java"/>
-                </fileset>
-            </batchtest>
-            <batchtest unless="testcase">
-                <fileset dir="${test.dir}">
-                    <include name="**/*Tests.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-        <fail if="unit.tests.failed" message="One or more tests failed. Please check the logs for more info."/>
+    <target name="make-jars" depends="fetch-libs">
+        <compile srcdir="${src.dir}" jarfile="${ant.project.name}.jar" classpath="compile.classpath" />
+        <compile srcdir="${test.dir}" jarfile="${ant.project.name}-test.jar" classpath="test.classpath" />
+    </target>
+
+    <target name="run-tests" depends="unit-tests" if="unit.tests.failed"
+            description="Run all tests. Use -Dtestcase=SomeTestClassName to specify a single test.">
+        <junitreport todir="${report.dir}">
+            <fileset dir="${report.dir}" includes="TEST-*.xml" />
+            <report todir="${report.dir}/html" />
+        </junitreport>
+        <fail message="One or more tests failed. Please check the logs for more info." />
+    </target>
+
+    <target name="unit-tests" depends="make-jars">
+        <unit-test testdir="${test.dir}" />
     </target>
 
     <target name="make-war">
-        <mkdir dir="${dist.dir}"/>
-        <war warfile="${dist.dir}/${ant.project.name}.war" webxml="web/WEB-INF/web.xml">
-            <fileset dir="web" excludes="**/web.xml"/>
+        <mkdir dir="${dist.dir}" />
+        <war warfile="${dist.dir}/${ant.project.name}.war" webxml="src/webapp/WEB-INF/web.xml">
+            <fileset dir="src/webapp" excludes="**/web.xml" />
             <classes dir="${src.dir}" includes="*.properties" />
-            <lib dir="${compile.dir}" excludes="*test.jar"/>
-            <lib dir="lib/runtime"/>
+            <lib dir="${compile.dir}" excludes="*test.jar" />
+            <lib dir="bootstrap/repo/jar" />
+            <lib dir="lib/compile/jar" />
         </war>
     </target>
 
     <target name="run-jetty" depends="clean,make-jars" description="Run application in Jetty.">
-        <java classname="example.jetty.WebServer" classpathref="classpath" fork="true" failonerror="true"/>
+        <java classname="example.jetty.WebServer" classpathref="classpath" fork="true" failonerror="true" />
     </target>
 
     <target name="package-src" depends="clean" description="Create zip of the source code for distribution">
-        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}" />
         <zip basedir="${basedir}" destfile="${build.dir}/${ant.project.name}.zip">
-            <exclude name="**/.DS_Store"/>
-            <exclude name="build/"/>
-            <exclude name="*.iws"/>
-            <exclude name=".git/"/>
-            <exclude name="out/"/>
+            <exclude name="**/.DS_Store" />
+            <exclude name="build/" />
+            <exclude name="*.iws" />
+            <exclude name=".git/" />
+            <exclude name="out/" />
+            <exclude name="lib/" />
         </zip>
     </target>
 

@@ -12,7 +12,7 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
-import example.utils.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class IndexPresenter implements Presenter {
     private List<Pair<Document, Location>> mappings(List<Document> documents) {
         return Lambda.convert(documents, new Converter<Document, Pair<Document, Location>>() {
             public Pair<Document, Location> convert(Document doc) {
-                return Pair.create(doc, new Location(FormPresenter.class, "documentId", doc.getIdentity()));
+                return Pair.of(doc, new Location(FormPresenter.class, "documentId", doc.getId()));
             }
         });
     }

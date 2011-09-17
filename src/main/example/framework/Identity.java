@@ -1,11 +1,11 @@
 package example.framework;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-public final class Identity implements Serializable {
+public class Identity implements Serializable {
 
     public static final Identity NEW = new Identity("new");
 

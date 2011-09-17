@@ -7,10 +7,12 @@ import example.framework.RequestMethod;
 import example.framework.Response;
 import example.framework.RouteRegistry;
 import example.framework.URIPatternFactory;
+import example.framework.application.ErrorResponse;
 import example.framework.application.Route;
 import example.framework.application.RouteFinder;
-import example.utils.Pair;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weborganic.furi.URIPattern;
 import org.weborganic.furi.URIResolveResult;
 import org.weborganic.furi.URIResolver;
@@ -27,7 +29,7 @@ import static example.utils.Generics.newHashSet;
 
 public class Routes implements RouteRegistry, RouteFinder {
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Map<RequestMethod, RouteFactory> routeFactories = newHashMap();
 
@@ -62,19 +64,19 @@ public class Routes implements RouteRegistry, RouteFinder {
         URIResolveResult result = findTemplate(lookupPath);
         if (result == null) {
             logger.info("Cannot find template for " + lookupPath);
-            return routeFor(new NotFoundResponse());
+            return routeFor(ErrorResponse.notFound());
         }
         Route route = createRoute(routeFactory, result.getURIPattern(), container);
         if (route == null) {
             logger.info(String.format("%s %s not allowed for %s", method, lookupPath, result));
             return routeFor(new MethodNotAllowedResponse(allowedMethods(result.getURIPattern())));
         }
-        return Pair.create(route, resolvePathVariables(result));
+        return Pair.of(route, resolvePathVariables(result));
     }
 
     private Pair<Route, PathVariables> routeFor(Response response) {
         Route route = new ResponseWrappingRoute(response);
-        return Pair.create(route, new PathVariables());
+        return Pair.of(route, new PathVariables());
     }
 
     private URIResolveResult findTemplate(String lookupPath) {

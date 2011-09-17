@@ -21,7 +21,7 @@ public class Document {
         one, two, date
     }
 
-    private Identity identity;
+    private Identity id;
 
     private LocalDateTime createdAt;
 
@@ -35,20 +35,20 @@ public class Document {
         this(new Identity());
     }
 
-    public Document(Identity identity) {
-        this(identity, new LocalDateTime());
+    public Document(Identity id) {
+        this(id, new LocalDateTime());
     }
 
-    public Document(Identity identity, LocalDateTime created) {
+    public Document(Identity id, LocalDateTime created) {
         LocalDateTime now = new LocalDateTime();
         this.properties = newHashMap();
         this.createdAt = created;
-        this.identity = identity;
+        this.id = id;
         this.updatedAt = now;
     }
 
-    public Identity getIdentity() {
-        return identity;
+    public Identity getId() {
+        return id;
     }
 
     public String getCreatedAt() {

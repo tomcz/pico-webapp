@@ -6,12 +6,10 @@ import example.error.ErrorComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Configuration;
-import example.framework.InputStreamSource;
 import example.framework.application.DefaultConfiguration;
 import example.framework.application.WebApplication;
 import example.framework.application.route.RoutingComponent;
 import example.framework.identity.IdentityFactoryComponent;
-import example.framework.servlet.ServletInputStreamSource;
 import example.framework.template.TemplateComponent;
 
 import javax.servlet.ServletContext;
@@ -41,7 +39,6 @@ public class ApplicationStartupListener implements ServletContextListener {
 
     private Application createApplication(ServletContext context) {
         Configuration configuration = parseContextParameters(context);
-        InputStreamSource source = new ServletInputStreamSource(context);
 
         List<Component> components = newArrayList();
         components.add(new IdentityFactoryComponent());
@@ -51,7 +48,7 @@ public class ApplicationStartupListener implements ServletContextListener {
         components.add(new ErrorComponent());
         components.add(new WebComponent());
 
-        return new WebApplication(components, configuration, source);
+        return new WebApplication(components, configuration, context);
     }
 
     private Configuration parseContextParameters(ServletContext context) {

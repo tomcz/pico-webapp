@@ -4,8 +4,7 @@ import example.framework.PathHelper;
 import example.framework.RequestContext;
 import example.framework.RequestMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.UnhandledException;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
@@ -63,7 +62,7 @@ public class ServletRequestContext implements RequestContext {
             return IOUtils.toString(input, encoding);
 
         } catch (IOException e) {
-            throw new UnhandledException(e);
+            throw new RuntimeException(e);
 
         } finally {
             IOUtils.closeQuietly(input);
@@ -74,7 +73,7 @@ public class ServletRequestContext implements RequestContext {
         try {
             return request.getInputStream();
         } catch (IOException e) {
-            throw new UnhandledException(e);
+            throw new RuntimeException(e);
         }
     }
 }

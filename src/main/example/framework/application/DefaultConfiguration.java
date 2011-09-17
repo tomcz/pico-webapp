@@ -1,12 +1,13 @@
 package example.framework.application;
 
 import example.framework.Configuration;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings({"unchecked"})
 public class DefaultConfiguration implements Configuration {
 
     private final StrSubstitutor substitutor;
@@ -18,7 +19,6 @@ public class DefaultConfiguration implements Configuration {
         this.properties = properties;
     }
 
-    @SuppressWarnings({"unchecked"})
     private static Map createTokensToSubstitute(Map<String, String> properties) {
         Map tokens = new HashMap(System.getProperties());
         tokens.putAll(properties);

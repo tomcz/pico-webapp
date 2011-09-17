@@ -23,7 +23,7 @@ public class HashMapDocumentRepository implements DocumentRepository {
     }
 
     public void set(Document document) {
-        Identity identity = document.getIdentity();
+        Identity identity = document.getId();
         if (identity.isNew()) {
             throw new IllegalArgumentException("Cannot save document with '" + identity + "' identity");
         }
