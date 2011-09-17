@@ -5,9 +5,12 @@ import example.framework.RequestMethod;
 import example.framework.test.TestRequestContext;
 import example.framework.test.TestResponseContext;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.text.pattern.PatternMatcher.matchesPattern;
 import static org.hamcrest.text.pattern.Patterns.anyCharacterIn;
 import static org.hamcrest.text.pattern.Patterns.exactly;
@@ -30,6 +33,11 @@ public class ErrorHandlingIntegrationTests {
 
         response = application.process(new TestRequestContext(RequestMethod.GET, new Location(redirectedUrl)));
 
-        assertThat(response.getResponseBodyText(), containsString(errorRef));
+        Document document = Jsoup.parse(response.getResponseBodyText());
+
+        Elements elements = document.select("#errorRef");
+        assertThat(elements.size(), equalTo(1));
+
+        assertThat(elements.first().text(), equalTo(errorRef));
     }
 }

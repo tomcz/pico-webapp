@@ -28,6 +28,7 @@
         <!-- test -->
 
         <dependency org="junit" name="junit" rev="4.9" transitive="false" conf="test->default,sources" />
+        <dependency org="org.jsoup" name="jsoup" rev="1.6.1" transitive="false" conf="test->default,sources" />
         <dependency org="org.mockito" name="mockito-core" rev="1.8.5" transitive="false" conf="test->default,sources" />
 
         <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.26" conf="test->default,sources">
