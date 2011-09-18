@@ -3,7 +3,6 @@ package example.framework.template;
 import com.google.common.collect.Maps;
 import example.framework.ResponseContext;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
@@ -36,16 +35,12 @@ public class FreemarkerTemplate implements Template {
     }
 
     @Override
-    public void write(Writer writer) throws IOException {
-        try {
-            template.process(model, writer);
-        } catch (freemarker.template.TemplateException e) {
-            throw new TemplateException("Cannot write out template", e);
-        }
+    public void write(Writer writer) throws Exception {
+        template.process(model, writer);
     }
 
     @Override
-    public void render(ResponseContext context) throws IOException {
+    public void render(ResponseContext context) throws Exception {
         context.setContentType(contentType);
         context.setCharacterEncoding(charset);
         model.putAll(context.getAttributes());

@@ -2,7 +2,6 @@ package example.framework.template;
 
 import example.framework.Response;
 
-import java.io.IOException;
 import java.io.Writer;
 
 public interface Template extends Response {
@@ -13,5 +12,5 @@ public interface Template extends Response {
 
     void setCharset(String charset);
 
-    void write(Writer writer) throws IOException;
+    void write(Writer writer) throws Exception;
 }

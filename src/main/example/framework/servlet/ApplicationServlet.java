@@ -27,7 +27,15 @@ public class ApplicationServlet extends HttpServlet {
     protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
 
-        Response response = application.process(new ServletRequestContext(servletRequest));
-        response.render(new ServletResponseContext(servletRequest, servletResponse));
+        try {
+            Response response = application.process(new ServletRequestContext(servletRequest));
+            response.render(new ServletResponseContext(servletRequest, servletResponse));
+
+        } catch (IOException e) {
+            throw e; // no need to wrap
+
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
 }
