@@ -98,7 +98,7 @@
         <unit-test testdir="${test.dir}" />
     </target>
 
-    <target name="make-war">
+    <target name="make-war" depends="make-jars">
         <mkdir dir="${dist.dir}" />
         <war warfile="${dist.dir}/${ant.project.name}.war" webxml="src/webapp/WEB-INF/web.xml">
             <fileset dir="src/webapp" excludes="**/web.xml" />
