@@ -3,6 +3,11 @@ package example.jetty;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.webapp.WebAppContext;
 
+import java.util.List;
+
+import static ch.lambdaj.collection.LambdaCollections.with;
+import static org.hamcrest.Matchers.endsWith;
+
 public class WebServer {
 
     private final Server server;
@@ -12,9 +17,17 @@ public class WebServer {
     }
 
     public WebServer start() throws Exception {
-        server.addHandler(new WebAppContext("src/webapp", "/example"));
+        WebAppContext context = new WebAppContext("src/webapp", "/example");
+        server.addHandler(withoutTaglibs(context));
         server.start();
         return this;
+    }
+
+    private WebAppContext withoutTaglibs(WebAppContext context) {
+        String[] configurationClasses = context.getConfigurationClasses();
+        List<String> withoutTaglibs = with(configurationClasses).remove(endsWith("TagLibConfiguration"));
+        context.setConfigurationClasses(withoutTaglibs.toArray(new String[withoutTaglibs.size()]));
+        return context;
     }
 
     public WebServer graceful() {
