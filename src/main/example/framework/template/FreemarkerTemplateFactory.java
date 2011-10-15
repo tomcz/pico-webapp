@@ -18,8 +18,8 @@ public class FreemarkerTemplateFactory implements TemplateFactory {
     // for tests
     protected FreemarkerTemplateFactory(TemplateLoader templateLoader) {
         config = new Configuration();
-        config.setTemplateLoader(templateLoader);
         config.setObjectWrapper(ObjectWrapper.DEFAULT_WRAPPER);
+        config.setTemplateLoader(new HtmlTemplateLoader(templateLoader));
     }
 
     @Override
