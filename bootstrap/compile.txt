@@ -1,0 +1,16 @@
+http://wo-furi.googlecode.com/files/wo-furi-0.8.4.jar
+http://lambdaj.googlecode.com/files/lambdaj-2.3.3.jar
+mvn:com.google.guava:guava:jar:r09
+mvn:joda-time:joda-time:jar:1.6.2
+mvn:cglib:cglib-nodep:jar:2.2
+mvn:org.hamcrest:hamcrest-all:jar:1.1
+mvn:org.objenesis:objenesis:jar:1.2
+mvn:commons-io:commons-io:jar:2.1
+mvn:org.apache.commons:commons-lang3:jar:3.0.1
+mvn:org.picocontainer:picocontainer:jar:2.13.6
+mvn:org.slf4j:slf4j-api:jar:1.6.1
+mvn:org.slf4j:jcl-over-slf4j:jar:1.6.1
+mvn:ch.qos.logback:logback-core:jar:0.9.27
+mvn:ch.qos.logback:logback-classic:jar:0.9.27
+mvn:opensymphony:sitemesh:jar:2.4.2
+mvn:org.freemarker:freemarker:jar:2.3.18

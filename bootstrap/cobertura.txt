@@ -1,0 +1,4 @@
+mvn:cobertura:cobertura:jar:1.8
+mvn:log4j:log4j:jar:1.2.9
+mvn:asm:asm:jar:2.2.1
+mvn:oro:oro:jar:2.0.8

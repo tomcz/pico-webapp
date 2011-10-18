@@ -337,21 +337,9 @@
     <library name="compile">
       <CLASSES>
         <root url="file://$PROJECT_DIR$/lib/compile/jar" />
-        <root url="file://$PROJECT_DIR$/bootstrap/repo/jar" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/commons-lang3-3.0.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/freemarker-2.3.18.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/logback-classic-0.9.27.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/joda-time-1.6.2.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/slf4j-api-1.6.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/lambdaj-2.3.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/picocontainer-2.13.6.jar!/" />
-        <root url="jar://$PROJECT_DIR$/bootstrap/repo/src/wo-furi-0.8.4-src.zip!/" />
-        <root url="jar://$PROJECT_DIR$/lib/compile/source/guava-r09.jar!/" />
-      </SOURCES>
-      <jarDirectory url="file://$PROJECT_DIR$/bootstrap/repo/jar" recursive="false" />
+      <SOURCES />
       <jarDirectory url="file://$PROJECT_DIR$/lib/compile/jar" recursive="false" />
     </library>
     <library name="provided">
@@ -359,9 +347,7 @@
         <root url="file://$PROJECT_DIR$/lib/provided/jar" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/provided/source/servlet-api-2.5.jar!/" />
-      </SOURCES>
+      <SOURCES />
       <jarDirectory url="file://$PROJECT_DIR$/lib/provided/jar" recursive="false" />
     </library>
     <library name="test">
@@ -369,12 +355,7 @@
         <root url="file://$PROJECT_DIR$/lib/test/jar" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/test/source/mockito-core-1.8.5.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/test/source/jetty-6.1.26.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/test/source/junit-4.9.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/test/source/jsoup-1.6.1.jar!/" />
-      </SOURCES>
+      <SOURCES />
       <jarDirectory url="file://$PROJECT_DIR$/lib/test/jar" recursive="false" />
     </library>
   </component>
