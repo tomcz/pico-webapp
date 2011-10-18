@@ -61,12 +61,10 @@
     </target>
 
     <target name="fetch-libs" description="Fetch third-party libraries." depends="install-shavenmaven">
-        <parallel>
-            <update dependencies="bootstrap/cobertura.txt" directory="lib/cobertura/jar" />
-            <update dependencies="bootstrap/provided.txt" directory="lib/provided/jar" />
-            <update dependencies="bootstrap/compile.txt" directory="lib/compile/jar" />
-            <update dependencies="bootstrap/test.txt" directory="lib/test/jar" />
-        </parallel>
+        <update dependencies="bootstrap/cobertura.txt" directory="lib/cobertura/jar" />
+        <update dependencies="bootstrap/provided.txt" directory="lib/provided/jar" />
+        <update dependencies="bootstrap/compile.txt" directory="lib/compile/jar" />
+        <update dependencies="bootstrap/test.txt" directory="lib/test/jar" />
         <path id="compile.classpath">
             <fileset dir="lib/provided/jar" />
             <fileset dir="lib/compile/jar" />
