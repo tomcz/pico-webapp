@@ -182,7 +182,11 @@
     <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
     <option name="myNullables">
       <value>
-        <list size="0" />
+        <list size="3">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+        </list>
       </value>
     </option>
     <option name="myNotNulls">
@@ -360,6 +364,10 @@
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/sources/wo-furi-0.8.4-src.zip!/" />
         <root url="jar://$PROJECT_DIR$/lib/sources/guava-r09-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/sources/hamcrest-all-1.1-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/sources/picocontainer-2.13.6-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/sources/commons-lang3-3.0.1-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/sources/commons-io-2.1-sources.jar!/" />
       </SOURCES>
       <jarDirectory url="file://$PROJECT_DIR$/lib/compile" recursive="false" />
     </library>
