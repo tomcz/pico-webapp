@@ -52,7 +52,7 @@
     </macrodef>
 
     <include file="bootstrap/shavenmaven.xml" />
-    <available file="lib/shavenmaven.jar" property="shavenmaven.exists" />
+    <available file="lib/shavenmaven.jar" property="already.shaved" />
 
     <target name="build" depends="clean,make-jars,run-tests,make-war" description="Main target to create WAR file." />
 
@@ -60,7 +60,7 @@
         <delete dir="${build.dir}" />
     </target>
 
-    <target name="fetch-libs" description="Fetch third-party libraries." depends="install-shavenmaven">
+    <target name="fetch-libs" description="Fetch third-party libraries." depends="shave-me">
         <update dependencies="bootstrap/cobertura.txt" directory="lib/cobertura" />
         <update dependencies="bootstrap/provided.txt" directory="lib/provided" />
         <update dependencies="bootstrap/compile.txt" directory="lib/compile" />
@@ -80,7 +80,7 @@
         </path>
     </target>
 
-    <target name="install-shavenmaven" unless="shavenmaven.exists">
+    <target name="shave-me" unless="already.shaved">
         <install version="43" />
     </target>
 
