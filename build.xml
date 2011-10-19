@@ -61,21 +61,22 @@
     </target>
 
     <target name="fetch-libs" description="Fetch third-party libraries." depends="install-shavenmaven">
-        <update dependencies="bootstrap/cobertura.txt" directory="lib/cobertura/jar" />
-        <update dependencies="bootstrap/provided.txt" directory="lib/provided/jar" />
-        <update dependencies="bootstrap/compile.txt" directory="lib/compile/jar" />
-        <update dependencies="bootstrap/test.txt" directory="lib/test/jar" />
+        <update dependencies="bootstrap/cobertura.txt" directory="lib/cobertura" />
+        <update dependencies="bootstrap/provided.txt" directory="lib/provided" />
+        <update dependencies="bootstrap/compile.txt" directory="lib/compile" />
+        <update dependencies="bootstrap/sources.txt" directory="lib/sources" />
+        <update dependencies="bootstrap/test.txt" directory="lib/test" />
         <path id="compile.classpath">
-            <fileset dir="lib/provided/jar" />
-            <fileset dir="lib/compile/jar" />
+            <fileset dir="lib/provided" />
+            <fileset dir="lib/compile" />
         </path>
         <path id="test.classpath">
             <fileset dir="${compile.dir}" />
-            <fileset dir="lib/test/jar" />
+            <fileset dir="lib/test" />
             <path refid="compile.classpath" />
         </path>
         <path id="cobertura.classpath">
-            <fileset dir="lib/cobertura/jar" includes="*.jar" />
+            <fileset dir="lib/cobertura" includes="*.jar" />
         </path>
     </target>
 
@@ -107,7 +108,7 @@
             <fileset dir="src/webapp" excludes="**/web.xml" />
             <classes dir="${src.dir}" includes="*.properties" />
             <lib dir="${compile.dir}" excludes="*test.jar" />
-            <lib dir="lib/compile/jar" />
+            <lib dir="lib/compile" />
         </war>
     </target>
 

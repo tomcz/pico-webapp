@@ -354,27 +354,30 @@
   <component name="libraryTable">
     <library name="compile">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib/compile/jar" />
+        <root url="file://$PROJECT_DIR$/lib/compile" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
-      <jarDirectory url="file://$PROJECT_DIR$/lib/compile/jar" recursive="false" />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/sources/wo-furi-0.8.4-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/sources/guava-r09-sources.jar!/" />
+      </SOURCES>
+      <jarDirectory url="file://$PROJECT_DIR$/lib/compile" recursive="false" />
     </library>
     <library name="provided">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib/provided/jar" />
+        <root url="file://$PROJECT_DIR$/lib/provided" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
-      <jarDirectory url="file://$PROJECT_DIR$/lib/provided/jar" recursive="false" />
+      <jarDirectory url="file://$PROJECT_DIR$/lib/provided" recursive="false" />
     </library>
     <library name="test">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib/test/jar" />
+        <root url="file://$PROJECT_DIR$/lib/test" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
-      <jarDirectory url="file://$PROJECT_DIR$/lib/test/jar" recursive="false" />
+      <jarDirectory url="file://$PROJECT_DIR$/lib/test" recursive="false" />
     </library>
   </component>
 </project>

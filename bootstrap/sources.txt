@@ -1,0 +1,2 @@
+http://wo-furi.googlecode.com/files/wo-furi-0.8.4-src.zip
+mvn:com.google.guava:guava:sources:r09
