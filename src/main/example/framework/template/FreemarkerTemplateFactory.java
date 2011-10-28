@@ -2,7 +2,6 @@ package example.framework.template;
 
 import freemarker.cache.TemplateLoader;
 import freemarker.cache.WebappTemplateLoader;
-import freemarker.log.Logger;
 import freemarker.template.Configuration;
 import freemarker.template.ObjectWrapper;
 
@@ -18,7 +17,6 @@ public class FreemarkerTemplateFactory implements TemplateFactory {
 
     // for tests
     protected FreemarkerTemplateFactory(TemplateLoader templateLoader) {
-        configureFreemarkerLogger();
         config = new Configuration();
         config.setObjectWrapper(ObjectWrapper.DEFAULT_WRAPPER);
         config.setTemplateLoader(new HtmlTemplateLoader(templateLoader));
@@ -32,14 +30,6 @@ public class FreemarkerTemplateFactory implements TemplateFactory {
             return new FreemarkerTemplate(config.getTemplate(templatePath));
         } catch (Exception e) {
             throw new TemplateException(templatePath, e);
-        }
-    }
-
-    private static void configureFreemarkerLogger() {
-        try {
-            Logger.selectLoggerLibrary(Logger.LIBRARY_SLF4J);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

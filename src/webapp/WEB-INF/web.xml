@@ -50,6 +50,10 @@
     </filter-mapping>
 
     <listener>
+        <listener-class>example.framework.template.FreemarkerLoggingInitialiser</listener-class>
+    </listener>
+
+    <listener>
         <listener-class>example.ApplicationStartupListener</listener-class>
     </listener>
 
