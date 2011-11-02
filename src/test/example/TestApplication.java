@@ -2,9 +2,9 @@ package example;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import example.domain.error.BadComponent;
 import example.domain.services.ServicesComponent;
 import example.domain.web.WebComponent;
-import example.error.BadComponent;
 import example.framework.Application;
 import example.framework.Component;
 import example.framework.Response;

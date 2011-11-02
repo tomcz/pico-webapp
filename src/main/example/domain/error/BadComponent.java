@@ -1,4 +1,4 @@
-package example.error;
+package example.domain.error;
 
 import example.framework.ComponentAdaptor;
 import example.framework.Container;

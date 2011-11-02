@@ -1,4 +1,4 @@
-package example.error;
+package example.domain.error;
 
 import example.TestApplication;
 import example.framework.Location;
