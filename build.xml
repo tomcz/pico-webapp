@@ -52,7 +52,6 @@
     </macrodef>
 
     <include file="bootstrap/shavenmaven.xml" />
-    <available file="lib/shavenmaven.jar" property="shavenmaven.exists" />
 
     <target name="build" depends="clean,make-jars,run-tests,make-war" description="Main target to create WAR file." />
 
@@ -79,6 +78,8 @@
             <fileset dir="lib/cobertura" />
         </path>
     </target>
+
+    <available file="lib/shavenmaven.jar" property="shavenmaven.exists" />
 
     <target name="fetch-shavenmaven" unless="shavenmaven.exists">
         <install version="43" />
