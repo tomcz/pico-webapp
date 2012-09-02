@@ -1,5 +1,8 @@
 package example.framework.application;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import example.framework.Identity;
 import example.framework.IdentityFactory;
 import example.framework.PathVariables;
@@ -10,11 +13,8 @@ import javax.servlet.http.Cookie;
 import java.io.InputStream;
 import java.util.List;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.Lambda.selectFirst;
+import static com.google.common.collect.FluentIterable.from;
 import static org.apache.commons.lang3.StringUtils.defaultString;
-import static org.hamcrest.Matchers.equalTo;
 
 public class WebRequest implements Request {
 
@@ -44,13 +44,20 @@ public class WebRequest implements Request {
         return identityFactory.createFrom(getPathVariable(name));
     }
 
-    public Cookie getCookie(String name) {
-        return selectFirst(request.getCookies(), having(on(Cookie.class).getName(), equalTo(name)));
+    public Optional<Cookie> getCookie(final String name) {
+        return from(request.getCookies()).firstMatch(new Predicate<Cookie>() {
+            public boolean apply(Cookie cookie) {
+                return cookie.getName().equals(name);
+            }
+        });
     }
 
-    public String getCookieValue(String name) {
-        Cookie cookie = getCookie(name);
-        return (cookie != null) ? cookie.getValue() : "";
+    public Optional<String> getCookieValue(String name) {
+        return getCookie(name).transform(new Function<Cookie, String>() {
+            public String apply(Cookie cookie) {
+                return cookie.getValue();
+            }
+        });
     }
 
     public String getRequestBodyText() {

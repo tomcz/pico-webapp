@@ -8,11 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.Lambda.select;
 import static com.google.common.collect.Maps.newHashMap;
-import static org.hamcrest.Matchers.equalTo;
 
 public class Document {
 
@@ -95,7 +91,12 @@ public class Document {
     }
 
     public boolean isValid() {
-        return select(properties.values(), having(on(Property.class).isValid(), equalTo(false))).isEmpty();
+        for (Property property : properties.values()) {
+            if (!property.isValid()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package example.domain.web;
 
-import ch.lambdaj.function.convert.Converter;
+import com.google.common.base.Function;
 import example.domain.Document;
 import example.domain.Document.Field;
 import example.domain.DocumentRepository;
@@ -18,8 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 
-import static ch.lambdaj.Lambda.convert;
 import static example.domain.web.DocumentUtils.createDocumentModel;
+import static example.utils.Eagerly.transform;
 
 @RouteMapping("/form/{documentId}")
 public class FormPresenter implements Presenter {
@@ -47,8 +47,8 @@ public class FormPresenter implements Presenter {
     private List<Option> options(Document document, Field field) {
         final Property property = document.get(field);
         List<String> values = Arrays.asList("", "option1", "option2", "error");
-        return convert(values, new Converter<String, Option>() {
-            public Option convert(String value) {
+        return transform(values, new Function<String, Option>() {
+            public Option apply(String value) {
                 boolean selected = StringUtils.equals(property.getValue(), value);
                 return new Option(value, selected);
             }

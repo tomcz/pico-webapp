@@ -16,10 +16,8 @@ dependencies {
   providedCompile 'javax.servlet:servlet-api:2.5'
 
   compile 'joda-time:joda-time:1.6.2'
-  compile 'org.apache.commons:commons-lang3:3.0.1'
-
   compile 'com.google.guava:guava:13.0'
-  compile 'com.googlecode.lambdaj:lambdaj:2.3.3'
+  compile 'org.apache.commons:commons-lang3:3.0.1'
 
   compile 'org.weborganic:wo-furi:0.8.4'
   compile 'org.picocontainer:picocontainer:2.13.6'
@@ -33,6 +31,7 @@ dependencies {
   testCompile 'junit:junit:4.9'
   testCompile 'org.jsoup:jsoup:1.6.1'
   testCompile 'org.mockito:mockito-core:1.8.5'
+  testCompile 'org.hamcrest:hamcrest-all:1.1'
 
   testCompile 'org.seleniumhq.selenium:selenium-support:2.13.0'
   testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.13.0'
@@ -47,6 +46,8 @@ task(jetty, type: JavaExec, dependsOn: 'testClasses') {
   classpath = sourceSets.test.runtimeClasspath
 }
 
-//task wrapper(type: Wrapper) {
-//  gradleVersion = '1.0'
-//}
+/*
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.0'
+}
+*/

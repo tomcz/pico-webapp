@@ -1,6 +1,6 @@
 package example.domain.web;
 
-import ch.lambdaj.function.convert.Converter;
+import com.google.common.base.Function;
 import example.domain.Document;
 import example.domain.DocumentRepository;
 import example.framework.Identity;
@@ -11,11 +11,10 @@ import example.framework.Response;
 import example.framework.RouteMapping;
 import example.framework.template.Template;
 import example.framework.template.TemplateFactory;
+import example.utils.Eagerly;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
-
-import static ch.lambdaj.Lambda.convert;
 
 @RouteMapping("/index")
 public class IndexPresenter implements Presenter {
@@ -36,8 +35,8 @@ public class IndexPresenter implements Presenter {
     }
 
     private List<Pair<Document, Location>> mappings(List<Document> documents) {
-        return convert(documents, new Converter<Document, Pair<Document, Location>>() {
-            public Pair<Document, Location> convert(Document doc) {
+        return Eagerly.transform(documents, new Function<Document, Pair<Document, Location>>() {
+            public Pair<Document, Location> apply(Document doc) {
                 return Pair.of(doc, new Location(FormPresenter.class, "documentId", doc.getId()));
             }
         });

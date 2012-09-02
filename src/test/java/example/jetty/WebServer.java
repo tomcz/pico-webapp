@@ -1,12 +1,11 @@
 package example.jetty;
 
+import com.google.common.base.Predicate;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.webapp.WebAppContext;
 
-import java.util.List;
-
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static org.hamcrest.Matchers.endsWith;
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Lists.newArrayList;
 
 public class WebServer {
 
@@ -25,9 +24,21 @@ public class WebServer {
 
     private WebAppContext withoutTaglibs(WebAppContext context) {
         String[] configurationClasses = context.getConfigurationClasses();
-        List<String> withoutTaglibs = with(configurationClasses).remove(endsWith("TagLibConfiguration"));
-        context.setConfigurationClasses(withoutTaglibs.toArray(new String[withoutTaglibs.size()]));
+
+        configurationClasses = from(newArrayList(configurationClasses))
+                .filter(tagLibConfiguration())
+                .toArray(String.class);
+
+        context.setConfigurationClasses(configurationClasses);
         return context;
+    }
+
+    private Predicate<String> tagLibConfiguration() {
+        return new Predicate<String>() {
+            public boolean apply(String className) {
+                return !className.endsWith("TagLibConfiguration");
+            }
+        };
     }
 
     public WebServer graceful() {

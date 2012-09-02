@@ -1,5 +1,8 @@
 package example.domain.web.nodriver;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import example.framework.Location;
 import example.framework.RequestMethod;
 import example.framework.test.TestRequestContext;
@@ -7,9 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.collection.LambdaCollections.with;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -45,9 +45,17 @@ public class HtmlForm {
 
     public void showsSelectedOptionWithValue(String fieldName, String value) {
         Elements options = options(fieldName, "option[selected]");
-        if (!with(options).exists(having(on(Element.class).val(), equalTo(value)))) {
+        if (!elementWithValue(options, value).isPresent()) {
             fail("Select '" + fieldName + "' does not have '" + value + "' selected in " + form.outerHtml());
         }
+    }
+
+    private Optional<Element> elementWithValue(Elements elements, final String value) {
+        return FluentIterable.from(elements).firstMatch(new Predicate<Element>() {
+            public boolean apply(Element element) {
+                return element.val().equals(value);
+            }
+        });
     }
 
     public <T> T submitAndExpect(Class<T> pageClass) {
@@ -104,7 +112,6 @@ public class HtmlForm {
         Elements elements = form.select(selector);
         if (elements.isEmpty()) {
             fail("Cannot find " + selector + " in " + form.outerHtml());
-            return null;
         }
         return elements.first();
     }

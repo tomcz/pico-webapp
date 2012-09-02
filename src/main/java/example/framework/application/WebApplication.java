@@ -14,8 +14,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-import static ch.lambdaj.Lambda.forEach;
-
 public class WebApplication implements Application {
 
     private final Container applicationScope;
@@ -27,8 +25,15 @@ public class WebApplication implements Application {
         this.applicationScope = new PicoContainer();
         this.applicationScope.registerInstances(instances);
 
-        each(components).registerApplicationScope(applicationScope);
-        each(components).registerRoutes(applicationScope.get(RouteRegistry.class));
+        for (Component component : components) {
+            component.registerApplicationScope(applicationScope);
+        }
+
+        RouteRegistry registry = applicationScope.get(RouteRegistry.class);
+
+        for (Component component : components) {
+            component.registerRoutes(registry);
+        }
     }
 
     public Response process(RequestContext request) {
@@ -59,16 +64,15 @@ public class WebApplication implements Application {
         Container requestScope = applicationScope.newChild();
 
         requestScope.registerInstances(instances);
-        each(components).registerRequestScope(requestScope);
+
+        for (Component component : components) {
+            component.registerRequestScope(requestScope);
+        }
 
         return requestScope;
     }
 
     public void dispose() {
         applicationScope.dispose();
-    }
-
-    private static Component each(List<Component> components) {
-        return forEach(components, Component.class);
     }
 }
