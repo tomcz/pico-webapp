@@ -1,5 +1,0 @@
-mvn:net.sourceforge.cobertura:cobertura:jar:1.9.4.1
-mvn:log4j:log4j:jar:1.2.9
-mvn:oro:oro:jar:2.0.8
-mvn:asm:asm-tree:jar:3.0
-mvn:asm:asm:jar:3.0

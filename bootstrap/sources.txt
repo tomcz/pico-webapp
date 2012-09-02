@@ -1,6 +1,0 @@
-http://wo-furi.googlecode.com/files/wo-furi-0.8.4-src.zip
-mvn:com.google.guava:guava:sources:r09
-mvn:org.hamcrest:hamcrest-all:sources:1.1
-mvn:commons-io:commons-io:sources:2.1
-mvn:org.apache.commons:commons-lang3:sources:3.0.1
-mvn:org.picocontainer:picocontainer:sources:2.13.6
