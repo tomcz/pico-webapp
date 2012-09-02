@@ -1,7 +1,8 @@
 package example.framework.template;
 
+import com.google.common.io.CharStreams;
+import com.google.common.io.Closeables;
 import freemarker.cache.TemplateLoader;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -32,10 +33,10 @@ public class HtmlTemplateLoader implements TemplateLoader {
     public Reader getReader(Object templateSource, String encoding) throws IOException {
         Reader reader = delegate.getReader(templateSource, encoding);
         try {
-            String templateText = IOUtils.toString(reader);
+            String templateText = CharStreams.toString(reader);
             return new StringReader(ESCAPE_PREFIX + templateText + ESCAPE_SUFFIX);
         } finally {
-            IOUtils.closeQuietly(reader);
+            Closeables.closeQuietly(reader);
         }
     }
 

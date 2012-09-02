@@ -14,7 +14,7 @@ public class TestFreemarkerTemplateFactory extends FreemarkerTemplateFactory {
 
     private static FileTemplateLoader templateLoader() {
         try {
-            return new FileTemplateLoader(new File("src/webapp/WEB-INF/templates"));
+            return new FileTemplateLoader(new File("src/main/webapp/WEB-INF/templates"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
