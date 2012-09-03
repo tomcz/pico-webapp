@@ -1,5 +1,7 @@
 package example.framework;
 
+import com.google.common.base.Optional;
+
 public interface Configuration {
-    String get(String key);
+    Optional<String> get(String key);
 }

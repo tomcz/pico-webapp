@@ -53,7 +53,7 @@ public class ConfigurationParameter extends AbstractParameter {
         if (configuration == null) {
             throw new IllegalStateException("Cannot find Configuration instance in container");
         }
-        String value = configuration.get(key);
+        String value = configuration.get(key).orNull();
         if (value == null) {
             value = defaultValue;
         }

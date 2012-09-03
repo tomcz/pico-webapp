@@ -1,5 +1,6 @@
 package example.framework.application;
 
+import com.google.common.base.Optional;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class DefaultConfigurationTests {
         properties.put("foo", "bar");
 
         DefaultConfiguration configuration = new DefaultConfiguration(properties);
-        String value = configuration.get("foo.path");
+        String value = configuration.get("foo.path").get();
 
         assertThat(value, is(SystemUtils.USER_DIR + "/bar"));
     }
@@ -29,8 +30,8 @@ public class DefaultConfigurationTests {
         Map<String, String> properties = newHashMap();
 
         DefaultConfiguration configuration = new DefaultConfiguration(properties);
-        String value = configuration.get("foo");
+        Optional<String> value = configuration.get("foo");
 
-        assertThat(value, nullValue());
+        assertThat(value.orNull(), nullValue());
     }
 }

@@ -1,7 +1,8 @@
 package example.framework.application;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import example.framework.Configuration;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.util.HashMap;
@@ -25,8 +26,12 @@ public class DefaultConfiguration implements Configuration {
         return tokens;
     }
 
-    public String get(String key) {
-        String value = properties.get(key);
-        return StringUtils.isNotBlank(value) ? substitutor.replace(value) : value;
+    public Optional<String> get(String key) {
+        Optional<String> optional = Optional.fromNullable(properties.get(key));
+        return optional.transform(new Function<String, String>() {
+            public String apply(String value) {
+                return substitutor.replace(value).trim();
+            }
+        });
     }
 }
